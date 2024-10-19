@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}PicHub{% endblock %}
+{% block content %}
+<section>
+    {% if user.is_authenticated %}
+        {{ user.username }}
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" href="{% url 'logout' %}" class="login_btn">Выйти</button>
+        </form>
+    {% else %}
+        <a href="{% url 'login' %}">Войти</a>
+    {% endif %}
+</section>
+{% endblock %}
