@@ -15,8 +15,9 @@ class Profile(models.Model):
     name = models.CharField("Имя", max_length=100, default="User")
     telegram = models.CharField("Телеграм", max_length=50, default="")
     register_date = models.DateField(default=localdate)
-    photo = models.ImageField("Фото профиля", null=True, blank=True, upload_to='my_site/static/img/usersphotos/', 
-                              default='my_site/static/img/usersphotos/default.png')
+    photo = models.ImageField("Фото профиля", null=True, blank=True, upload_to="usersphotos/", 
+                              default='usersphotos/default.png')
+                                    
     age = models.IntegerField("Возраст", default=18)
     organization = models.CharField("Организация", max_length=100,
                                      default="Самозанятый")
