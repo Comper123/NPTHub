@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static "css/register.css" %}">
+    <title>Вход</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <section class="background">
+        <div class="circle_1"></div>
+        <div class="circle_2"></div>
+        <section class="main-content">
+            <p class="text_registration">Войдите на PicHub</p>
+            <form class="text_form" method="post">
+                {% csrf_token %}
+                <p>Введите адрес электронной почты (Логин)</p>
+                {{ form.username }}
+                <p>Введите пароль:</p>
+                {{ form.password }}
+                <input class="btn" type="submit" value="Войти"/>
+            </form>
+            <section class="text_sign">
+                <p>Нет аккаунта?</p>
+                <a href="{% url 'register' %}" class="link_to_sign"> Зарегистрируйтесь</a>
+            </section>
+        </section>
+    </section>
+</body>
+</html>
