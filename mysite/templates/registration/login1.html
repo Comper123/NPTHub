@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'base.html' %}
 
 
@@ -20,3 +21,27 @@
   </div>
 {% endblock %}
 
+=======
+{% extends 'base.html' %}
+
+
+{% block title %}PicHub{% endblock %}
+{% block content %}
+  <div class="login_section">
+    <p class="welcome">Вход</p>
+    <form method="post">
+      {% csrf_token %}
+      <div class="form_element">
+        {{ form.username }}
+        <label>Логин</label>
+      </div>
+      <div class="form_element">
+        {{ form.password }}
+        <label>Пароль</label>
+      </div>
+      <input type="submit" value="Войти" />
+    </form> 
+  </div>
+{% endblock %}
+
+>>>>>>> 78b9fe0c965bb41be539f4b255f40c66a38479be
