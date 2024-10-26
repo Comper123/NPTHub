@@ -1,21 +1,35 @@
-{% extends 'base.html' %}
-
-
-{% block title %}PicHub{% endblock %}
-{% block content %}
-  <div class="login_section">
-    <p class="welcome">Регистрация</p>
-    <form method="post">
-      {% csrf_token %}
-      <div class="form_element">
-        {{ registration_form.username }}
-        <label>Логин</label>
-      </div>
-      <div class="form_element">
-        {{ registration_form.password1 }}
-        <label>Пароль</label>
-      </div>
-      <input type="submit" value="Войти" />
-    </form> 
-  </div>
-{% endblock %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static "css/register.css" %}">
+    <title>Регистрация</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <section class="background">
+        <div class="circle_1"></div>
+        <div class="circle_2"></div>
+        <section class="main-content">
+            <p class="text_registration">Зарегестрируйтесь на PicHub</p>
+            <form class="text_form" method="post">
+                {% csrf_token %}
+                <p>Введите адрес электронной почты (Логин)</p>
+                {{ registration_form.username }}
+                <p>Введите пароль:</p>
+                {{ registration_form.password1 }}
+                <input class="btn" type="submit" value="Зарегестрироваться"/>
+            </form>
+            <section class="text_sign">
+                <p>Уже есть аккаунт?</p>
+                <a href="{% url 'login' %}" class="link_to_sign"> Войдите в аккаунт</a>
+            </section>
+        </section>
+    </section>
+</body>
+</html>
