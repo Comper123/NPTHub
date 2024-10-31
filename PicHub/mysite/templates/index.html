@@ -1,24 +1,141 @@
-{% extends "base.html" %}
 {% load static %}
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "css/index.css" %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
+    <link rel="website icon" href="{% static "img/site_img/logo.png" %}">
+    <title>PicHub</title>
+</head>
+<body>
+    <header>
+        <ul class="left-header-ul">
+            <li class="one"></li>
+            <li class="options left-li2"><a href=""></a></li>
+            <li class="options left-li3"><a href=""></a></li>
+            <li class="options left-li4"><a href=""></a></li>
+            <li class="options left-li5"><a href=""></a></li>
+            <li class="options left-li6"><a href=""></a></li>
+            <li class="options left-li7"><a href=""></a></li>
+        </ul>
 
-{% block title %}PicHub{% endblock %}
-{% block content %}
-<section>
-    {% if user.is_authenticated %}
-        {{ user.profile.name }}
-        {{ user.profile.organization }}
-        <form action="{% url 'logout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit" href="{% url 'logout' %}" class="login_btn">Выйти</button>
-        </form>
-        <a href="{% url 'editprofile' %}">Изменить</a>
-        {% comment %} <img src="{{ user.profile.photo }}"> {% endcomment %}
-        <img src="media/{{ user.profile.photo }}">
+        <ul class="right-header-ul">
+            {% comment %} <li class="search"><input type="text" placeholder="Поиск"></li> {% endcomment %}
+            <li class="log-in"><a href="{% url 'login' %}">Войти</a></li>
+            <li class="sign-in"><a href="{% url 'register' %}">Заргестрироваться</a></li>
+        </ul>
+    </header>
 
-    {% else %}
-        <a href="{% url 'login' %}">Войти</a>
-        <a href="{% url 'register' %}">Регистрация</a>
-    {% endif %}
-</section>
-{% endblock %}
+    
+
+    <main>
+        <section class="main-text">
+            <p>P<span class="grad-i">I</span>CHU<span class="grad-b">B</span></p>
+        </section>
+
+        <section class="registration-main">
+            {% comment %} <form action="">
+                <p>Адрес электронной почты</p>
+                <div>
+                    <input type="email" placeholder="you@company.com">
+                    <button>Зарегестрируйтесь на PicHub</button>
+                </div>
+            </form> {% endcomment %}
+
+        </section>
+
+        <section class="possibilities">
+            <div class="left-text1">
+                <div class="first-vertycal"></div>
+                <p>Наш сайт предоставляет возможности</p>
+            </div>
+
+            <div class="left-text2">
+                <div class="circle_text">
+                    <div></div>
+                    <p>Сохранить свои проекты</p>
+                </div>
+                <div class="last-strip"></div>
+            </div>
+
+            <div class="left-text2">
+                <div class="circle_text">
+                    <div></div>
+                    <p>Просматривать другие работы</p>
+                </div>
+                <div class="last-strip"></div>
+            </div>
+
+            <div class="left-text2">
+                <div class="circle_text">
+                    <div></div>
+                    <p>Функцию связи с дизайнерами</p>
+                </div>
+                <div class="last-strip"></div>
+            </div>
+
+            <div class="left-text2">
+                <div class="circle_text">
+                    <div></div>
+                    <p>Создавать и выполнять заказы</p>
+                </div>
+                <div class="last-strip"></div>
+            </div>
+
+
+            <div class="left-text2">
+                <div class="circle_text">
+                    <div></div>
+                    <p>Простого редактора</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="figure">
+        <span class="low-pink-circle"></span>
+        <span class="pink-circle"></span>
+        <span class="purple-circle"></span>
+        <span class="bottom-pink-circle"></span>
+        <span class="low-purple-circle1"></span>
+        <span class="low-purple-circle2"></span>
+        <span class="right-pink-circle"></span>
+        <span class="right-purple-circle"></span>
+        <span class="low-right-pink-circle"></span>
+        <span class="medium-purple-circle"></span>
+        <span class="medium-pink-circle"></span>
+
+        <img src="{% static "img/site_img/index/small-camera.png" %}" alt="" class="small-camera">
+        <img src="{% static "img/site_img/index/paper.png" %}" alt="" class="paper">
+        <img src="{% static "img/site_img/index/program.png" %}" alt="" class="program">
+        <img src="{% static "img/site_img/index/camera.png" %}" alt="" class="camera">
+        <img src="{% static "img/site_img/index/love.png" %}" alt="" class="love">
+        <img src="{% static "img/site_img/index/backpack.png" %}" alt="" class="backpack">
+        <img src="{% static "img/site_img/index/board.png" %}" alt="" class="board">
+        <img src="{% static "img/site_img/index/computer.png" %}" alt="" class="computer">
+        <img src="{% static "img/site_img/index/cup.png" %}" alt="" class="cup">
+        <img src="{% static "img/site_img/index/head.png" %}" alt="" class="head">
+        <img src="{% static "img/site_img/index/microscope.png" %}" alt="" class="microscope">
+        <img src="{% static "img/site_img/index/planet.png" %}" alt="" class="planet">
+        <img src="{% static "img/site_img/index/phone.png" %}" alt="" class="phone">
+    </div>
+   
+
+    <footer>
+        <section>
+            <span class="support">Support PicHub</span>
+            <img src="{% static "img/site_img/index/big_planet.png" %}" alt="" class="big_planet">
+            <span class="mail">komarov@gmail.com</span> 
+        </section>
+    </footer>
+</body>
+</html>

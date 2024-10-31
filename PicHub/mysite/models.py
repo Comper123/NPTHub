@@ -21,7 +21,7 @@ class Profile(models.Model):
     age = models.IntegerField("Возраст", default=18)
     organization = models.CharField("Организация", max_length=100,
                                      default="Самозанятый")
-    
+
     def __str__(self):
         return self.name
     
