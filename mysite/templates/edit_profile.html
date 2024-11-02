@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static%}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/edit_profile.css' %}">
+{% endblock %}
+
+{% block title %}PicHub{% endblock %}
+
+{% block content %}
+<main>
+    <form class="text_form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <section class="foto">
+            <article>
+                <img src="/media/{{ request.user.profile.photo }}" alt="">
+                <p class="username">Username</p>
+                <p class="sub">Подписчики</p>
+                {{ profileform.photo.as_widget }}
+
+                {% comment %} <button type="button">Изменить фото профиля</button> {% endcomment %}
+            </article>
+        </section>
+        <section class="strip"></section>
+
+        <section class="information-about-me">
+            <article>
+                <div class="block-inform">
+                    <h3>Как к вам обращаться? <img src="{% static "img/site_img/base/pen_and_paper.png" %}" alt=""></h3>
+                    {{ profileform.name.as_text }}
+                </div>
+
+                <div class="block-inform midle-block">
+                    <h3>Телеграм <img src="{% static "img/site_img/base/pen_and_paper.png" %}" alt=""></h3>
+                    {{ profileform.telegram.as_text }}
+                </div>
+
+                <div class="block-inform">
+                    <h3>Организация <img src="{% static "img/site_img/base/pen_and_paper.png" %}" alt=""></h3>
+                    {{ profileform.organization.as_text }}
+                </div>
+
+                <button type="submit">Сохранить изменения</button>
+            </article>
+        </section>
+    </form>
+</main>
+
+<div class="circle">
+    <span class="left-top"></span>
+    <span class="right-top"></span>
+    <span class="left-bottom"></span>
+    <span class="right-bottom"></span>
+</div>
+
+{% endblock %}

@@ -1,0 +1,116 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Jost", sans-serif;
+}
+
+:root{
+    --width: 1200px;
+}
+
+/** Body-style */
+body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-self: center;
+}
+
+/** Header-style */
+.center-link{margin: 0 20px;}
+header{
+    background: linear-gradient(90deg, rgba(255, 209, 229, 0.9) 0%, rgba(194, 163, 217, 0.9) 100%);
+    width: 100%;
+    height: 7vh;
+    p,
+    a{
+        text-shadow: 0px 4px 4px #00000040;
+    }
+
+    nav{
+        display: flex;
+        justify-content: space-between;
+        height: 100%;
+        p{
+            color: #ffffff;
+        }
+    }
+
+    .left,
+    .right{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .left{
+        margin-left: 2vw;
+    }
+    .right{
+        margin-right: 2vw;
+        /* input{
+            margin-right: 20px;
+            width: 10vw;
+            border: 4px solid transparent;
+            border-radius: 30px;
+            padding: 5px 0 5px 10px;  
+            background: linear-gradient(90deg, rgb(202, 179, 219) 0%, rgba(202, 179, 219) 100%) padding-box,
+                linear-gradient(90deg, rgba(226, 31, 119, 0.5) 0%, rgba(154, 91, 199, 0.5) 100%) border-box;
+        } */
+
+        a, .logout_btn{
+            display: flex;
+            margin-left: 20px;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+            text-decoration: none;
+            color: #ffffff;
+            width: 12vw;
+            border: 4px solid transparent;
+            border-radius: 30px;
+            padding: 5px 0 5px 0; 
+            background: linear-gradient(90deg, rgb(202, 179, 219) 0%, rgba(202, 179, 219) 100%) padding-box,
+                linear-gradient(90deg, rgba(226, 31, 119, 0.5) 0%, rgba(154, 91, 199, 0.5) 100%) border-box;
+            svg{
+                margin-left: 8px;
+            }
+        }
+        
+    }
+}
+
+/** Footer-style */
+footer{
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    margin-top: 100px;
+    height: 100%;
+    width: var(--width);
+    margin: 0 auto;
+}
+.message_love,
+.computer{
+    width: 200px;
+    height: 200px;
+}
+.planet{
+    width: 600px;
+    height: 300px; 
+}
+
+/** Другие стили */
+.error{
+    font-size: 32px;
+    width: 100%;
+    text-align: center;
+}
+.error403{
+    width: 400px;
+    height: 200px;
+    margin: 0 auto;
+    margin-bottom: -100px;
+}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Ошибка{% endblock %}
+
+{% block content %}
+
+{% if code == 403 %}
+    <img class='error403' src="{% static 'img/site_img/errors/error403.png' %}" alt="">
+{% endif %}
+
+<h2 class="error">
+    {{ error }}
+</h2> 
+{% endblock %}

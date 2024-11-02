@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Nosifer&display=swap" rel="stylesheet">   
+{% endblock %}
+
+
+{% block title %}PicHub{% endblock %}
+
+
+{% block content %}
+<main>
+    <section class="information_with_links">
+        <section class="main-information-profile">
+            <article class="about-me">
+                <img src="/media/{{ user_profile.profile.photo }}">
+                <p class="username">{{ user_profile.username }}</p>
+                <p class="followers">Подписчики: 99к</p>
+                {% if user.username == user_profile.username %}
+                    <a href="{% url 'editprofile' user_profile.username %}">Редактировать профиль</a> 
+                {% else %}
+                    <a href="#">Подписаться</a>
+                {% endif %}
+            </article>
+
+            <article class="assigned-projects">
+                <p>
+                    {% if user_profile.username == user.username %}
+                        Мои закрепленные проекты
+                    {% else %}
+                        Закрепленные проекты {{ user_profile.username }}
+                    {% endif %}
+                     
+                    <img src="{% static 'img/site_img/profile/paper_and_pen.png' %}" alt="">
+                </p>
+                <article class="assigned-foto">
+                    <article>
+                        
+                    </article>
+
+                
+            </article>
+        </section>
+        
+        <section class="profile_links">
+            <a href="">Проекты</a></li>
+            <a href="" class="center-local-link">Достижения</a></li>
+            <a href="">Контакты</a></li>
+        </section>
+    </section>
+
+    <section class="strip"></section>
+
+    <section class="projects">
+        <h2>
+            {% if user_profile.username == user.username %}
+                Мои проекты
+            {% else %}
+                Проекты {{ user_profile.username }}
+            {% endif %}
+            <img src="{% static 'img/site_img/profile/board-right.png' %}" alt="">
+        </h2>
+        <section class="project-foto">
+            <article>
+                
+            </article>
+
+        </article>
+        </section>
+    </section>
+
+    <section class="strip"></section>
+
+    <section class="achievement">
+        <h2>
+            {% if user_profile.username == user.username %}
+                Мои достижения
+            {% else %}
+                Достижения {{ user_profile.username }}
+            {% endif %}
+            <img src="{% static 'img/site_img/profile/document.png' %}" alt="">
+        </h2>
+        <section class="achievement-foto">
+            <section class="content-achievement-foto">
+                <article>
+                    
+                </article>
+
+
+                <article>
+                    
+                </article>
+
+            </section>
+        </section>
+    </section>
+
+    {% comment %} <section class="strip"></section> {% endcomment %}
+
+    {% comment %} <section class="contact">
+        <h2>Контакты для связи со мной <img src="image/right-phone.png" alt=""></h2>
+        <article class="container-contact">
+            <p>Почта</p>
+            <p>username@gmail.com</p>
+            <p>Телеграмм:</p>
+            <p>tguser</p>
+        </article>
+    </section> {% endcomment %}
+
+
+    <div class="circle">
+        <span class="assigned-circle"></span>
+        <span class="right-big-circle"></span>
+        <span class="middle-medium-circle"></span>
+        <span class="bottom-midle-circle"></span>
+        <span class="bottom-right-circle"></span>
+    </div>
+</main>
+{% endblock %}
