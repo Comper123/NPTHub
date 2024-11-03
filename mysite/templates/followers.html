@@ -9,7 +9,7 @@
 
 {% block content %}
     {% for follower in followers %}
-        <div>
+        <div class="friend_block">
             <img src="/media/{{ follower.follower.profile.photo }}" alt="">
             <a href="{% url 'profile' follower.follower.username %}">{{ follower.follower.username }}</a>
             

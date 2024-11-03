@@ -43,7 +43,20 @@ def create_user_profile(sender, instance, created, **kwargs):
         Profile.objects.create(user=instance, name=instance.username)
 
 
+# class Comment(models.Model):
+#     """Класс комментариев"""
+#     autor = models.OneToOneField(User, on_delete=models.CASCADE, related_name="projects", default=None, null=True)
+#     text = models.TextField("Комментарии")
+#     data = models.DateField(default=localdate)
+    
+    
 # class Project(models.Model):
 #     """Класс проекта (репозитория)"""
+#     autor = models.OneToOneField(User, on_delete=models.CASCADE, related_name="projects", default=None, null=True)
 #     name = models.CharField("Название проекта", max_length=100, default="Проект")
+#     is_public = models.BooleanField("Публичность", default=True)
+#     is_pinned = models.BooleanField("Закрепленный", default=False)
 #     created_date = models.DateField(default=localdate)
+#     description = models.TextField("Описание проекта", default=None)
+#     comments = models.ManyToManyField(Comment, on_delete=models.CASCADE, related_name='comments')
+

@@ -99,7 +99,7 @@
             </svg>
           </a>
           <a href="{% url 'profile' user.username %}" class="center-link">
-            <svg
+            {% comment %} <svg
               id="Слой_1"
               data-name="Слой 1"
               xmlns="http://www.w3.org/2000/svg"
@@ -108,35 +108,36 @@
               height="36"
               viewBox="0 0 36 36"
             >
-              <defs>
-                <style>
-                  .cls-1 {
-                    fill: #fff;
-                  }
-                  .cls-2 {
-                    fill: none;
-                    stroke-opacity: 0.5;
-                    stroke-width: 3px;
-                    stroke: url(#Безымянный_градиент_3);
-                  }
-                </style>
-                <linearGradient
-                  id="Безымянный_градиент_3"
-                  x1="102.25"
-                  y1="695.5"
-                  x2="138.25"
-                  y2="695.5"
-                  gradientTransform="matrix(1, 0, 0, -1, -102.25, 713.5)"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop offset="0" stop-color="#e32077" />
-                  <stop offset="1" stop-color="#855da3" />
-                </linearGradient>
-              </defs>
-              <ellipse class="cls-1" cx="17.5" cy="25" rx="7.5" ry="7" />
-              <circle class="cls-1" cx="17.5" cy="13.5" r="3.5" />
-              <circle class="cls-2" cx="18" cy="18" r="16.5" />
-            </svg>
+            <defs>
+              <style>
+                .cls-1 {
+                  fill: #fff;
+                }
+                .cls-2 {
+                  fill: none;
+                  stroke-opacity: 0.5;
+                  stroke-width: 3px;
+                  stroke: url(#Безымянный_градиент_3);
+                }
+              </style>
+              <linearGradient
+                id="Безымянный_градиент_3"
+                x1="102.25"
+                y1="695.5"
+                x2="138.25"
+                y2="695.5"
+                gradientTransform="matrix(1, 0, 0, -1, -102.25, 713.5)"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop offset="0" stop-color="#e32077" />
+                <stop offset="1" stop-color="#855da3" />
+              </linearGradient>
+            </defs>
+            <ellipse class="cls-1" cx="17.5" cy="25" rx="7.5" ry="7" />
+            <circle class="cls-1" cx="17.5" cy="13.5" r="3.5" />
+            <circle class="cls-2" cx="18" cy="18" r="16.5" />
+          </svg> {% endcomment %}
+          <img class="header_img" src="/media/{{ user.profile.photo }}">
           </a>
           <p>{{ user.username }}</p>
         </div>
