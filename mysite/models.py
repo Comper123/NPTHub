@@ -23,17 +23,27 @@ class Profile(models.Model):
                                      default="Самозанятый")
     followers = models.ManyToManyField(User, related_name='following')
 
-
     def __str__(self):
         return self.user.username
     
     class Meta:
         verbose_name = 'профиль'
         verbose_name_plural = 'Профили'
-
+    
+    def is_friend(self, other: User):
+        other_followers = Profile.objects.get(user=other).followers.all()
+        if other in self.followers.all() and self.user in other_followers:
+            return True
+        return False
+    
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance, name=instance.username)
 
+
+# class Project(models.Model):
+#     """Класс проекта (репозитория)"""
+#     name = models.CharField("Название проекта", max_length=100, default="Проект")
+#     created_date = models.DateField(default=localdate)

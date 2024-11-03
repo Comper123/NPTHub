@@ -108,3 +108,32 @@ def unfollow(request, username):
     profile = Profile.objects.get(user=user)
     profile.followers.remove(request.user)
     return redirect('profile', name=username)
+
+
+# Страница подписчиков
+@login_required
+def followers(request):
+    profile = Profile.objects.get(user=request.user.id)
+    followers = profile.followers.all()
+    # Формируем список словарей с подписчиками и их статусами
+    followers_list = []
+    for follower in followers:
+        # Определяем статус подписчика
+        if profile.is_friend(follower):
+            status = "Друзья"
+        else:
+            status = "Подписчик"
+        # Добавляем словарь
+        followers_list.append(
+            {
+                'follower': follower,
+                'status': status
+            }
+        )
+    print(followers_list)
+    data = {
+        'followers': followers_list,
+        'user_profile': profile
+    }
+    return render(request, "followers.html", data)
+    

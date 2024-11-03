@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}PicHub{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/followers.css' %}">
+{% endblock %}
+
+{% block content %}
+    {% for follower in followers %}
+        <div>
+            <img src="/media/{{ follower.follower.profile.photo }}" alt="">
+            <a href="{% url 'profile' follower.follower.username %}">{{ follower.follower.username }}</a>
+            
+            {% if follower.status == "Подписчик" %}
+                <p class="follower">{{ follower.status }}</p>
+            {% else %}
+                <p class="friend">{{ follower.status }}</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endblock %}
