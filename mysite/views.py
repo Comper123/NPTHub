@@ -7,7 +7,7 @@ from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 
 from .forms import RegistrationForm, ProfileForm, ProjectForm
-from .models import Profile, Project
+from .models import Profile, Project, UploadedFile
 
 
 # Главная страница
@@ -142,7 +142,7 @@ def followers(request):
 @login_required
 def create_project(request):
     if request.method == "POST":
-        form = ProjectForm(request.POST)
+        form = ProjectForm(request.POST, request.FILES)
         if form.is_valid():
             project = form.save(commit=False)
             project.autor = request.user
@@ -150,11 +150,18 @@ def create_project(request):
             project.is_private = form.cleaned_data['is_private']
             project.description = form.cleaned_data['description']
             project.save()
+            project = Project.objects.get(id=project.id)
+            # Сохоаняем все изображения которые добавлены в форму
+            files = request.FILES.getlist('files')
+            for file in files:
+                f = UploadedFile.objects.create(file=file)
+                project.files.add(f)
+            
             return redirect(f'/profile/{request.user.username}')
     else:
         form = ProjectForm()
 
     data = {
-        'projectform': form
+        'projectform': form,
     }
     return render(request, "create_project.html", data)

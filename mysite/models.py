@@ -60,9 +60,9 @@ class Like(models.Model):
         verbose_name_plural = 'Лайки'
 
 
-# class UploadedFile(models.Model):
-#     file = models.FileField(upload_to='usersprojects/')
-#     uploaded_at = models.DateTimeField(auto_now_add=True)
+class UploadedFile(models.Model):
+    file = models.FileField(upload_to='usersprojects/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
 
 
 class Project(models.Model):
@@ -76,7 +76,8 @@ class Project(models.Model):
     comments = models.ManyToManyField(Comment, related_name='projects', blank=True)
     collaborators = models.ManyToManyField(User, related_name='collaborators', blank=True)
     likes = models.ManyToManyField(Like, related_name='projects', blank=True)
-    # files = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    files = models.ManyToManyField(UploadedFile)
+
     class Meta:
         verbose_name = 'проект'
         verbose_name_plural = 'Проекты' 
