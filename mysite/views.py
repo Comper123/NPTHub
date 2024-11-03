@@ -6,8 +6,8 @@ from django.db import transaction
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 
-from .forms import RegistrationForm, ProfileForm
-from .models import Profile
+from .forms import RegistrationForm, ProfileForm, ProjectForm
+from .models import Profile, Project
 
 
 # Главная страница
@@ -136,4 +136,25 @@ def followers(request):
         'user_profile': profile
     }
     return render(request, "followers.html", data)
-    
+
+
+# Страница создания проекта
+@login_required
+def create_project(request):
+    if request.method == "POST":
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            project = form.save(commit=False)
+            project.autor = request.user
+            project.name = form.cleaned_data['name']
+            project.is_private = form.cleaned_data['is_private']
+            project.description = form.cleaned_data['description']
+            project.save()
+            return redirect(f'/profile/{request.user.username}')
+    else:
+        form = ProjectForm()
+
+    data = {
+        'projectform': form
+    }
+    return render(request, "create_project.html", data)

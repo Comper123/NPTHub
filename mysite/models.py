@@ -12,7 +12,7 @@ AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
 class Profile(models.Model):
     """Класс профиля пользователя"""
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile", default=None, null=True)
-    name = models.CharField("Имя", max_length=100, default="User", null=True, blank=True,)
+    name = models.CharField("Имя", max_length=100, default="User", null=True, blank=True)
     telegram = models.CharField("Телеграм", max_length=50, blank=True, null=True, default="")
     register_date = models.DateField(default=localdate)
     photo = models.ImageField("Фото профиля", null=True, blank=True, upload_to="usersphotos/", 
@@ -43,20 +43,40 @@ def create_user_profile(sender, instance, created, **kwargs):
         Profile.objects.create(user=instance, name=instance.username)
 
 
-# class Comment(models.Model):
-#     """Класс комментариев"""
-#     autor = models.OneToOneField(User, on_delete=models.CASCADE, related_name="projects", default=None, null=True)
-#     text = models.TextField("Комментарии")
-#     data = models.DateField(default=localdate)
-    
-    
-# class Project(models.Model):
-#     """Класс проекта (репозитория)"""
-#     autor = models.OneToOneField(User, on_delete=models.CASCADE, related_name="projects", default=None, null=True)
-#     name = models.CharField("Название проекта", max_length=100, default="Проект")
-#     is_public = models.BooleanField("Публичность", default=True)
-#     is_pinned = models.BooleanField("Закрепленный", default=False)
-#     created_date = models.DateField(default=localdate)
-#     description = models.TextField("Описание проекта", default=None)
-#     comments = models.ManyToManyField(Comment, on_delete=models.CASCADE, related_name='comments')
+class Comment(models.Model):
+    """Класс комментариев"""
+    autor = models.ForeignKey(User, on_delete=models.PROTECT, related_name="comments")
+    text = models.TextField("Комментарии")
+    data = models.DateField(default=localdate)
+    class Meta:
+        verbose_name = 'комментарий'
+        verbose_name_plural = 'Комментарии'
 
+
+class Like(models.Model):
+    autor = models.ForeignKey(User, on_delete=models.PROTECT, related_name="likes")
+    class Meta:
+        verbose_name = 'лайк'
+        verbose_name_plural = 'Лайки'
+
+
+# class UploadedFile(models.Model):
+#     file = models.FileField(upload_to='usersprojects/')
+#     uploaded_at = models.DateTimeField(auto_now_add=True)
+
+
+class Project(models.Model):
+    """Класс проекта (репозитория)"""
+    autor = models.ForeignKey(User, on_delete=models.PROTECT, related_name="projects")
+    name = models.CharField("Название проекта", max_length=100, default="Проект")
+    is_private = models.BooleanField("Приватный", default=False)
+    is_pinned = models.BooleanField("Закрепленный", default=False)
+    created_date = models.DateField(default=localdate)
+    description = models.TextField("Описание проекта", blank=True)
+    comments = models.ManyToManyField(Comment, related_name='projects', blank=True)
+    collaborators = models.ManyToManyField(User, related_name='collaborators', blank=True)
+    likes = models.ManyToManyField(Like, related_name='projects', blank=True)
+    # files = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    class Meta:
+        verbose_name = 'проект'
+        verbose_name_plural = 'Проекты' 

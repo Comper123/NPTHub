@@ -1,8 +1,10 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, Project
+
 
 class RegistrationForm(forms.ModelForm):
+    """Форма регистрации"""
     username = forms.CharField(widget=forms.TextInput(attrs={'autocomplete': 'off', 
                                                              'placeholder': ' ',
                                                              'readonly': True,
@@ -32,9 +34,18 @@ class RegistrationForm(forms.ModelForm):
 
 
 class ProfileForm(forms.ModelForm):
+    """Форма редактирования профиля"""
     class Meta:
         model = Profile
         fields = ('name', 'telegram', 'organization', 'photo')
         widgets = {
             'photo': forms.FileInput(attrs={'class': 'Select_photo_div'})
         }
+
+
+class ProjectForm(forms.ModelForm):
+    """Форма создания проекта"""
+    is_private = forms.BooleanField(required=False)
+    class Meta:
+        model = Project
+        fields = ('name', 'is_private', 'description')

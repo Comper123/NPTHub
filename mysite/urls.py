@@ -16,6 +16,7 @@ urlpatterns = [
     path('edit_profile/<str:name>', views.edit_profile, name="editprofile"),
     path('follow/<str:username>/', views.follow, name='follow'),
     path('unfollow/<str:username>/', views.unfollow, name='unfollow'),
-    path('followers/', views.followers, name='followers')
+    path('followers/', views.followers, name='followers'),
+    path('create_project/', views.create_project, name='create_project')
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

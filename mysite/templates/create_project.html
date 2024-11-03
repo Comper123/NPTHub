@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}PicHub{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/create_project.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div>
+            <p>Название</p>
+            {{ projectform.name }}
+        </div>
+        <div>
+            <p>Приватный</p>
+            {{ projectform.is_private }}
+        </div>
+        <div>
+            <p>Описание</p>
+            {{ projectform.description }}
+        </div>
+        
+        <input type="submit">
+    </form>
+{% endblock %}
