@@ -20,11 +20,15 @@
             <article class="about-me">
                 <img src="/media/{{ user_profile.profile.photo }}">
                 <p class="username">{{ user_profile.username }}</p>
-                <p class="followers">Подписчики: 99к</p>
+                <p class="followers">Подписчики: {{ followers|length }}</p>
                 {% if user.username == user_profile.username %}
                     <a href="{% url 'editprofile' user_profile.username %}">Редактировать профиль</a> 
                 {% else %}
-                    <a href="#">Подписаться</a>
+                    {% if user in followers %}
+                        <a href="{% url 'unfollow' user_profile.username %}">Отписаться</a>
+                    {% else %}
+                        <a href="{% url 'follow' user_profile.username %}">Подписаться</a>
+                    {% endif %}
                 {% endif %}
             </article>
 
@@ -54,7 +58,7 @@
         </section>
     </section>
 
-    <section class="strip"></section>
+    {% comment %} <section class="strip"></section> {% endcomment %}
 
     <section class="projects">
         <h2>
@@ -74,7 +78,7 @@
         </section>
     </section>
 
-    <section class="strip"></section>
+    {% comment %} <section class="strip"></section> {% endcomment %}
 
     <section class="achievement">
         <h2>
@@ -113,12 +117,12 @@
     </section> {% endcomment %}
 
 
-    <div class="circle">
+    {% comment %} <div class="circle">
         <span class="assigned-circle"></span>
         <span class="right-big-circle"></span>
         <span class="middle-medium-circle"></span>
         <span class="bottom-midle-circle"></span>
         <span class="bottom-right-circle"></span>
-    </div>
+    </div> {% endcomment %}
 </main>
 {% endblock %}

@@ -20,7 +20,8 @@ a{
 
 
 main{
-    width: 100%;
+    width: var(--width);
+    margin: 0 auto;
 }
 
 .information_with_links{

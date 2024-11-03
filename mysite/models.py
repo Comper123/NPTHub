@@ -21,9 +21,11 @@ class Profile(models.Model):
     age = models.IntegerField("Возраст", default=18)
     organization = models.CharField("Организация", max_length=100,
                                      default="Самозанятый")
+    followers = models.ManyToManyField(User, related_name='following')
+
 
     def __str__(self):
-        return self.name
+        return self.user.username
     
     class Meta:
         verbose_name = 'профиль'
@@ -33,5 +35,5 @@ class Profile(models.Model):
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance)
+        Profile.objects.create(user=instance, name=instance.username)
 

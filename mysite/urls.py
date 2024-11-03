@@ -11,9 +11,10 @@ urlpatterns = [
     path('', views.index, name="index"),
     path('account/', include('django.contrib.auth.urls')),
     path('register/', views.register, name="register"),
-    # ! Сделать ссылку на профиль исходя из никнейма / id
     path('account/login', views.account_redirect, name='account_redirect'),
     path('profile/<str:name>', views.profile, name="profile"),
-    path('edit_profile/<str:name>', views.edit_profile, name="editprofile")
+    path('edit_profile/<str:name>', views.edit_profile, name="editprofile"),
+    path('follow/<str:username>/', views.follow, name='follow'),
+    path('unfollow/<str:username>/', views.unfollow, name='unfollow'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

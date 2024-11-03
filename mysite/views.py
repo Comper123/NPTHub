@@ -42,7 +42,7 @@ def register(request):
             user.save()
             user = authenticate(username=username, password=pwd)
             login(request, user)
-            return redirect(f'/profile/user_{user.id}')
+            return redirect(f'/profile/{username}')
     else:
         form = RegistrationForm()
     return render(request, "registration/register.html", {'registration_form': form})
@@ -86,5 +86,25 @@ def profile(request, name):
         prof = User.objects.get(username=name)
     data = {
         'user_profile': prof,
+        'profile': Profile.objects.get(user=prof),
+        'followers': prof.profile.followers.all()
     }
     return render(request, "profile.html", data)
+
+
+# Подписаться
+@login_required
+def follow(request, username):
+    user = User.objects.get(username=username)
+    profile = Profile.objects.get(user=user)
+    profile.followers.add(request.user)
+    return redirect('profile', name=username)
+
+
+# Отписаться
+@login_required
+def unfollow(request, username):
+    user = User.objects.get(username=username)
+    profile = Profile.objects.get(user=user)
+    profile.followers.remove(request.user)
+    return redirect('profile', name=username)
