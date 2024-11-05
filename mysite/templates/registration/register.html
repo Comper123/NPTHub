@@ -9,6 +9,7 @@
     <title>Регистрация</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -19,6 +20,11 @@
             <p class="text_registration">Зарегестрируйтесь на PicHub</p>
             <form class="text_form" method="post">
                 {% csrf_token %}
+                {% if registration_form.non_field_errors %}
+                    {% for error in registration_form.non_field_errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
                 <p>Введите адрес электронной почты (Логин)</p>
                 {{ registration_form.username }}
                 <p>Введите пароль:</p>

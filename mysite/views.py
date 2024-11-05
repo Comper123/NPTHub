@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
+from django.db import IntegrityError
 
 from .forms import RegistrationForm, ProfileForm, ProjectForm
 from .models import Profile, Project, UploadedFile
@@ -42,7 +43,7 @@ def register(request):
             user.save()
             user = authenticate(username=username, password=pwd)
             login(request, user)
-            return redirect(f'/profile/{username}')
+            return redirect(f'/{username}')
     else:
         form = RegistrationForm()
     return render(request, "registration/register.html", {'registration_form': form})
@@ -141,8 +142,9 @@ def followers(request):
 # Страница создания проекта
 @login_required
 def create_project(request):
+    data = {}
     if request.method == "POST":
-        form = ProjectForm(request.POST, request.FILES)
+        form = ProjectForm(request.user, request.POST, request.FILES)
         if form.is_valid():
             project = form.save(commit=False)
             project.autor = request.user
@@ -151,17 +153,16 @@ def create_project(request):
             project.description = form.cleaned_data['description']
             project.save()
             project = Project.objects.get(id=project.id)
-            # Сохоаняем все изображения которые добавлены в форму
+            # Сохраняем все изображения которые добавлены в форму
             files = request.FILES.getlist('files')
             for file in files:
                 f = UploadedFile.objects.create(file=file)
                 project.files.add(f)
-            
-            return redirect(f'/profile/{request.user.username}')
+            return redirect(f'/{request.user.username}')
+        else:
+            form = ProjectForm(request.user, request.POST, request.FILES)
     else:
-        form = ProjectForm()
+        form = ProjectForm(request.user)
 
-    data = {
-        'projectform': form,
-    }
+    data['projectform'] = form
     return render(request, "create_project.html", data)

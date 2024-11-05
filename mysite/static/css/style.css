@@ -109,14 +109,16 @@ footer{
 }
 
 /** Другие стили */
-.error{
-    font-size: 32px;
-    width: 100%;
-    text-align: center;
-}
 .error403{
     width: 400px;
     height: 200px;
     margin: 0 auto;
     margin-bottom: -100px;
+}
+.error{
+    font-size: 14px;
+    width: 80%;
+    margin: 0;
+    text-align: center;
+    color: red;s
 }

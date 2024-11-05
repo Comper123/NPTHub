@@ -1,5 +1,5 @@
 from django.contrib import admin
-from mysite.models import Profile, Project
+from mysite.models import Profile, Project, UploadedFile
 
 
 # Register your models here.
@@ -10,3 +10,7 @@ class ProfileAdmin(admin.ModelAdmin):
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ['autor', 'created_date', 'name']
+
+@admin.register(UploadedFile)
+class UploadedFileAdmin(admin.ModelAdmin):
+    list_display = ['file', 'uploaded_at']

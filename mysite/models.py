@@ -64,11 +64,18 @@ class UploadedFile(models.Model):
     file = models.FileField(upload_to='usersprojects/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f"file_{self.id}"
+    
+    class Meta:
+        verbose_name = 'файл'
+        verbose_name_plural = 'Файлы'
+
 
 class Project(models.Model):
     """Класс проекта (репозитория)"""
     autor = models.ForeignKey(User, on_delete=models.PROTECT, related_name="projects")
-    name = models.CharField("Название проекта", max_length=100, default="Проект")
+    name = models.CharField("Название проекта", max_length=100, blank=False)
     is_private = models.BooleanField("Приватный", default=False)
     is_pinned = models.BooleanField("Закрепленный", default=False)
     created_date = models.DateField(default=localdate)
@@ -79,5 +86,9 @@ class Project(models.Model):
     files = models.ManyToManyField(UploadedFile)
 
     class Meta:
+        # ! unique_together для того чтобы уникальность была для отдельного пользователя 
+        # ! (у одного пользователя не может быть проектов с одинаковыми названиями)
+        unique_together = 'autor', 'name'
+        # ! Отображение в базе данных
         verbose_name = 'проект'
         verbose_name_plural = 'Проекты' 

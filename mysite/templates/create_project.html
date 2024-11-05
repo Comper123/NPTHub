@@ -15,6 +15,11 @@
         <div>
             <p>Название</p>
             {{ projectform.name }}
+            {% if projectform.non_field_errors %}
+                {% for error in projectform.non_field_errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
         </div>
         <div>
             <p>Приватный</p>

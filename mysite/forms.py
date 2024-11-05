@@ -6,31 +6,24 @@ from .models import Profile, Project
 class RegistrationForm(forms.ModelForm):
     """Форма регистрации"""
     username = forms.CharField(widget=forms.TextInput(attrs={'autocomplete': 'off', 
-                                                             'placeholder': ' ',
-                                                             'readonly': True,
-                                                             'onfocus': "this.removeAttribute('readonly')"}), max_length=100)
+                                                             'placeholder': ' ',}), max_length=100)
+    
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'autocomplete': 'off',
                                                                   'placeholder': ' ',
-                                                                  'readonly': True,
-                                                                  'onfocus': "this.removeAttribute('readonly')"}), max_length=30)
-    # password2 = forms.CharField(widget=forms.PasswordInput(attrs={'autocomplete': 'off',
-    #                                                               'placeholder': ' ',
-    #                                                               'readonly': True,
-    #                                                               'onfocus': "this.removeAttribute('readonly')"}), max_length=30)
-
+                                                                  'data-toggle': 'password'}), max_length=30)
     class Meta:
         model = User
         fields = ['username', 'password1'] # те значения которые находятся в models.py
-    #     labels = {'username': "Логин",
-    #               'password1': "Пароль",
-    #               'password2': "Повторите пароль"}
 
-    # def clean(self):
-    #     cleaned_data = super().clean()
-    #     password1 = cleaned_data.get('password1')
-    #     password2 = cleaned_data.get('password2')
-    #     if password1 != password2:
-    #         raise forms.ValidationError('Пароли не совпадают')
+    def clean(self):
+        cleaned_data = super().clean()
+
+        if cleaned_data.get('username') == 'admin':
+            raise forms.ValidationError('Недостаточно прав')
+        
+        usernames = [user.username for user in User.objects.all()]
+        if cleaned_data.get('username') in usernames:
+            raise forms.ValidationError('Пользователь с таким именем уже существует')
 
 
 class ProfileForm(forms.ModelForm):
@@ -65,6 +58,18 @@ class ProjectForm(forms.ModelForm):
     """Форма создания проекта"""
     is_private = forms.BooleanField(required=False)
     files = MultipleFileField()
+    
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(ProjectForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        data = super().clean()
+        current_name = data.get('name')
+        names = [proj.name for proj in Project.objects.filter(autor=self.user)]
+        if current_name in names:
+            raise forms.ValidationError("Вы уже использовали данное имя проекта")
+        
     class Meta:
         model = Project
         fields = ('name', 'is_private', 'description')
