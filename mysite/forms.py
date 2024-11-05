@@ -56,7 +56,15 @@ class MultipleFileField(forms.FileField):
 
 class ProjectForm(forms.ModelForm):
     """Форма создания проекта"""
-    is_private = forms.BooleanField(required=False)
+    choices = (
+        (0, ''), # Публичный
+        (1, '') # Приватный
+    )
+    is_private = forms.TypedChoiceField(
+                         choices=choices,
+                         widget=forms.RadioSelect, 
+                         coerce=int,  
+                    )
     files = MultipleFileField()
     
     def __init__(self, user, *args, **kwargs):
@@ -72,4 +80,4 @@ class ProjectForm(forms.ModelForm):
         
     class Meta:
         model = Project
-        fields = ('name', 'is_private', 'description')
+        fields = ('name', 'is_private', 'description', 'files')
