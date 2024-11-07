@@ -1,0 +1,138 @@
+body{
+    overflow-x: hidden;
+}
+
+
+hr{
+    border: 10px solid #CBA9EF4D;
+    width: 100%;
+}
+
+.profile{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 2% 0 2% 0;
+    .photo_profile{
+        background-image: url(https://tr.rbxcdn.com/180DAY-d4e770b13bffc6e52edc47b7bcf685ba/420/420/Hat/Webp/noFilter);
+        background-repeat: no-repeat;
+        background-size: cover;
+        border-radius: 50%;
+        padding: 6% 6%;
+    }
+    h4{
+        color: #9A5BC7;
+        font-size: 32px;
+        font-weight: 500;
+        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+    h2{
+        color: #E21F77;
+        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+    p{
+        color: #A06EC4;
+        font-weight: 600;
+        font-size: 24px;
+    }
+}
+
+
+.projects{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 6% 5% 6% 5%;
+    grid-column-gap: 5%;
+    img{
+        height: 500px;  
+        border: 10px solid rgba(248, 181, 210, 1);
+        border-radius: 30px; 
+    }
+    a{
+        img{
+            border: none;
+            border-radius: 50%;
+            height: 60px;
+            width: 60px;
+        }
+        
+    }
+    
+    p{
+        font-size: 24px;
+        color: #E35B98;
+        font-weight: 700;
+        margin-bottom: 3%;
+    }
+    
+    .column_1{
+        display: flex;
+        flex-direction:column ;
+        align-items: center;
+        
+        .project_1{
+
+            margin-bottom: 15%;
+            
+        }
+    }
+    .column_2{
+        display: flex;
+        flex-direction:column ;
+        align-items: center;
+        .project_3{
+
+            margin-bottom: 15%;
+            
+        }
+    }
+    
+    .name_like{
+        display: flex;
+        justify-content: space-between;
+        a{
+            background-color: #EEDFFF;
+            color: #FFFFFF;
+            font-size: 24px;
+            border-radius: 70px;
+            padding: 1% 4%;
+            font-weight: 700;
+            text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        }
+        .name{
+            font-size: 28px;
+            color: #A06EC4;
+            font-weight: 800;
+            padding: 0;
+            background-color: white;
+        }
+    }
+    .username_subscribe{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        div{
+            display: flex;
+            align-items: center;
+            a{
+               color: #F07FB2; 
+               font-size: 24px;
+               font-weight: 700;
+               background-color: white;
+               
+            }
+        }
+        a{
+            background-color: #FDC7DF;
+            color: #FFFFFF;
+            padding: 1% 4%;
+            border-radius: 70px;
+            font-size: 24px;
+            border-radius: 70px;
+            font-weight: 700;
+            text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        }
+    }
+}

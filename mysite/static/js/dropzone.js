@@ -1,6 +1,8 @@
 Dropzone.autoDiscover=false;
-const myDropzone= new Dropzone('#my-dropzone',{
-    url:'create_project/',
-    maxFiles:10,
-    acceptedFiles:'*.jpg, *.png',
+const myDropzone= new Dropzone('#dropzone',{
+    url:'/',
+    paramName: "files",
+    maxFiles: 10,
+    maxFilesize:2,
+    acceptedFiles:'.jpg, .png, .bmp, .psd, .jpeg',
 })

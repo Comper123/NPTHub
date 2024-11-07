@@ -6,7 +6,12 @@
 
 {% block head %}
     <link rel="stylesheet" href="{% static 'css/create_project.css' %}">
-{% endblock %}
+
+    <!-- Подключаем dropzone -->
+    <!-- <script src="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone-min.js"></script>
+    <link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css" />
+    <script src="{% static 'js/changedropzone.js' %}"></script> -->
+    {% endblock %}
 
 {% block content %}
 <main>
@@ -79,6 +84,14 @@
             <input type="submit" value="Отправить"></input>
         </section>
     </form>
+    <!-- <form action="" method="POST" enctype="multipart/form-data" class="dropzone" id="dropzone">
+        {% csrf_token %}
+         <input type="file" name="file" /> 
+        {{ projectform.files }}
+    </form> -->
 </main>
+
+<!-- <script src="{% static 'js/dropzone.js' %}"></script> -->
 <script src="{% static 'js/setcheck.js' %}"></script>
+
 {% endblock %}

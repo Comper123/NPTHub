@@ -8,6 +8,29 @@
 {% endblock %}
 
 {% block content %}
+<main>
+    <section class="navigat">
+        <nav>
+            <a href="" class="edge">Подписки 252</a>
+            <a href="" class="midle-text">Друзья 52<hr></a>
+            <a href="" class="edge">Подписчики 99к</a>
+        </nav>
+        <hr>
+    </section>
+
+    <section class="search">
+        <input type="text" src="image/glasses.png" placeholder="Поиск людей">
+    </section>
+
+    <section class="friends">
+        <article class="already-friends">
+            <img src="image/cat.png" alt="">
+            <p class="midle">madama</p>
+            <button type="button">Друзья</button>
+        </article>
+
+    </section>
+</main>
     {% for follower in followers %}
         <div class="friend_block">
             <img src="/media/{{ follower.follower.profile.photo }}" alt="">

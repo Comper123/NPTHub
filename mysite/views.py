@@ -52,9 +52,9 @@ def register(request):
 # Страница изменения информации о пользователе
 @login_required
 @transaction.atomic
-def edit_profile(request, name):
+def edit_profile(request):
     # Проверяем пользователя на владение профилем
-    if name == request.user.username:
+    # if name == request.user.username:
         profile = Profile.objects.get(user=request.user.id)
         if request.method == "POST":
             profileform = ProfileForm(request.POST, request.FILES, instance=profile)
@@ -74,14 +74,14 @@ def edit_profile(request, name):
             'profileform': profileform,
         }
         return render(request, "edit_profile.html", data)
-    else:
-        return render(request, "error.html", {'error': "403 Ошибка доступа",
-                                              'code': 403})
+    # else:
+        # return render(request, "error.html", {'error': "403 Ошибка доступа",
+                                            #   'code': 403})
 
 
 @login_required
 def profile(request, name):
-    if (request.user.username == name):
+    if (request.user.username == name): 
         prof = request.user
     else:
         prof = User.objects.get(username=name)
@@ -155,6 +155,10 @@ def create_project(request):
             project = Project.objects.get(id=project.id)
             # Сохраняем все изображения которые добавлены в форму
             files = request.FILES.getlist('files')
+            # print(files)
+            # print(request.FILES.getlist('files'))
+            # print(request.FILES)
+
             for file in files:
                 f = UploadedFile.objects.create(file=file)
                 project.files.add(f)
@@ -166,3 +170,31 @@ def create_project(request):
 
     data['projectform'] = form
     return render(request, "create_project.html", data)
+
+
+# @login_required
+# def upload_image(request):
+#     proj = Project.objects.get(autor=autor, name=project)
+#     if request.method == 'POST':
+#         file = request.FILES.get('file')
+#         f = UploadedFile.objects.create(file=file)
+#         proj.files.add(f)
+
+
+# Проект
+@login_required
+def project(request, autor, projectname):
+    autor_proj = User.objects.get(username=autor)
+    data = {
+        'project': Project.objects.get(autor=autor_proj.id, name=projectname)
+    }
+    return render(request, "project.html", data)
+
+
+# Понравившиеся
+@login_required
+def liked_projects(request):
+    data = {
+        # 'projects': 
+    }
+    return render(request, 'like_project.html', data)

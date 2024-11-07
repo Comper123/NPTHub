@@ -22,7 +22,7 @@
                 <p class="username">{{ user_profile.username }}</p>
                 <p class="followers">Подписчики: {{ followers|length }}</p>
                 {% if user.username == user_profile.username %}
-                    <a href="{% url 'editprofile' user_profile.username %}">Редактировать профиль</a> 
+                    <a href="{% url 'editprofile' %}">Редактировать профиль</a> 
                 {% else %}
                     {% if user in followers %}
                         <a href="{% url 'unfollow' user_profile.username %}">Отписаться</a>

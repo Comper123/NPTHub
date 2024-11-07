@@ -36,7 +36,21 @@
         }
     }
 }
-
+.Select_photo_div::file-selector-button{
+    /* width: 105px; */
+    overflow: hidden;
+    margin-top: 20px;
+    background-color:#CBA9EF;
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+    border-radius: 10px;
+    padding: 10px 20px;
+    border: none;
+}
+label[for="photo"]{
+    display: none;
+}
 body{
     overflow-x: hidden;
 }

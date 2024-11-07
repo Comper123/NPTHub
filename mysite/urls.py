@@ -21,13 +21,19 @@ urlpatterns = [
     # Ссылка на страницу проекта пользователя
     # path('<str:name>/<str:project>', views.project, name="project"),
     # Ссылка на странцу редактирования профиля
-    path('edit_profile/<str:name>', views.edit_profile, name="editprofile"),
-    #Ссылка для подписок
+    path('edit_profile/', views.edit_profile, name="editprofile"),
+    # Ссылка для подписок
     path('follow/<str:username>/', views.follow, name='follow'),
     #Ссылка для отписок
     path('unfollow/<str:username>/', views.unfollow, name='unfollow'),
-    #Ссылка на сраницу подписчиков
+    #Ссылка на сраницу подписчиков и друзей
     path('followers/', views.followers, name='followers'),
-    #Ссылка на страницу создания проека
-    path('create_project/', views.create_project, name='create_project')
+    # Ссылка на страницу создания проека
+    path('create_project/', views.create_project, name='create_project'),
+    # Ссылка загрузки фотографий при создании проекта
+    # path('create_project/upload_images/', views.upload_image)
+    # Ссылка на страницу проекта
+    path('<str:autor>/<str:projectname>/', views.project, name='project'),
+    # Ссылка на страницу понравившихся проектов
+    path('liked_projects/' , views.liked_projects, name='liked_projects')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
