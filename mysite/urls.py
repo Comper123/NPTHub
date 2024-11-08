@@ -18,8 +18,6 @@ urlpatterns = [
     path('account/login', views.account_redirect, name='account_redirect'),
     # Ссылка на страницу профиля пользователя
     path('<str:name>', views.profile, name="profile"),
-    # Ссылка на страницу проекта пользователя
-    # path('<str:name>/<str:project>', views.project, name="project"),
     # Ссылка на странцу редактирования профиля
     path('edit_profile/', views.edit_profile, name="editprofile"),
     # Ссылка для подписок

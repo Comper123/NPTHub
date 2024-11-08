@@ -11,7 +11,7 @@
 {% block content %}
 
     <main>
-        <section class="profile">
+        {% comment %} <section class="profile">
             <a class="photo_profile"></a>
             <h4>USERNAME</h4>
             <h2 class="liked_projects"> Понравившиеся проекты
@@ -20,10 +20,32 @@
             <p>33 проекта</p>
         </section>
 
-        <hr>
+        <hr> {% endcomment %}
 
         <section class="projects">
-            <article class="column_1">
+            {% if projects|length > 0 %}
+                <h2>Мои понравившиеся проекты</h2>
+                <section class="project-foto">
+                    {% for project in projects %}
+                        <a href="{% url 'project' user.username project.name %}">
+                            <article>
+                                <img src="/media/{{ project.files.all.0.file }}">
+                                <article class="proj_info">
+                                    <article>
+                                        <p class="name">{{ project.name }}</p>
+                                        <p class="description">{{ project.description }}</p>
+                                    </article>
+                                    <p class="date">{{ project.created_date }}</p>
+                                </article>
+                            </article>
+                        </a>
+                    {% endfor %}
+                </section>
+            {% else %}
+                <h2>У вас нет понравившихся проектов</h2>
+                <span class="filler"></span>
+            {% endif %}
+            {% comment %} <article class="column_1">
                 <div class="project_1">
                     <img src="https://murkosha.ru/sites/default/files/styles/adaptive/public/news/2022/nikitis_i_sedrik.jpg?itok=KOsbDKW6" alt="">
                     <div class="name_like">
@@ -107,12 +129,12 @@
                         <a href="">Подписаться</a>
                     </div>
                 </div>
-            </article>
+            </article> {% endcomment %}
         </section>
     </main>
 
 
-    <footer>
+    {% comment %} <footer>
 
-    </footer>
+    </footer> {% endcomment %}
 {% endblock %}

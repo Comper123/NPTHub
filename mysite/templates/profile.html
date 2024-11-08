@@ -43,25 +43,37 @@
                      
                     <img src="{% static 'img/site_img/profile/paper_and_pen.png' %}" alt="">
                 </p>
-                <article class="assigned-foto">
-                    <article>
-                        
-                    </article>
-                </article>
+                <section class="project-foto">
+                    {% for project in pin_projects %}
+                        <a href="{% url 'project' user.username project.name %}">
+                            <article>
+                                <img src="/media/{{ project.files.all.0.file }}">
+                                <article class="proj_info">
+                                    <article>
+                                        <p class="name">{{ project.name }}</p>
+                                        <p class="description">{{ project.description }}</p>
+                                    </article>
+                                    <p class="date">{{ project.created_date }}</p>
+                                </article>
+                            </article>
+                        </a>
+                    {% endfor %}
+                </section>
                 {% endif %}
             </article>
         </section>
         
-        <section class="profile_links">
+        {% comment %} <section class="profile_links">
             <a href="">Проекты</a></li>
             <a href="" class="center-local-link">Достижения</a></li>
-            {% comment %} <a href="">Контакты</a></li> {% endcomment %}
-        </section>
+            <a href="">Контакты</a></li>
+        </section> {% endcomment %}
     </section>
 
-    {% comment %} <section class="strip"></section> {% endcomment %}
-
     <section class="projects">
+        
+        {% if projects|length > 0 %}
+        <section class="strip"></section>
         <h2>
             {% if user_profile.username == user.username %}
                 Мои проекты
@@ -76,16 +88,20 @@
                     <article>
                         <img src="/media/{{ project.files.all.0.file }}">
                         <article class="proj_info">
-                            {{ project.name }}
-                            {{ project.decription }}
+                            <article>
+                                <p class="name">{{ project.name }}</p>
+                                <p class="description">{{ project.description }}</p>
+                            </article>
+                            <p class="date">{{ project.created_date }}</p>
                         </article>
                     </article>
                 </a>
             {% endfor %}
         </section>
+        {% endif %}
     </section>
 
-    {% comment %} <section class="strip"></section> {% endcomment %}
+    <section class="strip"></section>
 
     <section class="achievement">
         <h2>

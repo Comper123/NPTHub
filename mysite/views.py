@@ -83,16 +83,22 @@ def edit_profile(request):
 def profile(request, name):
     if (name == 'admin' and request.user.is_superuser):
         return redirect('admin/')
-    if (request.user.username == name): 
+    if (request.user.username == name):
+        # Если профиль текущего пользователя
         prof = request.user
+        pin_pined = Project.objects.filter(autor=prof, is_pinned=True)
+        projects = Project.objects.filter(autor=prof, is_pinned=False)
     else:
+        # Профиль другого пользователя
         prof = User.objects.get(username=name)
+        pin_pined = Project.objects.filter(autor=prof, is_pinned=True, is_private=False)
+        projects = Project.objects.filter(autor=prof, is_pinned=False, is_private=False)
     data = {
         'user_profile': prof,
         'profile': Profile.objects.get(user=prof),
         'followers': prof.profile.followers.all(),
-        'projects': Project.objects.filter(autor=prof, is_pinned=False),
-        'pin_projects': Project.objects.filter(autor=prof, is_pinned=True),
+        'projects': projects,
+        'pin_projects': pin_pined,
     }
     return render(request, "profile.html", data)
 
@@ -199,6 +205,6 @@ def project(request, autor, projectname):
 @login_required
 def liked_projects(request):
     data = {
-        # 'projects': 
+        'projects': request.user.profile.liked_projects.all()
     }
     return render(request, 'like_project.html', data)
