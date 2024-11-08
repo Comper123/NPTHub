@@ -6,14 +6,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}{% endblock %}</title>
-    <link rel="website icon" href="{% static "img/site_img/logo.png" %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="website icon" href="{% static "img/site_img/logo_pic.png" %}">
     <script src="https://kit.fontawesome.com/920a23c733.js" crossorigin="anonymous"></script>
     {% block head %}{% endblock %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
   </head>
   <body>
     <section class="navigation">
       <div class="header_of_train">
+        <img src="{% static 'img/site_img/logo_pic.png' %}" alt="">
         <a id="close_btn"><img src="{% static 'img/site_img/base/close.png' %}" alt=""></a>
       </div>
       <hr class="nav_sep">

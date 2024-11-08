@@ -81,6 +81,8 @@ def edit_profile(request):
 
 @login_required
 def profile(request, name):
+    if (name == 'admin' and request.user.is_superuser):
+        return redirect('admin/')
     if (request.user.username == name): 
         prof = request.user
     else:
@@ -88,7 +90,9 @@ def profile(request, name):
     data = {
         'user_profile': prof,
         'profile': Profile.objects.get(user=prof),
-        'followers': prof.profile.followers.all()
+        'followers': prof.profile.followers.all(),
+        'projects': Project.objects.filter(autor=prof, is_pinned=False),
+        'pin_projects': Project.objects.filter(autor=prof, is_pinned=True),
     }
     return render(request, "profile.html", data)
 

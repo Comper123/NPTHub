@@ -33,6 +33,7 @@
             </article>
 
             <article class="assigned-projects">
+                {% if pin_projects|length > 0 %}
                 <p>
                     {% if user_profile.username == user.username %}
                         Мои закрепленные проекты
@@ -46,8 +47,8 @@
                     <article>
                         
                     </article>
-
-                
+                </article>
+                {% endif %}
             </article>
         </section>
         
@@ -70,11 +71,17 @@
             <img src="{% static 'img/site_img/profile/board-right.png' %}" alt="">
         </h2>
         <section class="project-foto">
-            <article>
-                
-            </article>
-
-        </article>
+            {% for project in projects %}
+                <a href="{% url 'project' user.username project.name %}">
+                    <article>
+                        <img src="/media/{{ project.files.all.0.file }}">
+                        <article class="proj_info">
+                            {{ project.name }}
+                            {{ project.decription }}
+                        </article>
+                    </article>
+                </a>
+            {% endfor %}
         </section>
     </section>
 

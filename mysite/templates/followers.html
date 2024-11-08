@@ -9,7 +9,7 @@
 
 {% block content %}
 <main>
-    <section class="navigat">
+    {% comment %} <section class="navigat">
         <nav>
             <a href="" class="edge">Подписки 252</a>
             <a href="" class="midle-text">Друзья 52<hr></a>
@@ -20,27 +20,22 @@
 
     <section class="search">
         <input type="text" src="image/glasses.png" placeholder="Поиск людей">
-    </section>
+    </section> {% endcomment %}
 
     <section class="friends">
+        <h3>Ваши подписчики и друзья:</h3>
+        <hr>
+        {% for follower in followers %}
         <article class="already-friends">
-            <img src="image/cat.png" alt="">
-            <p class="midle">madama</p>
-            <button type="button">Друзья</button>
+            <img src="/media/{{ follower.follower.profile.photo }}" alt="">
+            <a class="midle" href="{% url 'profile' follower.follower.username %}">{{ follower.follower.username }}</a>
+            {% if follower.status == "Подписчик" %}
+                <a class="status follower">{{ follower.status }}</a>
+            {% else %}
+                <a class="status friend">{{ follower.status }}</a>
+            {% endif %}
         </article>
-
+        {% endfor %}
     </section>
 </main>
-    {% for follower in followers %}
-        <div class="friend_block">
-            <img src="/media/{{ follower.follower.profile.photo }}" alt="">
-            <a href="{% url 'profile' follower.follower.username %}">{{ follower.follower.username }}</a>
-            
-            {% if follower.status == "Подписчик" %}
-                <p class="follower">{{ follower.status }}</p>
-            {% else %}
-                <p class="friend">{{ follower.status }}</p>
-            {% endif %}
-        </div>
-    {% endfor %}
 {% endblock %}

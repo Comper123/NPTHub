@@ -61,7 +61,7 @@ class Like(models.Model):
 
 
 class UploadedFile(models.Model):
-    file = models.FileField(upload_to='usersprojects/')
+    file = models.ImageField(upload_to='usersprojects/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
