@@ -45,7 +45,7 @@
                 </p>
                 <section class="project-foto">
                     {% for project in pin_projects %}
-                        <a href="{% url 'project' user.username project.name %}">
+                        <a href="{% url 'project' project.autor.username project.name %}">
                             <article>
                                 <img src="/media/{{ project.files.all.0.file }}">
                                 <article class="proj_info">
@@ -84,7 +84,7 @@
         </h2>
         <section class="project-foto">
             {% for project in projects %}
-                <a href="{% url 'project' user.username project.name %}">
+                <a href="{% url 'project' project.autor.username project.name %}">
                     <article>
                         <img src="/media/{{ project.files.all.0.file }}">
                         <article class="proj_info">

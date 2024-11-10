@@ -1,5 +1,6 @@
 .foto{
-    height: 80vh;
+    /* height: 80vh; */
+    height: 800px;
     margin-top: 10vh;
     article{
         display: flex;

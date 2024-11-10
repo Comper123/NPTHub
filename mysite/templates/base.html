@@ -15,7 +15,7 @@
     <link rel="website icon" href="{% static "img/site_img/logo_pic.png" %}">
     <script src="https://kit.fontawesome.com/920a23c733.js" crossorigin="anonymous"></script>
     {% block head %}{% endblock %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
   </head>
   <body>
     <section class="navigation">
@@ -44,13 +44,22 @@
           </button>
         </form>
       </div>
+      <hr class="nav_sep">
       <a class="navlink" href="{% url 'followers' %}">
         <i class="fa-solid fa-user-group"></i>
         Друзья
       </a>
+      <a class="navlink" href="{% url 'follows' %}">
+        <i class="fa-solid fa-user-plus"></i>
+        Подписки
+      </a>
       <a class="navlink" href="{% url 'liked_projects' %}">
         <i class="fa-solid fa-heart"></i>
         Понравившиеся
+      </a>
+      <a class="navlink" href="{% url 'pined' %}">
+        <i class="fa-solid fa-bookmark"></i>
+        Избранное
       </a>
       <hr class="nav_sep">
       <a class="navlink" href="{% url 'create_project' %}">

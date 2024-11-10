@@ -14,7 +14,7 @@
         <section class="foto">
             <article>
                 <img src="/media/{{ request.user.profile.photo }}" alt="">
-                <p class="username">Username</p>
+                <p class="username">{{ user.username }}</p>
                 {% comment %} <p class="sub">Подписчики</p> {% endcomment %}
                 
                 {{ profileform.photo.as_widget }}

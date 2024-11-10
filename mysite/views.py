@@ -7,8 +7,18 @@ from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.db import IntegrityError
 
-from .forms import RegistrationForm, ProfileForm, ProjectForm
-from .models import Profile, Project, UploadedFile
+from .forms import (
+    RegistrationForm, 
+    ProfileForm,
+    ProjectForm,
+    CommentForm,
+)
+from .models import (
+    Profile, 
+    Project, 
+    UploadedFile,
+    Comment
+)
 
 
 # Главная страница
@@ -141,10 +151,10 @@ def followers(request):
                 'status': status
             }
         )
-    print(followers_list)
     data = {
         'followers': followers_list,
-        'user_profile': profile
+        'user_profile': profile,
+        'title': "Ваши подписчики и друзья:"
     }
     return render(request, "followers.html", data)
 
@@ -179,7 +189,7 @@ def create_project(request):
         form = ProjectForm(request.user)
 
     data['projectform'] = form
-    return render(request, "create_project.html", data)
+    return render(request, "project/create_project.html", data)
 
 
 # @login_required
@@ -195,16 +205,108 @@ def create_project(request):
 @login_required
 def project(request, autor, projectname):
     autor_proj = User.objects.get(username=autor)
+    project = Project.objects.get(autor=autor_proj.id, name=projectname)
+    if request.method == "POST":
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            # comment = Comment.objects.create(autor=request.user)
+            comment.autor = request.user
+            comment.text = comment_form.cleaned_data['text']
+            comment.save()
+            # Добавляем комментарий в комментарии проекта
+            project.comments.add(comment)
+            return redirect(f'/{request.user.username}/{projectname}')
+
+    else:
+        comment_form = CommentForm()
+
     data = {
-        'project': Project.objects.get(autor=autor_proj.id, name=projectname)
+        'project': project,
+        'comment_form': comment_form,
     }
-    return render(request, "project.html", data)
+    return render(request, "project/project.html", data)
 
 
 # Понравившиеся
 @login_required
 def liked_projects(request):
     data = {
-        'projects': request.user.profile.liked_projects.all()
+        'projects': request.user.profile.liked_projects.all(),
+        'type': "Понравившиеся вам проекты:",
+        'status': "понравившихся"
     }
     return render(request, 'like_project.html', data)
+
+
+# Страница избранных проектов текущего пользователя
+@login_required
+def pined(request):
+    data = {
+        'projects': Project.objects.filter(autor=request.user.id,
+                                           is_pinned=True),
+        'type': "Ваши избранные проекты:",
+        'status': "избранных"
+    }
+    return render(request, 'like_project.html', data)
+
+
+# Страница подписок пользователя
+@login_required
+def follows(request):
+    profiles = Profile.objects.all()
+    # Формируем список словарей с подписками и их статусами
+    follows_list = []
+    for p in profiles:
+        if request.user in p.followers.all():
+            user = User.objects.get(profile=p)
+            if user not in request.user.profile.followers.all():
+                follows_list.append(
+                    {
+                        'follower': user,
+                        'status': "Подписки"
+                    }
+                )
+    data = {
+        'followers': follows_list,
+        'title': "Ваши подписки:"
+    }
+    return render(request, "followers.html", data)
+
+
+# Открепление проекта
+@login_required
+def unpin(request, autor, name):
+    autor_id = User.objects.get(username=autor)
+    proj = Project.objects.get(autor=autor_id.id, name=name)
+    proj.is_pinned = False
+    proj.save() 
+    return redirect(f'/{request.user.username}/{proj.name}/')
+
+
+# Закрепление проекта
+@login_required
+def pin(request, autor, name):
+    autor_id = User.objects.get(username=autor)
+    proj = Project.objects.get(autor=autor_id.id, name=name)
+    proj.is_pinned = True
+    proj.save() 
+    return redirect(f'/{autor_id.username}/{proj.name}/')
+
+
+# Лайк проекта
+@login_required
+def like(request, autor, name):
+    autor_id = User.objects.get(username=autor)
+    proj = Project.objects.get(autor=autor_id.id, name=name)
+    request.user.profile.liked_projects.add(proj)
+    return redirect(f'/{autor_id.username}/{proj.name}/')
+
+
+# Удаление из лайков проекта
+@login_required
+def unlike(request, autor, name):
+    autor_id = User.objects.get(username=autor)
+    proj = Project.objects.get(autor=autor_id.id, name=name)
+    request.user.profile.liked_projects.remove(proj)
+    return redirect(f'/{autor_id.username}/{proj.name}/')

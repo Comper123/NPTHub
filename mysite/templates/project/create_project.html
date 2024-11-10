@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}PicHub{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/create_project.css' %}">
+
+    <!-- Подключаем dropzone -->
+    <!-- <script src="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone-min.js"></script>
+    <link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css" />
+    <script src="{% static 'js/changedropzone.js' %}"></script> -->
+    {% endblock %}
+
+{% block content %}
+<main>
+    <section class="top-text">
+        <h2>Cоздать новый проект</h2>
+        <hr>
+    </section>
+    {% if projectform.non_field_errors %}
+        {% for error in projectform.non_field_errors %}
+            <p class="error_name">{{ error }}</p>
+        {% endfor %}
+    {% endif %}
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <section class="main-information">
+            <article class="user-and-name">
+                <div>
+                    <p>Владелец</p>
+                    <div class="fon-input">
+                        <p>{{ user.username }}</p>
+                    </div>
+                </div>
+
+                <h3>/</h3>
+
+                <div>
+                    <p>Название проекта</p>
+                    <div class="fon-input">
+                        {{ projectform.name }}
+                    </div>
+                </div>
+            </article>
+
+            <article class="description">
+                <p>Описание(необязательно)</p>
+                <div class="fon-input">
+                    {{ projectform.description }}
+                </div>
+            </article>
+        </section>
+        <hr>
+        <section class="radio-input">
+            <div>
+                {{ projectform.is_private }}
+            </div>
+            <div>
+                <div class="privat">
+                    
+                    <label>
+                        <h3>Публично <img src="{% static 'img/site_img/create_project/book.png' %}" alt=""></h3>
+                        <p>Любой в интернете может увидеть этот проект</p>
+                    </label>
+                </div>
+
+                <div>
+                    {% comment %} {{ projectform.is_private['1'] }} {% endcomment %}
+                    <label>
+                        <h3>Приватно <img src="{% static 'img/site_img/create_project/lock.png' %}" alt=""></h3>
+                        <p>Вы выбираете кто может видеть и редактировать этот проект</p>
+                    </label>
+                </div>
+            </div>
+        </section>
+        <hr>
+        <div class="add_files">
+            <p class="add_files_p">Добавьте файлы</p>
+            {{ projectform.files }}
+        </div>
+        <section class="but">
+            <input type="submit" value="Отправить"></input>
+        </section>
+    </form>
+    <!-- <form action="" method="POST" enctype="multipart/form-data" class="dropzone" id="dropzone">
+        {% csrf_token %}
+         <input type="file" name="file" /> 
+        {{ projectform.files }}
+    </form> -->
+</main>
+
+<!-- <script src="{% static 'js/dropzone.js' %}"></script> -->
+<script src="{% static 'js/setcheck.js' %}"></script>
+
+{% endblock %}

@@ -23,13 +23,15 @@
     </section> {% endcomment %}
 
     <section class="friends">
-        <h3>Ваши подписчики и друзья:</h3>
+        <h3>{{ title }}</h3>
         <hr>
         {% for follower in followers %}
         <article class="already-friends">
             <img src="/media/{{ follower.follower.profile.photo }}" alt="">
             <a class="midle" href="{% url 'profile' follower.follower.username %}">{{ follower.follower.username }}</a>
             {% if follower.status == "Подписчик" %}
+                <a class="status follower">{{ follower.status }}</a>
+            {% elif follower.status == "Подписки" %}
                 <a class="status follower">{{ follower.status }}</a>
             {% else %}
                 <a class="status friend">{{ follower.status }}</a>

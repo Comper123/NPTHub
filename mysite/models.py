@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.utils.timezone import localdate
-# from peutil import slugify
 
 
 AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
@@ -15,6 +14,7 @@ class Comment(models.Model):
     autor = models.ForeignKey(User, on_delete=models.PROTECT, related_name="comments")
     text = models.TextField("Комментарии")
     data = models.DateField(default=localdate)
+
     class Meta:
         verbose_name = 'комментарий'
         verbose_name_plural = 'Комментарии'

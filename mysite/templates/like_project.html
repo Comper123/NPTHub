@@ -24,10 +24,10 @@
 
         <section class="projects">
             {% if projects|length > 0 %}
-                <h2>Мои понравившиеся проекты</h2>
+                <h2>{{ type }}</h2 >
                 <section class="project-foto">
                     {% for project in projects %}
-                        <a href="{% url 'project' user.username project.name %}">
+                        <a href="{% url 'project' project.autor.username project.name %}">
                             <article>
                                 <img src="/media/{{ project.files.all.0.file }}">
                                 <article class="proj_info">
@@ -42,7 +42,7 @@
                     {% endfor %}
                 </section>
             {% else %}
-                <h2>У вас нет понравившихся проектов</h2>
+                <h2>У вас нет {{ status }} проектов</h2>
                 <span class="filler"></span>
             {% endif %}
             {% comment %} <article class="column_1">

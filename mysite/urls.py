@@ -33,5 +33,19 @@ urlpatterns = [
     # Ссылка на страницу проекта
     path('<str:autor>/<str:projectname>/', views.project, name='project'),
     # Ссылка на страницу понравившихся проектов
-    path('liked_projects/' , views.liked_projects, name='liked_projects')
+    path('liked_projects/' , views.liked_projects, name='liked_projects'),
+    # Ссылка на страницу подписок пользователя
+    path('follows/', views.follows, name='follows'),
+    # Ссылка на страницу понравившихся проектов
+    path('pined_projects/' , views.pined, name='pined'),
+    # Ссылка на страницу настраивания проекта
+    # path('<str:autor>/<str:projectname>/settings', views.create_project, name='project_settings'),
+    # Ссылка для закрепления проекта
+    path('pinproj/<str:autor>/<str:name>/', views.pin, name="pin_proj"),
+    # Ссылка для открепления проекта
+    path('unpinproj/<str:autor>/<str:name>/', views.unpin, name="unpin_proj"),
+    # Ссылка лайк проекта
+    path('like_proj/<str:autor>/<str:name>/', views.like, name="like_proj"),
+    # Ссылка дизлайк проекта
+    path('unlike_proj/<str:autor>/<str:name>/', views.unlike, name="unlike_proj"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

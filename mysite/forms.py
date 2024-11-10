@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Profile, Project
+from .models import Profile, Project, Comment
 
 
 class RegistrationForm(forms.ModelForm):
@@ -81,3 +81,39 @@ class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = ('name', 'is_private', 'description', 'files')
+
+
+class ProjectEditForm(forms.ModelForm):
+    """Форма редактирования проекта"""
+    choices = (
+        (0, ''), # Публичный
+        (1, '') # Приватный
+    )
+    is_private = forms.TypedChoiceField(
+                         choices=choices,
+                         widget=forms.RadioSelect, 
+                         coerce=int,  
+                    )
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(ProjectForm, self).__init__(*args, **kwargs)
+        
+    def clean(self):
+        data = super().clean()
+        current_name = data.get('name')
+        names = [proj.name for proj in Project.objects.filter(autor=self.user)]
+        if current_name in names:
+            raise forms.ValidationError("Вы уже использовали данное имя проекта")
+        
+    class Meta:
+        model = Project
+        fields = ('name', 'description', 'is_private')
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('text',)
+        widgets = {
+            'text': forms.Textarea()
+        }
