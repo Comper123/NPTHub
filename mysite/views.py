@@ -6,6 +6,8 @@ from django.db import transaction
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.db import IntegrityError
+from django.http import JsonResponse
+
 
 from .forms import (
     RegistrationForm, 
@@ -310,3 +312,21 @@ def unlike(request, autor, name):
     proj = Project.objects.get(autor=autor_id.id, name=name)
     request.user.profile.liked_projects.remove(proj)
     return redirect(f'/{autor_id.username}/{proj.name}/')
+
+
+# ajax запросы
+def project_ajax(request):
+    if request.method == "POST":
+        autor_name = request.POST.get("autor_name")
+        project_name = request.POST.get("project_name")
+        autor_id = User.objects.get(username=autor_name)
+        if request.POST.get("action") == "unpin":
+            proj = Project.objects.get(autor=autor_id.id, name=project_name)
+            proj.is_pinned = False
+            proj.save() 
+            return JsonResponse({'text': 'Закрепить'})
+        elif request.POST.get("action") == "pin":
+            proj = Project.objects.get(autor=autor_id.id, name=project_name)
+            proj.is_pinned = True
+            proj.save() 
+            return JsonResponse({'text': 'Открепить'})

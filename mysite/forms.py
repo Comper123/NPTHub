@@ -42,7 +42,7 @@ class MultipleFileInput(forms.ClearableFileInput):
 
 class MultipleFileField(forms.FileField):
     def __init__(self, *args, **kwargs):
-        kwargs.setdefault("widget", MultipleFileInput())
+        kwargs.setdefault("widget", MultipleFileInput(attrs={'accept': ".png,.jpg,.gif,.bmp,.jpeg"}))
         super().__init__(*args, **kwargs)
 
     def clean(self, data, initial=None):

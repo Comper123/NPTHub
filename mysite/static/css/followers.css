@@ -108,14 +108,3 @@ hr{
 .friend{
     background-color: #E21F77;
 }
-
-.project_info{
-    display: flex;
-    margin: 10px auto;
-    .projname{
-        display: flex;
-        h2{
-            font-size: 20px;
-        }
-    }
-}

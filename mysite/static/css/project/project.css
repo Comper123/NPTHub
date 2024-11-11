@@ -1,285 +1,7 @@
-/* * {
-    margin: 0;
-    font-family: "Jost", sans-serif;
-    font-optical-sizing: auto;
-    }
-    
-    .center-link{
-      margin-inline: 20px;
-    }
-    a{
-      text-decoration: none;
-    }
-    
-    .photo_project {
-      margin: 2% 5% 1% 5%;
-      display: flex;
-      justify-content: center;
-      img {
-        border: 10px solid rgba(248, 181, 210, 1);
-        border-radius: 30px;
-      }
-    }
-    
-    .information_project
-    {
-      margin: 0% 5% 1% 5%;
-      a{
-        color: #ffffff;
-        font-size: 20px;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        border-radius: 70px;
-        margin: 1% 0.3% 1% 0.3%;
-      }
-    
-      div{
-        color:#E35B98;
-        
-        h2{
-          text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        }
-        .profile{
-          background-image: url("https://cs6.livemaster.ru/storage/51/8d/e9304e78c01418b5ea956d3be36a.jpg");
-          background-repeat: no-repeat;
-          background-size: cover;
-          border-radius: 50%;
-          padding: 1.4% 0%;
-          width: 3%;
-          height: 3%;
-        }
-      }
-      .user{
-        display: flex ;
-        align-items: center;
-        margin: 0.5% 0 0.5% 0;
-        p{
-          margin-left: 0.5%;
-        }
-      }
-    }
-    
-    .purple_button
-    {
-      background: #EEDFFF;
-      text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-      padding: 0.2% 1%;
-    }
-    
-    .pink_button
-    {
-      background: #FDC7DF;
-      margin: 0.5%;
-      text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-      padding: 0.2% 1%;
-      
-    }
-    
-    .repository
-    {
-      color: white;
-      background: linear-gradient(360deg, #FFFFFF 0%, #E7D8F2 100%);
-      text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-      margin: 2% 5% 2% 5%;
-      border-radius: 50px;
-      font-size: 20px;
-      display: grid;
-      grid-template-rows: 1fr 1fr 1fr 1fr 0.7fr; 
-      input[type="radio"]{
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        background-color: white;
-        border-radius: 50%;
-        border: 4px solid #F082B3;
-        &:checked{
-          background-color: #F082B3;
-          border: 4px solid #F082B3;
-        }
-        margin: 15px 0.5% 0% 75%;
-        width: 50px;
-        height: 50px;
-      }
-      div{
-          text-align: right;
-          margin-top: 1%;
-          a{
-            background-color: #FDC7DF;
-            color: #FFFFFF;
-            border-radius: 50px;
-            padding: 10px 10px;
-            margin-right: 4%;
-          }
-        }
-      
-      .circle_0
-      {
-        background-color: #F082B3;
-      }
-    
-    
-      article
-      {
-        display: flex;
-        margin: 1% 1% 1% 1%;
-    
-        img{
-          height: 80px;
-          width: 80px;
-          margin-top: 1%;
-        }
-        div{
-          width: 90%;
-        }
-    
-        p{
-          margin-left: 3%;
-          display: flex;
-          align-items: center;
-        }
-      .rep1
-      {
-        background: #F07FB24D;
-        margin: 1% 3% 0 8%;
-        border-radius: 30px;
-        display: flex;
-      }
-      .rep2
-      {
-        background: linear-gradient(0deg, rgba(240, 127, 178, 0.07), rgba(240, 127, 178, 0.07)),
-        linear-gradient(0deg, rgba(240, 127, 178, 0.07), rgba(240, 127, 178, 0.07));
-        margin: 1% 3% 0% 8%;
-        border-radius: 30px;
-        display: flex;
-      }
-    }
-    }
-    
-    .for_comment
-      {
-        margin-left: 5%;
-        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        h2
-        {
-          color: #E21F77;
-        }
-        .comment
-        {
-          border-radius: 24px;
-          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
-          margin-right: 70%;
-          div 
-          {
-            background-color: #FCF9FF;
-            height: 60%;
-            width: 94%;
-            border-radius: 20px;
-            padding: 3%;
-            a
-            {
-              color: #E21F77;
-              font-size: 17spx;
-              background-color: #EEDFFF;
-              border-radius: 70px;
-              padding: 1% 10%;
-              margin: 5%;
-    
-            }
-            input
-            {
-              box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
-              height: 30vh;
-              width: 25vw;
-              border-radius: 20px;
-              border: 0;
-              margin: 2% 5% 4% 5%;
-              outline: none;
-            }
-          }
-        }
-      }
-    
-    .cum
-    {
-      color: #E21F77;
-      margin: 2% 2% 3% 5%;
-      text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
-    }
-    .comments_for_project
-    {
-      display: grid;
-      grid-template-rows: 1fr 1fr;
-      margin: 3% 2% 5% 5%;
-      
-      hr{
-        border: 2px solid #C6A6DD;
-      }
-      div{
-        margin: 0.5% 0 0.5% 0;
-        p{
-          word-break: break-all;
-          max-width: 90%;
-        }
-      }
-      
-      nav{
-        display: flex;
-        align-items: center;
-        color: #BA88DE;
-        font-weight: 700;
-        *{
-          padding: 0 2% 0 2%;
-        }
-    
-        a{
-          width: 3%;
-          height: 3%;
-          color: #622190;
-          font-weight: 700;
-        }
-      }
-      .comment
-      {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        color: #9A5BC7;
-        font-weight: 700;
-    
-        .response_like{
-          text-align: end;
-          margin-top: 8%;
-          text-shadow:  0px 4px 4px rgba(0, 0, 0, 0.5);
-        }
-      }
-      .response
-      {
-        color: white;
-        background-color: rgba(203, 169, 239, 1);
-        border-radius: 70px;
-        padding: 0.5% 4%;
-        
-      }
-      .like{
-        color: rgba(158, 118, 186, 1);
-        font-weight: 500;
-      }
-      .profile_com_1{
-        background-image: url("https://pyxis.nymag.com/v1/imgs/d29/4a6/d8b19f15856697769dc1c586d59ce82bd8-22-cat-video-truth-smoking.rsquare.w400.jpg");
-        background-repeat: no-repeat;
-        background-size: cover;
-        border-radius: 50%;
-        padding: 1.4% 0%;
-      }
-    
-      .profile_com_2{
-          background-image: url("https://deti-online.com/i/d/60/67141/@2x/anime-kotiki.jpg");
-          background-repeat: no-repeat;
-          background-size: cover;
-          border-radius: 50%;
-          padding: 1.4% 0%;
-      }
-    } */
-
+h2, p, a{
+  margin: 0;
+  padding: 0;
+}
 .project_nav{
   display: flex;
   margin: 20px auto;
@@ -292,7 +14,7 @@
 	border-bottom: 3px solid rgb(193, 193, 193);
   }
   .current_nav{
-    color: #B585D7;
+  color: #B585D7;
 	border-bottom: none;
 	border-left: 3px solid #B585D7;
 	border-top: 3px solid #B585D7;
@@ -310,38 +32,130 @@ main{
 
 
 .project_info{
-    display: flex;
-    margin: 10px auto;
+  display: flex;
+  margin: 10px auto;
 	height: 60px;
 	align-items: center;
 	justify-content: space-between;
     .projname{
-        display: flex;
-		align-items: center;
-		height: 100%;
-        h2{
-            font-size: 28px;
-			color: #B585D7;
-        }
-		.project_autor{
-			margin-right: 10px;
-		}
-		.project_name{
-			margin-left: 10px;
-		}
-		.status{
-			border: 2px solid rgb(180, 180, 180);
-			color: rgb(180, 180, 180);
-			border-radius: 15px;
-			padding: 3px 10px;
-			margin-left: 10px;
-		}
+      display: flex;
+		  align-items: center;
+      height: 100%;
+      img{
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-right: 20px;
+      }
+      h2{
+        font-size: 28px;
+			  color: #B585D7;
+        font-weight: 600;
+        line-height: 28px;
+      }
+      .project_autor{
+        margin-right: 10px;
+      }
+      .project_name{
+        margin-left: 10px;
+      }
+      .status{
+        border: 2px solid rgb(180, 180, 180);
+        color: rgb(180, 180, 180);
+        border-radius: 15px;
+        padding: 3px 10px;
+        margin-left: 10px;
+      }
     }
-	.project_buttons{
-		display: flex;
+}
 
+.main_project_slider{
+  >.carousel{
+    height: 600px;
+    .slider{
+      height: 600px;
+      div{
+        height: 600px;
+        width: 100%;
+        /* display: flex;
+        align-items: center;
+        justify-content: center; */
+        img{
+          overflow: hidden;
+          /* max-width: 100%;
+          max-height: 100%; */
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          margin: 0 auto;
+        }
+      }
+
+    }
+  }
+  >.proj_description{
+    p{
+      margin: 0;
+    }
+    .date{
+      font-size: 18px;
+      font-weight: 500;
+      color: #B585D7;
+      margin-bottom: 5px;
+    }
+    
+    .name{
+      font-size: 28px;
+      font-weight: 600;
+      color: #B585D7;
+      margin-top: 10px;
+    }
+    .desc{
+      
+    }
+  }
+  .project_buttons{
+		display: flex;
+    margin: 10px 0;
 		a{
 			text-decoration: none;
+      display: flex;
+      padding: 5px 20px;
+      border-radius: 18px;
+      color: black;
+      height: 35px;
+      align-items: center;
+      gap: 10px;
+      color: white;
+      font-weight: 600;
+      background: #B585D7;
+      &:hover{
+        cursor: pointer;
+      }
+      p{
+        margin: 0;
+
+      }
+      .bm_checked{
+        color: yellow;
+      }
+      .heart_cheked{
+        color: red;
+      }
 		}
+    /* .a_like{
+      background-color: white;
+      border: #B585D7 2px solid;
+      padding: 5px 8px;
+    } */
+    .unpin_btn, .unlike_btn{
+      background-color: white;
+      color: #B585D7;
+      border: #B585D7 2px solid;
+      display: flex;
+      align-items: center;
+      height: 35px;
+    }
 	}
 }
