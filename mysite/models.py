@@ -10,17 +10,19 @@ AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
 
 
 class Comment(models.Model):
-    """Класс комментариев"""
+    """Модель комментария"""
     autor = models.ForeignKey(User, on_delete=models.PROTECT, related_name="comments")
     text = models.TextField("Комментарии")
     data = models.DateField(default=localdate)
-
+    liked_users = models.ManyToManyField(User)
+    
     class Meta:
         verbose_name = 'комментарий'
         verbose_name_plural = 'Комментарии'
 
 
 class Like(models.Model):
+    """Модель лайка проекта"""
     autor = models.ForeignKey(User, on_delete=models.PROTECT, related_name="likes")
     class Meta:
         verbose_name = 'лайк'
@@ -28,6 +30,7 @@ class Like(models.Model):
 
 
 class UploadedFile(models.Model):
+    """Модель загружаемого файла"""
     file = models.ImageField(upload_to='usersprojects/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
@@ -40,14 +43,14 @@ class UploadedFile(models.Model):
 
 
 class Project(models.Model):
-    """Класс проекта (репозитория)"""
+    """Модель проекта (репозитория)"""
     autor = models.ForeignKey(User, on_delete=models.PROTECT, related_name="projects")
     name = models.CharField("Название проекта", max_length=100, blank=False)
     is_private = models.BooleanField("Приватный", default=False)
     is_pinned = models.BooleanField("Закрепленный", default=False)
     created_date = models.DateField(default=localdate)
     description = models.TextField("Описание проекта", blank=True)
-    comments = models.ManyToManyField(Comment, related_name='projects', blank=True)
+    comments = models.ManyToManyField(Comment, related_name='project', blank=True)
     collaborators = models.ManyToManyField(User, related_name='collaborators', blank=True)
     likes = models.ManyToManyField(Like, related_name='projects', blank=True)
     files = models.ManyToManyField(UploadedFile)
@@ -70,7 +73,7 @@ class Project(models.Model):
 
 
 class Profile(models.Model):
-    """Класс профиля пользователя"""
+    """Модель профиля пользователя"""
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile", default=None, null=True)
     name = models.CharField("Имя", max_length=100, default="User", null=True, blank=True)
     telegram = models.CharField("Телеграм", max_length=50, blank=True, null=True, default="")

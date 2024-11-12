@@ -30,8 +30,7 @@ urlpatterns = [
     path('create_project/', views.create_project, name='create_project'),
     # Ссылка загрузки фотографий при создании проекта
     # path('create_project/upload_images/', views.upload_image)
-    # Ссылка на страницу проекта
-    path('<str:autor>/<str:projectname>/', views.project, name='project'),
+    
     # Ссылка на страницу понравившихся проектов
     path('liked_projects/' , views.liked_projects, name='liked_projects'),
     # Ссылка на страницу подписок пользователя
@@ -41,13 +40,17 @@ urlpatterns = [
     # Ссылка на страницу настраивания проекта
     # path('<str:autor>/<str:projectname>/settings', views.create_project, name='project_settings'),
     # Ссылка для закрепления проекта
-    path('pinproj/<str:autor>/<str:name>/', views.pin, name="pin_proj"),
+    # path('pinproj/<str:autor>/<str:name>/', views.pin, name="pin_proj"),
     # Ссылка для открепления проекта
-    path('unpinproj/<str:autor>/<str:name>/', views.unpin, name="unpin_proj"),
+    # path('unpinproj/<str:autor>/<str:name>/', views.unpin, name="unpin_proj"),
     # Ссылка лайк проекта
-    path('like_proj/<str:autor>/<str:name>/', views.like, name="like_proj"),
+    # path('like_proj/<str:autor>/<str:name>/', views.like, name="like_proj"),
     # Ссылка дизлайк проекта
-    path('unlike_proj/<str:autor>/<str:name>/', views.unlike, name="unlike_proj"),
-    # ajax
-    path('project_ajax/', views.project_ajax)
+    # path('unlike_proj/<str:autor>/<str:name>/', views.unlike, name="unlike_proj"),
+    # ajax на странице проекта
+    path('project_ajax/', views.project_ajax),
+    # Удаление комментария на странице проекта
+    path('delete_review/', views.delete_review, name="delete_review"),
+    # Ссылка на страницу проекта
+    path('<str:autor>/<str:projectname>/', views.project, name='project'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

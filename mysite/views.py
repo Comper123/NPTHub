@@ -6,7 +6,7 @@ from django.db import transaction
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.db import IntegrityError
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 
 
 from .forms import (
@@ -94,7 +94,7 @@ def edit_profile(request):
 @login_required
 def profile(request, name):
     if (name == 'admin' and request.user.is_superuser):
-        return redirect('admin/')
+        return redirect('/admin/')
     if (request.user.username == name):
         # Если профиль текущего пользователя
         prof = request.user
@@ -218,8 +218,7 @@ def project(request, autor, projectname):
             comment.save()
             # Добавляем комментарий в комментарии проекта
             project.comments.add(comment)
-            return redirect(f'/{request.user.username}/{projectname}')
-
+            return redirect(f'/{project.autor.username}/{projectname}')
     else:
         comment_form = CommentForm()
 
@@ -277,56 +276,94 @@ def follows(request):
 
 
 # Открепление проекта
-@login_required
-def unpin(request, autor, name):
-    autor_id = User.objects.get(username=autor)
-    proj = Project.objects.get(autor=autor_id.id, name=name)
-    proj.is_pinned = False
-    proj.save() 
-    return redirect(f'/{request.user.username}/{proj.name}/')
+# @login_required
+# def unpin(request, autor, name):
+#     autor_id = User.objects.get(username=autor)
+#     proj = Project.objects.get(autor=autor_id.id, name=name)
+#     proj.is_pinned = False
+#     proj.save() 
+#     return redirect(f'/{request.user.username}/{proj.name}/')
 
 
 # Закрепление проекта
-@login_required
-def pin(request, autor, name):
-    autor_id = User.objects.get(username=autor)
-    proj = Project.objects.get(autor=autor_id.id, name=name)
-    proj.is_pinned = True
-    proj.save() 
-    return redirect(f'/{autor_id.username}/{proj.name}/')
+# @login_required
+# def pin(request, autor, name):
+#     autor_id = User.objects.get(username=autor)
+#     proj = Project.objects.get(autor=autor_id.id, name=name)
+#     proj.is_pinned = True
+#     proj.save() 
+#     return redirect(f'/{autor_id.username}/{proj.name}/')
 
 
 # Лайк проекта
-@login_required
-def like(request, autor, name):
-    autor_id = User.objects.get(username=autor)
-    proj = Project.objects.get(autor=autor_id.id, name=name)
-    request.user.profile.liked_projects.add(proj)
-    return redirect(f'/{autor_id.username}/{proj.name}/')
+# @login_required
+# def like(request, autor, name):
+#     autor_id = User.objects.get(username=autor)
+#     proj = Project.objects.get(autor=autor_id.id, name=name)
+#     request.user.profile.liked_projects.add(proj)
+#     return redirect(f'/{autor_id.username}/{proj.name}/')
 
 
 # Удаление из лайков проекта
-@login_required
-def unlike(request, autor, name):
-    autor_id = User.objects.get(username=autor)
-    proj = Project.objects.get(autor=autor_id.id, name=name)
-    request.user.profile.liked_projects.remove(proj)
-    return redirect(f'/{autor_id.username}/{proj.name}/')
+# @login_required
+# def unlike(request, autor, name):
+#     autor_id = User.objects.get(username=autor)
+#     proj = Project.objects.get(autor=autor_id.id, name=name)
+#     request.user.profile.liked_projects.remove(proj)
+#     return redirect(f'/{autor_id.username}/{proj.name}/')
 
 
 # ajax запросы
+@login_required
 def project_ajax(request):
     if request.method == "POST":
-        autor_name = request.POST.get("autor_name")
-        project_name = request.POST.get("project_name")
-        autor_id = User.objects.get(username=autor_name)
         if request.POST.get("action") == "unpin":
+            autor_name = request.POST.get("autor_name")
+            project_name = request.POST.get("project_name")
+            autor_id = User.objects.get(username=autor_name)
             proj = Project.objects.get(autor=autor_id.id, name=project_name)
             proj.is_pinned = False
             proj.save() 
             return JsonResponse({'text': 'Закрепить'})
         elif request.POST.get("action") == "pin":
+            autor_name = request.POST.get("autor_name")
+            project_name = request.POST.get("project_name")
+            autor_id = User.objects.get(username=autor_name)
             proj = Project.objects.get(autor=autor_id.id, name=project_name)
             proj.is_pinned = True
             proj.save() 
             return JsonResponse({'text': 'Открепить'})
+        elif request.POST.get("action") == "like":
+            autor_name = request.POST.get("autor_name")
+            project_name = request.POST.get("project_name")
+            autor_id = User.objects.get(username=autor_name)
+            proj = Project.objects.get(autor=autor_id.id, name=project_name)
+            request.user.profile.liked_projects.add(proj)
+            return JsonResponse({'text': 'Убрать из понравившихся'})
+        elif request.POST.get("action") == "unlike":
+            autor_name = request.POST.get("autor_name")
+            project_name = request.POST.get("project_name")
+            autor_id = User.objects.get(username=autor_name)
+            proj = Project.objects.get(autor=autor_id.id, name=project_name)
+            request.user.profile.liked_projects.remove(proj)
+            return JsonResponse({'text': 'Добавить в понравившиеся'})
+        elif request.POST.get("action") == "like_comment":
+            comment = Comment.objects.get(id=int(request.POST.get("id")))
+            comment.liked_users.add(request.user)
+            return JsonResponse({'text': f"{len(list(comment.liked_users.all()))}"})
+        elif request.POST.get("action") == "unlike_comment":
+            comment = Comment.objects.get(id=int(request.POST.get("id")))
+            comment.liked_users.remove(request.user)
+            return JsonResponse({'text': f"{len(list(comment.liked_users.all()))}"})
+        
+
+@login_required
+def delete_review(request):
+    if request.method == "POST":
+        com_id = request.POST.get("id")
+        proj_id = request.POST.get("proj")
+        com = Comment.objects.get(id=com_id)
+        proj = Project.objects.get(id=proj_id)
+        proj.comments.remove(com)
+        com.delete()
+        return JsonResponse({'text': "Комментарий удален"})
