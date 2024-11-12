@@ -47,15 +47,10 @@ urlpatterns = [
     # path('like_proj/<str:autor>/<str:name>/', views.like, name="like_proj"),
     # Ссылка дизлайк проекта
     # path('unlike_proj/<str:autor>/<str:name>/', views.unlike, name="unlike_proj"),
-<<<<<<< HEAD
     # ajax на странице проекта
     path('project_ajax/', views.project_ajax),
     # Удаление комментария на странице проекта
     path('delete_review/', views.delete_review, name="delete_review"),
     # Ссылка на страницу проекта
     path('<str:autor>/<str:projectname>/', views.project, name='project'),
-=======
-    # ajax
-    path('project_ajax/', views.project_ajax)
->>>>>>> aa52a4dd162dc100facf04ebb378417c18a5643d
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

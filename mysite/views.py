@@ -317,35 +317,23 @@ def follows(request):
 @login_required
 def project_ajax(request):
     if request.method == "POST":
-<<<<<<< HEAD
         if request.POST.get("action") == "unpin":
             autor_name = request.POST.get("autor_name")
             project_name = request.POST.get("project_name")
             autor_id = User.objects.get(username=autor_name)
             proj = Project.objects.get(autor=autor_id.id, name=project_name)
-=======
-        autor_name = request.POST.get("autor_name")
-        project_name = request.POST.get("project_name")
-        autor_id = User.objects.get(username=autor_name)
-        proj = Project.objects.get(autor=autor_id.id, name=project_name)
-        if request.POST.get("action") == "unpin":
->>>>>>> aa52a4dd162dc100facf04ebb378417c18a5643d
             proj.is_pinned = False
             proj.save() 
             return JsonResponse({'text': 'Закрепить'})
         elif request.POST.get("action") == "pin":
-<<<<<<< HEAD
             autor_name = request.POST.get("autor_name")
             project_name = request.POST.get("project_name")
             autor_id = User.objects.get(username=autor_name)
             proj = Project.objects.get(autor=autor_id.id, name=project_name)
-=======
->>>>>>> aa52a4dd162dc100facf04ebb378417c18a5643d
             proj.is_pinned = True
             proj.save() 
             return JsonResponse({'text': 'Открепить'})
         elif request.POST.get("action") == "like":
-<<<<<<< HEAD
             autor_name = request.POST.get("autor_name")
             project_name = request.POST.get("project_name")
             autor_id = User.objects.get(username=autor_name)
@@ -379,20 +367,3 @@ def delete_review(request):
         proj.comments.remove(com)
         com.delete()
         return JsonResponse({'text': "Комментарий удален"})
-=======
-            request.user.profile.liked_projects.add(proj)
-            return JsonResponse({'text': 'Убрать из понравившихся'})
-        elif request.POST.get("action") == "unlike":
-            request.user.profile.liked_projects.remove(proj)
-            return JsonResponse({'text': 'Добавить в понравившиеся'})
-        elif request.POST.get("action") == "like_comment":
-            comment = Comment.objects.get(id=request.POST.get("id"))
-            comment.liked_users.add(request.user)
-            comment.save() 
-            return JsonResponse({'text': len(comment.liked_users.all())})
-        elif request.POST.get("action") == "unlike_comment":
-            comment = Comment.objects.get(id=request.POST.get("id"))
-            comment.liked_users.remove(request.user)
-            comment.save() 
-            return JsonResponse({'text': len(comment.liked_users.all())})
->>>>>>> aa52a4dd162dc100facf04ebb378417c18a5643d
