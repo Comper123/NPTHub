@@ -41,13 +41,13 @@ urlpatterns = [
     # Ссылка на страницу настраивания проекта
     # path('<str:autor>/<str:projectname>/settings', views.create_project, name='project_settings'),
     # Ссылка для закрепления проекта
-    path('pinproj/<str:autor>/<str:name>/', views.pin, name="pin_proj"),
+    # path('pinproj/<str:autor>/<str:name>/', views.pin, name="pin_proj"),
     # Ссылка для открепления проекта
-    path('unpinproj/<str:autor>/<str:name>/', views.unpin, name="unpin_proj"),
+    # path('unpinproj/<str:autor>/<str:name>/', views.unpin, name="unpin_proj"),
     # Ссылка лайк проекта
-    path('like_proj/<str:autor>/<str:name>/', views.like, name="like_proj"),
+    # path('like_proj/<str:autor>/<str:name>/', views.like, name="like_proj"),
     # Ссылка дизлайк проекта
-    path('unlike_proj/<str:autor>/<str:name>/', views.unlike, name="unlike_proj"),
+    # path('unlike_proj/<str:autor>/<str:name>/', views.unlike, name="unlike_proj"),
     # ajax
     path('project_ajax/', views.project_ajax)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

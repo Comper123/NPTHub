@@ -10,6 +10,36 @@
     <link rel="stylesheet" href="{% static 'css/project/project.css' %}">
     <!-- Подключаем ajax -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        // Обработка лайка и дизлайка комментария
+        function likeComment(id, csrf){
+            $.ajax({
+                url: "/project_ajax/",
+                type: "POST",
+                data: {
+                    'autor_name': '{{ project.autor.username }}',
+                    'project_name': '{{ project.name }}',
+                    'comment': id,
+                    'action': $(this).hasClass("unlike_comment_btn")?'like_comment':'unlike_comment',
+                    'csrfmiddlewaretoken': csrf,
+                },
+                success: function(response) {
+                    $(this).find("p").text(response.text);  // Update the page dynamically
+                    if (!$(this).hasClass("unlike_comment_btn")){
+                        $(this).addClass("unlike_comment_btn");
+                        $(this).find("i").removeClass("heart_checked");
+                        $(this).find("i").removeClass("fa-solid");
+                        $(this).find("i").addClass("fa-regular");
+                    } else {
+                        $(this).removeClass("unlike_comment_btn");
+                        $(this).find("i").addClass("heart_checked");
+                        $(this).find("i").removeClass("fa-regular");
+                        $(this).find("i").addClass("fa-solid");
+                    }
+                }
+            });
+            }
+    </script>
 {% endblock %}
 
 {% block content %}
@@ -62,7 +92,7 @@
             <div class="project_buttons">
                 {% if project.autor == user %}
                     <a class="{% if not project.is_pinned %} unpin_btn {% endif %}" id="pin">
-                        <i class="{% if project.is_pinned %}fa-solid bm_checked{% else %}fa-regular bm{% endif %} fa-bookmark " id="pin_i"></i>
+                        <i class="{% if project.is_pinned %}fa-solid bm_checked{% else %} fa-regular bm{% endif %} fa-bookmark " id="pin_i"></i>
                         <p id="pin_text">
                             {% if project.is_pinned %}
                                 Открепить
@@ -72,22 +102,22 @@
                         </p>
                     </a>
                 {% else %}
-                    {% if project in user.profile.liked_projects.all %}
-                        <a class="" id="unlike">
-                            <i class="fa-solid fa-heart heart_cheked" id="like_i"></i>
-                            <p id="like_text">Убрать из понравившихся</p>
-                        </a>
-                    {% else %}
-                        <a class="unlike_btn" id="like">
-                            <i class="fa-regular fa-heart heart" id="like_i"></i>
-                            <p id="like_text">В понравившиеся</p>
-                        </a>
-                    {% endif %}
+                    <a class="{% if not project in user.profile.liked_projects.all %} unlike_btn {% endif %}" id="like">
+                        <i class="{% if project in user.profile.liked_projects.all %} fa-solid heart_cheked {% else %} fa-regular {% endif %} fa-heart " id="like_i"></i>
+                        <p id="like_text">
+                            {% if project in user.profile.liked_projects.all %}
+                                Убрать из понравившихся
+                            {% else %}
+                                Добавить в понравившиеся
+                            {% endif %}
+                        </p>
+                    </a>
                 {% endif %}
             </div>
         </section>
 
         <section class="project_comment_add">
+            <h2 class="block_zag">Оставьте свой комментарий</h2>
             <form action="" method="POST">
                 {% csrf_token %}
                 {{ comment_form.text }}
@@ -95,17 +125,49 @@
             </form>
         </section>
         <section class="project_comments">
-            {% for com in project.comments.all %}
+            {% if project.comments.all|length > 0 %}
+                <h2 class="block_zag">Комментарии ({{ project.comments.all|length }})</h2>
+                {% for com in project.comments.all %}
+                    <div class="comment">
+                        <div class="comment_header">
+                            <a href="{% url 'profile' com.autor.username %}">
+                                <img src="/media/{{ com.autor.profile.photo }}" alt="">
+                            </a>
+                            <p class="autor_name">{{ com.autor.username }}</p>
+                            <p class="project_date">{{ com.data }}</p>
+                        </div>
+                        <div class="comment_text">
+                            <p>{{ com.text }}</p>
+                        </div>
+                        <div class="comment_buttons">
+                            <a  class=" {% if not user in com.liked_users.all %} 
+                                            unlike_comment_btn
+                                        {% endif %}" 
+                                id="like_comment" onclick="likeComment({{ com.id }}, '{{ csrf_token }}')">
 
-            <p>{{ com.text }}</p>
-            {% endfor %}
+                                <i class="{% if user in com.liked_users.all %}
+                                            fa-solid heart_checked
+                                          {% else %} 
+                                            fa-regular 
+                                          {% endif %} fa-heart" id="like_comment_i"></i>
+
+                                {% if com.liked_users.all|length > 0 %}
+                                    <p class="count_likes">{{ com.liked_users.all|length }}</p>
+                                {% endif %}
+                            </a>
+                        </div>  
+                    </div>
+                {% endfor %}
+            {% else %}
+                {% comment %} <h2 class="block_zag">Комментариев пока нет...</h2> {% endcomment %}
+            {% endif %}
         </section>
     </main>
 
     <!-- Скрипты для ajax запросов -->
     <script>
         $(document).ready(function() {
-            // Обработка закрепления проекта
+            // Обработка закрепления и открепления проекта
             $('#pin').on("click", function(event){
                 event.preventDefault();
                 $.ajax({
@@ -114,7 +176,7 @@
                     data: {
                         'autor_name': '{{ project.autor.username }}',
                         'project_name': '{{ project.name }}',
-                        'action':   $('#pin').hasClass("unpin_btn")?'pin':'unpin',
+                        'action': $('#pin').hasClass("unpin_btn")?'pin':'unpin',
                         'csrfmiddlewaretoken': '{{ csrf_token }}'
                     },
                     success: function(response) {
@@ -130,16 +192,43 @@
                             $('#pin_i').removeClass("fa-regular");
                             $('#pin_i').addClass("fa-solid");
                         }
-                        
-                        
-                        
                         $('#pin_i').addClass("bm");
                     }
                 });
             });
 
-           
+            // Обработка добавления и удаления проекта в понравившиеся
+            $('#like').on("click", function(event){
+                event.preventDefault();
+                $.ajax({
+                    url: "/project_ajax/",
+                    type: "POST",
+                    data: {
+                        'autor_name': '{{ project.autor.username }}',
+                        'project_name': '{{ project.name }}',
+                        'action': $('#like').hasClass("unlike_btn")?'like':'unlike',
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function(response) {
+                        $('#like_text').text(response.text);  // Update the page dynamically
+                        if (!$('#like').hasClass("unlike_btn")){
+                            $('#like').addClass("unlike_btn");
+                            $('#like_i').removeClass("heart_cheked");
+                            $('#like_i').removeClass("fa-solid");
+                            $('#like_i').addClass("fa-regular");
+                        } else {
+                            $('#like').removeClass("unlike_btn");
+                            $('#like_i').addClass("heart_cheked");
+                            $('#like_i').removeClass("fa-regular");
+                            $('#like_i').addClass("fa-solid");
+                        }
+                        {% comment %} $('#like_i').addClass("bm"); {% endcomment %}
+                    }
+                });
+            });
 
+            
         });
     </script>
 {% endblock %}
+
