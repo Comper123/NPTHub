@@ -14,7 +14,7 @@ class Comment(models.Model):
     autor = models.ForeignKey(User, on_delete=models.PROTECT, related_name="comments")
     text = models.TextField("Комментарии")
     data = models.DateField(default=localdate)
-    liked_users = models.ManyToManyField(User)
+    liked_users = models.ManyToManyField(User, blank=True)
     
     class Meta:
         verbose_name = 'комментарий'
@@ -53,7 +53,7 @@ class Project(models.Model):
     comments = models.ManyToManyField(Comment, related_name='project', blank=True)
     collaborators = models.ManyToManyField(User, related_name='collaborators', blank=True)
     likes = models.ManyToManyField(Like, related_name='projects', blank=True)
-    files = models.ManyToManyField(UploadedFile)
+    files = models.ManyToManyField(UploadedFile, blank=True)
     # Имя для пути к файлу
     # slug = models.SlugField(unique=True, default=slugify(name))
     
@@ -99,7 +99,12 @@ class Profile(models.Model):
         if other in self.followers.all() and self.user in other_followers:
             return True
         return False
-    
+
+    def is_follower(self, other: User):
+        if other in self.followers.all():
+            return True
+        return False
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

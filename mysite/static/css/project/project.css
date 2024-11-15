@@ -11,14 +11,13 @@ h2, p, a{
     font-size: 18px;
     font-weight: 600;
     padding: 6px 30px;
-    border-bottom: 3px solid rgb(193, 193, 193);
+    border-bottom: 3px solid #B585D7;
   }
   .current_nav{
-    color: #B585D7;
+    background-color: #B585D7;
+    color: white;
+    font-weight: 500;
     border-bottom: none;
-    border-left: 3px solid #B585D7;
-    border-top: 3px solid #B585D7;
-    border-right: 3px solid #B585D7;
 	  border-radius: 10px 10px 0 0;
   }
   .last_nav{
@@ -71,6 +70,8 @@ main{
 }
 
 .main_project_slider{
+  width: 80%;
+  margin: 0 auto;
   >.carousel{
     height: 600px;
     .slider{
@@ -111,9 +112,15 @@ main{
       color: #B585D7;
       margin-top: 10px;
     }
+    .desc_header{
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
   }
   .project_buttons{
 		display: flex;
+    gap: 10px;
     margin: 10px 0;
 		a{
 			text-decoration: none;
@@ -163,6 +170,8 @@ main{
   font-weight: 600;
 }
 .project_comment_add{
+  width: 80%;
+  margin: 0 auto;
   margin-top: 50px;
   form{
     display: flex;
@@ -192,8 +201,8 @@ main{
   }
 }
 .project_comments{
-  margin-top: 50px;
-  margin-bottom: 50px;
+  width: 80%;
+  margin: 50px auto;
   /* width: 1000px; */
   .comment{
     /* width: 100%; */
@@ -225,6 +234,12 @@ main{
         font-size: 14px;
         font-weight: 500;
       }
+    }
+    >.comment_text{
+      width: 100%;
+      /* p{
+        word-break: break-all;
+      } */
     }
     >.comment_buttons{
       display: flex;
@@ -275,4 +290,9 @@ main{
       }
     }
   }
+}
+.error_name{
+  color: red !important;
+  font-weight: 500;
+  margin-bottom: 10px;
 }

@@ -9,35 +9,49 @@
 
 {% block content %}
 <main>
-    {% comment %} <section class="navigat">
-        <nav>
-            <a href="" class="edge">Подписки 252</a>
-            <a href="" class="midle-text">Друзья 52<hr></a>
-            <a href="" class="edge">Подписчики 99к</a>
-        </nav>
-        <hr>
-    </section>
+    <div class="followers_nav">
+        <a href="{% url 'followers' %}" class="{% if title == "Ваши подписчики и друзья:" %} current_nav {% endif %}">
+            <i class="fa-solid fa-user-group"></i>
+            Друзья и подписчики
+        </a>
+        <a href="{% url 'follows' %}" class="{% if title == "Ваши подписки:" %} current_nav {% endif %}">
+            <i class="fa-solid fa-user-plus"></i>
+            Подписки
+        </a>
+        <a href="{% url 'search_users' %}" class="{% if title == "" %} current_nav {% endif %}">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            Поиск
+        </a>
+    </div>
 
-    <section class="search">
-        <input type="text" src="image/glasses.png" placeholder="Поиск людей">
-    </section> {% endcomment %}
+    {% if search_form %}
+        <h3>Поиск пользователей</h3>
+        <form action="" method="POST" class="search_form">
+            {% csrf_token %}
+            {{ search_form.username }}
+            <input type="submit" value="Искать">
+        </form>
+    {% endif %}
 
     <section class="friends">
         <h3>{{ title }}</h3>
-        <hr>
-        {% for follower in followers %}
-        <article class="already-friends">
-            <img src="/media/{{ follower.follower.profile.photo }}" alt="">
-            <a class="midle" href="{% url 'profile' follower.follower.username %}">{{ follower.follower.username }}</a>
-            {% if follower.status == "Подписчик" %}
-                <a class="status follower">{{ follower.status }}</a>
-            {% elif follower.status == "Подписки" %}
-                <a class="status follower">{{ follower.status }}</a>
-            {% else %}
-                <a class="status friend">{{ follower.status }}</a>
-            {% endif %}
-        </article>
-        {% endfor %}
+        {% if followers %}
+            {% for follower in followers %}
+            <article class="already-friends">
+                <img src="/media/{{ follower.follower.profile.photo }}" alt="">
+                <a class="midle" href="{% url 'profile' follower.follower.username %}">{{ follower.follower.username }}</a>
+                {% if follower.status == "Подписчик" %}
+                    <a class="status follower">{{ follower.status }}</a>
+                {% elif follower.status == "Подписки" %}
+                    <a class="status follower">{{ follower.status }}</a>
+                {% elif follower.status == "Друзья" %}
+                    <a class="status friend">{{ follower.status }}</a>
+                {% endif %}
+            </article>
+            {% endfor %}
+        {% else %}
+            <h3>{{ searchstatus }}</h3>
+        {% endif %}
     </section>
 </main>
 {% endblock %}

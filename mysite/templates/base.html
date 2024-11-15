@@ -49,10 +49,10 @@
         <i class="fa-solid fa-user-group"></i>
         Друзья
       </a>
-      <a class="navlink" href="{% url 'follows' %}">
+      {% comment %} <a class="navlink" href="{% url 'follows' %}">
         <i class="fa-solid fa-user-plus"></i>
         Подписки
-      </a>
+      </a> {% endcomment %}
       <a class="navlink" href="{% url 'liked_projects' %}">
         <i class="fa-solid fa-heart"></i>
         Понравившиеся
@@ -72,7 +72,7 @@
       </a>
       <hr class="nav_sep">
     </section>
-    <section class="main">
+    <section class="main" id="main">
       <header>
         <nav>
           <div class="left">
@@ -253,4 +253,6 @@
 
   <!-- Подключаем скрипт всплывающего меню -->
   <script src="{% static 'js/train.js' %}"></script>
+  <!-- Подключаем скрипт задателя высоты для footer -->
+  <!-- <script src="{% static 'js/changefooterheight.js' %}"></script> -->
 </html>

@@ -7,7 +7,7 @@ const navigation = document.querySelector(".navigation");
 but.addEventListener('click', () => {
   navigation.classList.add("active_navigation");
   main.classList.add("active_main");
-  main.style.height = "100vh";
+  navigation.style.position = "fixed";
   main.style.overflow = 'hidden';
 });
 

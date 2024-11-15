@@ -3,6 +3,23 @@ from django.contrib.auth.models import User
 from .models import Profile, Project, Comment
 
 
+def haveBlockHaracters(string: str):
+    """Метод проверяющий на запретные символы в поле"""
+    block_haracters = ['/', '|', '!', '<', '>']
+    for c in block_haracters:
+        if c in string:
+            return True
+    return False
+
+
+def isEmptyField(string: str):
+    """Метод проверяющий поле на пустоту"""
+    try:
+        return not(bool(string.strip()))
+    except:
+        return True
+
+
 class RegistrationForm(forms.ModelForm):
     """Форма регистрации"""
     username = forms.CharField(widget=forms.TextInput(attrs={'autocomplete': 'off', 
@@ -72,11 +89,17 @@ class ProjectForm(forms.ModelForm):
         super(ProjectForm, self).__init__(*args, **kwargs)
 
     def clean(self):
+        """Валидация всех полей проекта"""
+        if (self.cleaned_data and isEmptyField(self.cleaned_data.get('name'))):
+            raise forms.ValidationError("Нельзя создать проект с пустым названием")
         data = super().clean()
         current_name = data.get('name')
         names = [proj.name for proj in Project.objects.filter(autor=self.user)]
         if current_name in names:
             raise forms.ValidationError("Вы уже использовали данное имя проекта")
+        if haveBlockHaracters(current_name):
+            raise forms.ValidationError("В названии проекта нельзя использовать смиволы (/, |, <, >, !)")
+       
         
     class Meta:
         model = Project
@@ -111,9 +134,31 @@ class ProjectEditForm(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
+    def clean(self):
+        # Проверяем текст комментария на то, является ли он пустым
+        if isEmptyField(self.cleaned_data.get('text')):
+            raise forms.ValidationError("Комментарий не может быть пустым")
+        # Проверяем комментарий на спам (рандом буквы подряд)
+        if len(self.cleaned_data.get('text')) > 30 and len(self.cleaned_data.get('text').split()) == 1:
+            raise forms.ValidationError("Просим вас не спамить!")
+        
     class Meta:
         model = Comment
         fields = ('text',)
         widgets = {
             'text': forms.Textarea(attrs={"placeholder":"Введите текст комментария:"})
         }
+
+
+class SearchUserForm(forms.ModelForm):
+    def clean(request):
+        # Заглушка так как без этого форма выбрасывает невалидность
+        return
+
+    class Meta:
+        model = User
+        fields = ('username',)
+        widgets = {
+                    'username': forms.TextInput(attrs={'autocomplete': 'off', 
+                                                             'placeholder': 'Имя пользователя:'})
+                }

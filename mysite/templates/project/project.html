@@ -56,39 +56,46 @@
                 </div>
             </div>
             <div class="proj_description">
-                <p class="name">{{ project.name }}</p>
+                <div class="desc_header">
+                    <p class="name">{{ project.name }}</p>
+                    <div class="project_buttons">
+                        {% if project.autor == user %}
+                            <a class="{% if not project.is_pinned %} unpin_btn {% endif %}" id="pin">
+                                <i class="{% if project.is_pinned %}fa-solid bm_checked{% else %} fa-regular bm{% endif %} fa-bookmark " id="pin_i"></i>
+                                <p id="pin_text">
+                                    {% if project.is_pinned %}
+                                        Открепить
+                                    {% else %}
+                                        Закрепить
+                                    {% endif %}
+                                </p>
+                            </a>
+                        {% endif %}
+                        <a class="{% if not project in user.profile.liked_projects.all %} unlike_btn {% endif %}" id="like">
+                            <i class="{% if project in user.profile.liked_projects.all %} fa-solid heart_cheked {% else %} fa-regular {% endif %} fa-heart " id="like_i"></i>
+                            <p id="like_text">
+                                {% if project in user.profile.liked_projects.all %}
+                                    Убрать из понравившихся
+                                {% else %}
+                                    Добавить в понравившиеся
+                                {% endif %}
+                            </p>
+                        </a>
+                    </div>
+                </div>
                 <p class="date">Дата публикации: {{ project.created_date }}</p>
                 <p class="desc">{{ project.description }}</p>
             </div>
-            <div class="project_buttons">
-                {% if project.autor == user %}
-                    <a class="{% if not project.is_pinned %} unpin_btn {% endif %}" id="pin">
-                        <i class="{% if project.is_pinned %}fa-solid bm_checked{% else %} fa-regular bm{% endif %} fa-bookmark " id="pin_i"></i>
-                        <p id="pin_text">
-                            {% if project.is_pinned %}
-                                Открепить
-                            {% else %}
-                                Закрепить
-                            {% endif %}
-                        </p>
-                    </a>
-                {% else %}
-                    <a class="{% if not project in user.profile.liked_projects.all %} unlike_btn {% endif %}" id="like">
-                        <i class="{% if project in user.profile.liked_projects.all %} fa-solid heart_cheked {% else %} fa-regular {% endif %} fa-heart " id="like_i"></i>
-                        <p id="like_text">
-                            {% if project in user.profile.liked_projects.all %}
-                                Убрать из понравившихся
-                            {% else %}
-                                Добавить в понравившиеся
-                            {% endif %}
-                        </p>
-                    </a>
-                {% endif %}
-            </div>
+            
         </section>
 
         <section class="project_comment_add">
             <h2 class="block_zag">Оставьте свой комментарий</h2>
+            {% if comment_form.non_field_errors %}
+                {% for error in comment_form.non_field_errors %}
+                    <p class="error_name">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
             <form action="" method="POST">
                 {% csrf_token %}
                 {{ comment_form.text }}

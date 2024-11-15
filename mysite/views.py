@@ -14,6 +14,7 @@ from .forms import (
     ProfileForm,
     ProjectForm,
     CommentForm,
+    SearchUserForm
 )
 from .models import (
     Profile, 
@@ -165,9 +166,11 @@ def followers(request):
 @login_required
 def create_project(request):
     data = {}
+    form = ProjectForm(request.user)
     if request.method == "POST":
         form = ProjectForm(request.user, request.POST, request.FILES)
-        if form.is_valid():
+        form.files
+        if form.is_valid() and form.cleaned_data['name'].strip():
             project = form.save(commit=False)
             project.autor = request.user
             project.name = form.cleaned_data['name']
@@ -186,9 +189,7 @@ def create_project(request):
                 project.files.add(f)
             return redirect(f'/{request.user.username}')
         else:
-            form = ProjectForm(request.user, request.POST, request.FILES)
-    else:
-        form = ProjectForm(request.user)
+            form = ProjectForm(request.user,  request.POST, request.FILES)
 
     data['projectform'] = form
     return render(request, "project/create_project.html", data)
@@ -367,3 +368,42 @@ def delete_review(request):
         proj.comments.remove(com)
         com.delete()
         return JsonResponse({'text': "Комментарий удален"})
+
+
+@login_required
+def search_users(request):
+    searchform = SearchUserForm(request.POST)
+    data = {
+        'title': "",
+        'search_form': searchform,
+        'user_profile': Profile.objects.get(user=request.user.id),
+    }
+    if request.method == "POST" and searchform.is_valid():
+        users_list = []
+        name = str(searchform.cleaned_data['username']).lower()
+        for user in User.objects.all():
+            if name in user.username.lower():
+                # print(user.username)
+                profile = user.profile
+                if profile.is_friend(request.user):
+                    status = "Друзья"
+                elif profile.is_follower(request.user):
+                    status = "Подписчик"
+                else:
+                    status = ""
+                users_list.append(
+                    {
+                        'follower': user,
+                        'status': status
+                    }
+                )
+        data['followers'] = users_list
+        if len(users_list) == 0:
+            data['searchstatus'] = "Ничего не найдено"
+        else:
+            data['searchstatus'] = "1"
+        return render(request, "followers.html", data)
+    else:
+        searchform = SearchUserForm(request.POST)
+    
+    return render(request, "followers.html", data)
