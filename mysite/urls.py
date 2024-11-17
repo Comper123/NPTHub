@@ -57,4 +57,6 @@ urlpatterns = [
     path('search_users/', views.search_users, name="search_users"),
     # Ссылка на страницу со всеми проектами
     path('main/', views.main_page, name="main"),
+    # Ссылка на страницу редактирования проекта
+    path("<str:autor>/<str:projectname>/settings/", views.project_settings, name="settings_proj")
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

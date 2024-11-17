@@ -5,9 +5,115 @@
 {% block title %}PicHub{% endblock %}
 
 {% block head %}
-    <link rel="stylesheet" href="{% static 'css/' %}">
+    <link rel="stylesheet" href="{% static 'css/project/project.css' %}">
+    <link rel="stylesheet" href="{% static 'css/project/project_settings.css' %}">
+    <link rel="stylesheet" href="{% static 'css/project/project_settings_edit.css' %}">
 {% endblock %}
 
 {% block content %}
-
+<main>
+    <div class="project_info">
+        <div class="projname">
+            <a href="{% url 'profile' project.autor.username %}">
+                <img src="/media/{{ project.autor.profile.photo }}" alt="">
+            </a>
+            <h2 class="project_autor">{{ project.autor.username }}</h2>
+            <h2>/</h2>
+            <h2 class="project_name">{{ project.name }}</h2>
+            <p class="status">
+                {% if project.is_private %}
+                <i class="fa-solid fa-lock"></i> приватный 
+                {% else %}
+                <i class="fa-solid fa-unlock"></i> публичный 
+                {% endif %}
+            </p>
+        </div>
+    </div>
+    <div class="project_nav">
+        <a class="project_link" href="{% url 'project' project.autor.username project.name %}"><i class="fa-solid fa-images"></i> Проект</a>
+        <a href="" class="{% if project.autor == request.user %} files_link {% else %} files_end_link {% endif %}"><i class="fa-solid fa-file"></i> Файлы</a>
+        {% if project.autor == request.user %}
+            <a href="{% url 'settings_proj' project.autor.username project.name %}" class="current_nav settings_link"><i class="fa-solid fa-gears"></i> Настройки</a>
+        {% endif %}
+        <a class="last_nav"></a>
+    </div>
+    <div class="settings_block">
+        <div class="settings_nav">
+            <a href="" class="current_settings_nav">
+                <i class="fa-solid fa-pen-to-square"></i> Изменение
+            </a>
+            <a href="">
+                <i class="fa-solid fa-file-circle-plus"></i> Добавление файлов
+            </a>
+            <a href="">
+                <i class="fa-solid fa-trash"></i> Удаление
+            </a>
+        </div>
+        <div class="settings_body">
+            <h3>Изменение основных настроек проекта:</h3>
+            {% if projectform.non_field_errors %}
+                {% for error in projectform.non_field_errors %}
+                    <p class="error_name">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+            <form action="" method="POST">
+                {% csrf_token %}
+                <section class="main-information">
+                    <article class="user-and-name">
+                        <div>
+                            <p>Владелец</p>
+                            <div class="fon-input">
+                                <p>{{ user.username }}</p>
+                            </div>  
+                        </div>
+        
+                        <h3>/</h3>
+        
+                        <div>
+                            <p>Название проекта</p>
+                            <div class="fon-input">
+                                {{ projectform.name }}
+                            </div>
+                        </div>
+                    </article>
+        
+                    <article class="description">
+                        <p>Описание(необязательно)</p>
+                        <div class="fon-input">
+                            {{ projectform.description }}
+                        </div>
+                    </article>
+                </section>
+                <section class="radio-input">
+                    <div>
+                        {{ projectform.is_private }}
+                    </div>
+                    <div>
+                        <div class="privat">
+                            <label>
+                                <h3>Публично <img src="{% static 'img/site_img/create_project/book.png' %}" alt=""></h3>
+                                <p>Любой в интернете может увидеть этот проект</p>
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <h3>Приватно <img src="{% static 'img/site_img/create_project/lock.png' %}" alt=""></h3>
+                                <p>Вы выбираете кто может видеть и редактировать этот проект</p>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                <input type="submit" value="Сохранить"></input>
+            </form>
+        </div>
+    </div>
+    <script>
+        {% if project.is_private %}
+            const checked_elem = document.getElementById("id_is_private_1");
+        {% else %}
+            const checked_elem = document.getElementById("id_is_private_0");
+        {% endif %}
+        checked_elem.setAttribute('checked', 'True')
+    </script>
+</main>
 {% endblock %}

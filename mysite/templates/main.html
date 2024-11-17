@@ -11,6 +11,7 @@
 
 {% block content %}
 <main>
+    <h3 class="zag">Все проекты PicHub</h3>
     {% if search_form %}
         <form action="" method="POST" class="search_form">
             {% csrf_token %}
@@ -28,9 +29,21 @@
                             <article class="proj_info">
                                 <article>
                                     <p class="name">{{ project.name }}</p>
-                                    <p class="description">{{ project.description }}</p>
+                                    <p class="description">{{ project.description|slice:":237" }}...</p>
                                 </article>
-                                <p class="date">{{ project.created_date }}</p>
+                                <div class="project_bottom">
+                                    <div>
+                                        <div>
+                                            <i class="fa-solid fa-heart"></i>
+                                            <p>{{ project.likes.all|length }}</p>
+                                        </div>
+                                        <div>
+                                            <i class="fa-solid fa-comment"></i>
+                                            <p>{{ project.comments.all|length }}</p>
+                                        </div>
+                                    </div>
+                                    <p class="date">{{ project.created_date }}</p>
+                                </div>
                             </article>
                         </article>
                     </a>

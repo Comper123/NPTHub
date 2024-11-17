@@ -106,33 +106,6 @@ class ProjectForm(forms.ModelForm):
         fields = ('name', 'is_private', 'description', 'files')
 
 
-class ProjectEditForm(forms.ModelForm):
-    """Форма редактирования проекта"""
-    choices = (
-        (0, ''), # Публичный
-        (1, '') # Приватный
-    )
-    is_private = forms.TypedChoiceField(
-                         choices=choices,
-                         widget=forms.RadioSelect, 
-                         coerce=int,  
-                    )
-    def __init__(self, user, *args, **kwargs):
-        self.user = user
-        super(ProjectForm, self).__init__(*args, **kwargs)
-        
-    def clean(self):
-        data = super().clean()
-        current_name = data.get('name')
-        names = [proj.name for proj in Project.objects.filter(autor=self.user)]
-        if current_name in names:
-            raise forms.ValidationError("Вы уже использовали данное имя проекта")
-        
-    class Meta:
-        model = Project
-        fields = ('name', 'description', 'is_private')
-
-
 class CommentForm(forms.ModelForm):
     def clean(self):
         # Проверяем текст комментария на то, является ли он пустым
@@ -177,3 +150,35 @@ class ProjectSearchForm(forms.ModelForm):
                     'name': forms.TextInput(attrs={'autocomplete': 'off', 
                                                              'placeholder': 'Название проекта:'})
                 }
+
+
+class ProjectEditForm(forms.ModelForm):
+    """Форма редактирования проекта"""
+    choices = (
+        (0, ''), # Публичный
+        (1, '') # Приватный
+    )
+    is_private = forms.TypedChoiceField(
+                         choices=choices,
+                         widget=forms.RadioSelect, 
+                         coerce=int,  
+                    )
+    def __init__(self, user, lastname, *args, **kwargs):
+        self.user = user
+        self.lastname = lastname
+        super(ProjectEditForm, self).__init__(*args, **kwargs)
+        
+    def clean(self):
+        if (self.cleaned_data and isEmptyField(self.cleaned_data.get('name'))):
+            raise forms.ValidationError("Нельзя создать проект с пустым названием")
+        data = super().clean()
+        current_name = data.get('name')
+        names = [proj.name for proj in Project.objects.filter(autor=self.user)]
+        if (current_name in names) and current_name != self.lastname:
+            raise forms.ValidationError("Вы уже использовали данное имя проекта")
+        if haveBlockHaracters(current_name):
+            raise forms.ValidationError("В названии проекта нельзя использовать смиволы (/, |, <, >, !)")
+    
+    class Meta:
+        model = Project
+        fields = ('name', 'description', 'is_private',)

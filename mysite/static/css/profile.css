@@ -88,7 +88,36 @@ main{
         object-fit: cover;
     }
 }
-
+.project_bottom{
+    display: flex;
+    justify-content: space-between;
+    .fa-heart{
+        color: red;
+    }
+    .fa-comment{
+        color: rgb(132, 132, 132);
+    }
+    >div{
+        display: flex;
+        >div{
+            display: flex;
+            gap: 5px;
+            margin-right: 20px;
+            align-items: center;
+            p{
+                color: black;
+                font-weight: 500
+            };
+        }
+    }
+    
+    .date{
+        justify-self: flex-end;
+        font-weight: 600;
+        font-size: 18px;
+        color: #B585D7;
+    }
+}
 .assigned-projects{
     /* margin-left: 10vw; */
     display: grid;

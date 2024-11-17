@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'css/project/project.css' %}">
     <!-- Подключаем ajax -->
-    <meta name="csrf-token" content="{{ csrf_token }}">
+    {% comment %} <meta name="csrf-token" content="{{ csrf_token }}"> {% endcomment %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 {% endblock %}
 
@@ -34,10 +34,11 @@
             
         </div>
         <div class="project_nav">
-            <a href="{% url 'project' project.autor.username project.name %}" class="current_nav"><i class="fa-solid fa-images"></i> Проект</a>
-            <a href=""><i class="fa-solid fa-file"></i> Файлы</a>
+            {% comment %} href="{% url 'project' project.autor.username project.name %}" {% endcomment %}
+            <a class="current_nav project_link"><i class="fa-solid fa-images"></i> Проект</a>
+            <a href="" class="{% if project.autor == request.user %} files_link {% else %} files_end_link {% endif %}"><i class="fa-solid fa-file"></i> Файлы</a>
             {% if project.autor == request.user %}
-                <a href=""><i class="fa-solid fa-pen"></i> Редактирование</a>
+                <a href="{% url 'settings_proj' project.autor.username project.name %}" class="settings_link"><i class="fa-solid fa-gears"></i> Настройки</a>
             {% endif %}
             <a class="last_nav"></a>
         </div>
@@ -45,11 +46,11 @@
         <section class="main_project_slider">
             <div class="carousel slide" data-bs-ride="carousel">
                 <div id="slider" class="slider carousel-inner">
-                    <div class="carousel-item active" data-bs-interval="2000">
+                    <div class="carousel-item active bg_white" data-bs-interval="2000">
                         <img src="/media/{{ project.files.all.0.file }}" class="d-block">
                     </div>
                     {% for photo in project.files.all|slice:"1:" %}
-                        <div class="carousel-item" data-bs-interval="4000">
+                        <div class="carousel-item bg_white" data-bs-interval="4000">
                             <img src="/media/{{ photo.file }}" class="d-block">
                         </div>
                     {% endfor %}
@@ -84,16 +85,14 @@
                     </div>
                 </div>
                 <p class="date">Дата публикации: {{ project.created_date }}</p>
-                <p class="desc">
+                <div class="desc">
                     {% if project.description|length < 400 %}
-                        {{ project.description|slice:":400" }}
-                    {% else %}
                         <span>{{ project.description|slice:":400" }}</span>
-                        <span class="troe show">...</span>
-                        <a id="showmore">Показать...</a>
-                        <span class="continue hide">{{ project.description|slice:"401:" }}</span>
+                    {% else %}
+                        <span id="desc_text">{{ project.description|slice:":400" }}</span>
+                        <a id="showmore">Далее</a>
                     {% endif %}
-                </p>
+                </div>
                 <div class="proj_likes">
                     <p>Понравилось: </p>
                     <p id="count_likes">{{ project.likes.all|length }}</p>
@@ -281,8 +280,13 @@
 
             // Скрытие/показывание описания проекта
             $('#showmore').click(function() {
-                $(this).parent().find('.troe').toggleClass('hide');
-                $(this).parent().find('.continue').toggleClass('active');
+                if ($(this).text() == "Далее"){
+                    $(this).text("Скрыть")
+                    $(this).parent().find("#desc_text").text("{{ project.description }}")
+                } else {
+                    $(this).text("Далее")
+                    $(this).parent().find("#desc_text").text("{{ project.description|slice:":400" }}")
+                }
             });
         }); 
     </script>

@@ -15,7 +15,8 @@ from .forms import (
     ProjectForm,
     CommentForm,
     SearchUserForm,
-    ProjectSearchForm
+    ProjectSearchForm,
+    ProjectEditForm
 )
 from .models import (
     Profile, 
@@ -170,7 +171,6 @@ def create_project(request):
     form = ProjectForm(request.user)
     if request.method == "POST":
         form = ProjectForm(request.user, request.POST, request.FILES)
-        form.files
         if form.is_valid() and form.cleaned_data['name'].strip():
             project = form.save(commit=False)
             project.autor = request.user
@@ -362,6 +362,7 @@ def project_ajax(request):
             return JsonResponse({'text': f"{len(list(comment.liked_users.all()))}"})
         
 
+# Контроллер удаления комментариев
 @login_required
 def delete_review(request):
     if request.method == "POST":
@@ -374,6 +375,7 @@ def delete_review(request):
         return JsonResponse({'text': "Комментарий удален"})
 
 
+# Контроллер страницы поиска пользователей
 @login_required
 def search_users(request):
     searchform = SearchUserForm(request.POST)
@@ -382,37 +384,40 @@ def search_users(request):
         'search_form': searchform,
         'user_profile': Profile.objects.get(user=request.user.id),
     }
-    if request.method == "POST" and searchform.is_valid():
-        users_list = []
-        name = str(searchform.cleaned_data['username']).lower()
-        for user in User.objects.all():
-            if name in user.username.lower():
-                # print(user.username)
-                profile = user.profile
-                if profile.is_friend(request.user):
-                    status = "Друзья"
-                elif profile.is_follower(request.user):
-                    status = "Подписчик"
-                else:
-                    status = ""
-                users_list.append(
-                    {
-                        'follower': user,
-                        'status': status
-                    }
-                )
-        data['followers'] = users_list
-        if len(users_list) == 0:
-            data['searchstatus'] = "Ничего не найдено"
+    if request.method == "POST":
+        if searchform.is_valid():
+            users_list = []
+            name = str(searchform.cleaned_data['username']).lower()
+            for user in User.objects.all():
+                if name in user.username.lower():
+                    # print(user.username)
+                    profile = user.profile
+                    if profile.is_friend(request.user):
+                        status = "Друзья"
+                    elif profile.is_follower(request.user):
+                        status = "Подписчик"
+                    else:
+                        status = ""
+                    users_list.append(
+                        {
+                            'follower': user,
+                            'status': status
+                        }
+                    )
+            data['followers'] = users_list
+            if len(users_list) == 0:
+                data['searchstatus'] = "Ничего не найдено"
+            else:
+                data['searchstatus'] = ""
+            return render(request, "followers.html", data)
         else:
-            data['searchstatus'] = "1"
-        return render(request, "followers.html", data)
-    else:
+            data['searchstatus'] = "Некорректный запрос!"
         searchform = SearchUserForm(request.POST)
     
     return render(request, "followers.html", data)
 
 
+# Контроллер главной страницы
 @login_required
 def main_page(request):
     projects = Project.objects.filter(is_private=False)
@@ -430,3 +435,27 @@ def main_page(request):
         data['projects'] = projects_list
         project_search_form = ProjectSearchForm(request.POST)
     return render(request, "main.html", data)
+
+
+@login_required
+def project_settings(request, autor, projectname):
+    autor_proj = User.objects.get(username=autor)
+    project = Project.objects.get(autor=autor_proj.id, name=projectname)
+    
+    if request.method == "POST":
+        edit_proj = ProjectEditForm(request.user, project.name, request.POST)
+        if edit_proj.is_valid():
+            project.name = edit_proj.cleaned_data['name']
+            project.description = edit_proj.cleaned_data['description']
+            project.is_private = edit_proj.cleaned_data['is_private']
+            project.save()
+            return redirect(f'/{autor_proj.username}/{project.name}/')
+        else:
+            edit_proj = ProjectEditForm(request.user, project.name, request.POST, instance=project)
+    else:
+        edit_proj = ProjectEditForm(request.user, project.name, instance=project)
+    data = {
+        'project': project,
+        'projectform': edit_proj
+    }
+    return render(request, "project/project_settings.html", data)

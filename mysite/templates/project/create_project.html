@@ -24,7 +24,7 @@
             <p class="error_name">{{ error }}</p>
         {% endfor %}
     {% endif %}
-    <form action="" method="POST" enctype="multipart/form-data">
+    <form action="" method="POST">
         {% csrf_token %}
         <section class="main-information">
             <article class="user-and-name">
@@ -84,11 +84,6 @@
             <input type="submit" value="Отправить"></input>
         </section>
     </form>
-    <!-- <form action="" method="POST" enctype="multipart/form-data" class="dropzone" id="dropzone">
-        {% csrf_token %}
-         <input type="file" name="file" /> 
-        {{ projectform.files }}
-    </form> -->
 </main>
 
 <!-- <script src="{% static 'js/dropzone.js' %}"></script> -->
