@@ -14,7 +14,8 @@ from .forms import (
     ProfileForm,
     ProjectForm,
     CommentForm,
-    SearchUserForm
+    SearchUserForm,
+    ProjectSearchForm
 )
 from .models import (
     Profile, 
@@ -226,6 +227,7 @@ def project(request, autor, projectname):
     data = {
         'project': project,
         'comment_form': comment_form,
+        'count_likes': len(project.likes.all())
     }
     return render(request, "project/project.html", data)
 
@@ -234,7 +236,7 @@ def project(request, autor, projectname):
 @login_required
 def liked_projects(request):
     data = {
-        'projects': request.user.profile.liked_projects.all(),
+        'projects': request.user.liked_projects.all(),
         'type': "Понравившиеся вам проекты:",
         'status': "понравившихся"
     }
@@ -339,15 +341,17 @@ def project_ajax(request):
             project_name = request.POST.get("project_name")
             autor_id = User.objects.get(username=autor_name)
             proj = Project.objects.get(autor=autor_id.id, name=project_name)
-            request.user.profile.liked_projects.add(proj)
-            return JsonResponse({'text': 'Убрать из понравившихся'})
+            proj.likes.add(request.user)
+            return JsonResponse({'text': 'Убрать из понравившихся',
+                                 'count': len(proj.likes.all())})
         elif request.POST.get("action") == "unlike":
             autor_name = request.POST.get("autor_name")
             project_name = request.POST.get("project_name")
             autor_id = User.objects.get(username=autor_name)
             proj = Project.objects.get(autor=autor_id.id, name=project_name)
-            request.user.profile.liked_projects.remove(proj)
-            return JsonResponse({'text': 'Добавить в понравившиеся'})
+            proj.likes.remove(request.user)
+            return JsonResponse({'text': 'Добавить в понравившиеся',
+                                 'count': len(proj.likes.all())})
         elif request.POST.get("action") == "like_comment":
             comment = Comment.objects.get(id=int(request.POST.get("id")))
             comment.liked_users.add(request.user)
@@ -407,3 +411,22 @@ def search_users(request):
         searchform = SearchUserForm(request.POST)
     
     return render(request, "followers.html", data)
+
+
+@login_required
+def main_page(request):
+    projects = Project.objects.filter(is_private=False)
+    project_search_form = ProjectSearchForm(request.POST)
+    data = {
+        'projects': projects,
+        'search_form': project_search_form
+    }
+    if request.method == "POST" and project_search_form.is_valid():
+        projects_list = []
+        name = str(project_search_form.cleaned_data['name']).lower()
+        for project in projects:
+            if name in project.name.lower():
+                projects_list.append(project)
+        data['projects'] = projects_list
+        project_search_form = ProjectSearchForm(request.POST)
+    return render(request, "main.html", data)

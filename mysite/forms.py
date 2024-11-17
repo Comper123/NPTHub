@@ -139,8 +139,9 @@ class CommentForm(forms.ModelForm):
         if isEmptyField(self.cleaned_data.get('text')):
             raise forms.ValidationError("Комментарий не может быть пустым")
         # Проверяем комментарий на спам (рандом буквы подряд)
-        if len(self.cleaned_data.get('text')) > 30 and len(self.cleaned_data.get('text').split()) == 1:
-            raise forms.ValidationError("Просим вас не спамить!")
+        for string in self.cleaned_data.get('text').split():
+            if len(string) > 20:
+                raise forms.ValidationError("Просим вас не спамить! (Или не вводите слова длиннее 20 символов)")
         
     class Meta:
         model = Comment
@@ -161,4 +162,18 @@ class SearchUserForm(forms.ModelForm):
         widgets = {
                     'username': forms.TextInput(attrs={'autocomplete': 'off', 
                                                              'placeholder': 'Имя пользователя:'})
+                }
+        
+
+class ProjectSearchForm(forms.ModelForm):
+    def clean(request):
+        # Заглушка так как без этого форма выбрасывает невалидность
+        return
+    
+    class Meta:
+        model = Project
+        fields = ('name',)
+        widgets = {
+                    'name': forms.TextInput(attrs={'autocomplete': 'off', 
+                                                             'placeholder': 'Название проекта:'})
                 }

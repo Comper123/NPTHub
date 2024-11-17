@@ -34,12 +34,18 @@
     {% endif %}
 
     <section class="friends">
-        <h3>{{ title }}</h3>
-        {% if followers %}
+        <h3>{{ title }}
+            {% if title %}
+                ({{ followers|length }})
+            {% endif %}
+        </h3>
+        {% if followers|length > 0 %}
             {% for follower in followers %}
             <article class="already-friends">
-                <img src="/media/{{ follower.follower.profile.photo }}" alt="">
-                <a class="midle" href="{% url 'profile' follower.follower.username %}">{{ follower.follower.username }}</a>
+                <a class="midle" href="{% url 'profile' follower.follower.username %}">
+                    <img src="/media/{{ follower.follower.profile.photo }}" alt="">
+                </a>
+                <a class="midle">{{ follower.follower.username }}</a>
                 {% if follower.status == "Подписчик" %}
                     <a class="status follower">{{ follower.status }}</a>
                 {% elif follower.status == "Подписки" %}

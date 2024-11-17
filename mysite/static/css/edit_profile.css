@@ -1,7 +1,5 @@
 .foto{
-    /* height: 80vh; */
-    height: 800px;
-    margin-top: 10vh;
+    width: 500px;
     article{
         display: flex;
         justify-content: center;
@@ -37,6 +35,16 @@
         }
     }
 }
+main{
+    width: var(--width);
+    margin: 0 auto;
+}
+.text_form {
+    display: flex;
+    width: 70%;
+    margin: 75px auto 50px auto;
+    
+}
 .Select_photo_div::file-selector-button{
     /* width: 105px; */
     overflow: hidden;
@@ -60,14 +68,9 @@ body{
     height: 5vh;
     margin-top: 10px;
 }
-
 .information-about-me{
-    height: 60vh;
-    article{
-        margin-top: 7vh;
-        margin-left: 7vw;
-        width: 50%;
-    }
+    width: 600px;
+    margin-left: 100px;
 
     .block-inform{
         img{
@@ -78,19 +81,23 @@ body{
             display: flex;
             align-items: center;
             font-weight: 700;
-            font-size: 36px;
+            font-size: 26px;
             color: #E35B98;
             margin-bottom: 5px;
         }
         input{
             width: 100%;
             border-radius: 15px;
-            padding-left: 10px;
+            padding-left: 20px;
             padding-block: 15px;
             border: none;
             background: linear-gradient(180deg, rgba(236, 162, 195, 0.5) 0%, rgba(198, 166, 221, 0.5) 100%);
             color: #64636380;
+            font-weight: 500;
             box-shadow: 0px 4px 4px #00000040;
+            &:focus{
+                outline: none;
+            }
         }
     }
     .midle-block{
@@ -98,15 +105,15 @@ body{
     }
 
     button{
-        border-radius: 30px;
+        border-radius: 20px;
         background: #CBA9EF;
         color: #fff;
         padding-inline: 20px;
         padding-block: 10px;
         font-weight: 700;
-        font-size: 25px;
+        font-size: 20px;
         border: none;
-        margin-top: 5%;
+        margin-top: 30px;
     }
 }
 

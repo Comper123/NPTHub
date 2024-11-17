@@ -31,6 +31,10 @@
         Администрирование
       </a>
       {% endif %}
+      <a class="navlink" href="{% url 'main' %}">
+        <i class="fa-solid fa-house"></i>
+        Главная
+      </a>
       <a class="navlink" href="{% url 'profile' user.username %}">
         <i class="fa-solid fa-user"></i>
         Профиль
@@ -76,167 +80,17 @@
       <header>
         <nav>
           <div class="left">
+            {% comment %} <a href="{% url 'main' %}"><img src="{% static 'img/site_img/logo_pic.png' %}" alt=""></a> {% endcomment %}
             <a id="but">
-              <svg
-                id="Слой_1"
-                data-name="Слой 1"
-                xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-                width="34"
-                height="34"
-                viewBox="0 0 34 34"
-              >
-                <defs>
-                  <style>
-                    .cls-1,
-                    .cls-2,
-                    .cls-3,
-                    .cls-4 {
-                      fill: none;
-                    }
-                    .cls-1 {
-                      stroke-width: 4px;
-                      stroke: url(#Безымянный_градиент_5);
-                    }
-                    .cls-2,
-                    .cls-3,
-                    .cls-4 {
-                      stroke-width: 2px;
-                    }
-                    .cls-2 {
-                      stroke: url(#Безымянный_градиент_4);
-                    }
-                    .cls-3 {
-                      stroke: url(#Безымянный_градиент_4-2);
-                    }
-                    .cls-4 {
-                      stroke: url(#Безымянный_градиент_4-3);
-                    }
-                  </style>
-                  <linearGradient
-                    id="Безымянный_градиент_5"
-                    x1="120.25"
-                    y1="712.5"
-                    x2="120.25"
-                    y2="678.5"
-                    gradientTransform="matrix(1, 0, 0, -1, -103.25, 712.5)"
-                    gradientUnits="userSpaceOnUse"
-                  >
-                    <stop offset="0.06" stop-color="#ef7fb0" />
-                    <stop offset="0.61" stop-color="#c1a8d1" />
-                  </linearGradient>
-                  <linearGradient
-                    id="Безымянный_градиент_4"
-                    x1="111.25"
-                    y1="701.5"
-                    x2="128.25"
-                    y2="701.5"
-                    gradientTransform="matrix(1, 0, 0, -1, -103.25, 712.5)"
-                    gradientUnits="userSpaceOnUse"
-                  >
-                    <stop offset="0" stop-color="#aa85bb" />
-                    <stop offset="1" stop-color="#f2a0c5" />
-                  </linearGradient>
-                  <linearGradient
-                    id="Безымянный_градиент_4-2"
-                    x1="111.25"
-                    y1="696.5"
-                    x2="128.25"
-                    y2="696.5"
-                    xlink:href="#Безымянный_градиент_4"
-                  />
-                  <linearGradient
-                    id="Безымянный_градиент_4-3"
-                    x1="111.25"
-                    y1="691.5"
-                    x2="128.25"
-                    y2="691.5"
-                    xlink:href="#Безымянный_градиент_4"
-                  />
-                </defs>
-                <rect class="cls-1" x="2" y="2" width="30" height="30" rx="3" />
-                <line class="cls-2" x1="8" y1="11" x2="25" y2="11" />
-                <line class="cls-3" x1="8" y1="16" x2="25" y2="16" />
-                <line class="cls-4" x1="8" y1="21" x2="25" y2="21" />
-              </svg>
+              <img src="{% static 'img/site_img/base/menu.png' %}" alt="">
             </a>
-            <a href="{% url 'profile' user.username %}" class="center-link">
-              {% comment %} <svg
-                id="Слой_1"
-                data-name="Слой 1"
-                xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-                width="36"
-                height="36"
-                viewBox="0 0 36 36"
-              >
-              <defs>
-                <style>
-                  .cls-1 {
-                    fill: #fff;
-                  }
-                  .cls-2 {
-                    fill: none;
-                    stroke-opacity: 0.5;
-                    stroke-width: 3px;
-                    stroke: url(#Безымянный_градиент_3);
-                  }
-                </style>
-                <linearGradient
-                  id="Безымянный_градиент_3"
-                  x1="102.25"
-                  y1="695.5"
-                  x2="138.25"
-                  y2="695.5"
-                  gradientTransform="matrix(1, 0, 0, -1, -102.25, 713.5)"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop offset="0" stop-color="#e32077" />
-                  <stop offset="1" stop-color="#855da3" />
-                </linearGradient>
-              </defs>
-              <ellipse class="cls-1" cx="17.5" cy="25" rx="7.5" ry="7" />
-              <circle class="cls-1" cx="17.5" cy="13.5" r="3.5" />
-              <circle class="cls-2" cx="18" cy="18" r="16.5" />
-            </svg> {% endcomment %}
-            <img class="header_img" src="/media/{{ user.profile.photo }}">
-            </a>
-            <p>{{ user.username }}</p>
+            <a href="{% url 'main' %}"><h3>PicHub</h3></a>
           </div>
           <div class="right">
-            <!-- {% if user.is_superuser %}
-            <a href="/admin">Администрирование</a>
-            {% endif %} -->
-            <!-- <form action="{% url 'logout' %}" method="post">
-              {% csrf_token %}
-              <button type="submit" href="{% url 'logout' %}" class="logout_btn">
-                Выйти
-              </button>
-            </form> -->
-            <a href="{% url 'create_project' %}">
-              Добавить проект
-              <svg
-                id="Слой_1"
-                data-name="Слой 1"
-                xmlns="http://www.w3.org/2000/svg"
-                width="21.56"
-                height="21.56"
-                viewBox="0 0 21.56 21.56"
-              >
-                <defs>
-                  <style>
-                    .cls-1 {
-                      fill: none;
-                      stroke: #fff;
-                      stroke-width: 2px;
-                    }
-                  </style>
-                </defs>
-                <circle class="cls-1" cx="10.78" cy="10.78" r="9.78" />
-                <line class="cls-1" x1="17.03" y1="10.79" x2="4.53" y2="10.82" />
-                <line class="cls-1" x1="10.78" y1="4.56" x2="10.78" y2="17.06" />
-              </svg>
+            <a href="{% url 'profile' user.username %}" class="center-link">
+              <img class="header_img" src="/media/{{ user.profile.photo }}">
             </a>
+            {% comment %} <p>{{ user.username }}</p> {% endcomment %}
           </div>
         </nav>
       </header>

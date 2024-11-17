@@ -25,19 +25,19 @@
                 <h2 class="project_name">{{ project.name }}</h2>
                 <p class="status">
                     {% if project.is_private %}
-                        приватный
+                    <i class="fa-solid fa-lock"></i> приватный 
                     {% else %}
-                        публичный
+                    <i class="fa-solid fa-unlock"></i> публичный 
                     {% endif %}
                 </p>
             </div>
             
         </div>
         <div class="project_nav">
-            <a href="{% url 'project' project.autor.username project.name %}" class="current_nav">Проект</a>
-            <a href="">Файлы</a>
+            <a href="{% url 'project' project.autor.username project.name %}" class="current_nav"><i class="fa-solid fa-images"></i> Проект</a>
+            <a href=""><i class="fa-solid fa-file"></i> Файлы</a>
             {% if project.autor == request.user %}
-                <a href="">Редактирование</a>
+                <a href=""><i class="fa-solid fa-pen"></i> Редактирование</a>
             {% endif %}
             <a class="last_nav"></a>
         </div>
@@ -71,10 +71,10 @@
                                 </p>
                             </a>
                         {% endif %}
-                        <a class="{% if not project in user.profile.liked_projects.all %} unlike_btn {% endif %}" id="like">
-                            <i class="{% if project in user.profile.liked_projects.all %} fa-solid heart_cheked {% else %} fa-regular {% endif %} fa-heart " id="like_i"></i>
+                        <a class="{% if not project in user.liked_projects.all %} unlike_btn {% endif %}" id="like">
+                            <i class="{% if project in user.liked_projects.all %} fa-solid heart_cheked {% else %} fa-regular {% endif %} fa-heart " id="like_i"></i>
                             <p id="like_text">
-                                {% if project in user.profile.liked_projects.all %}
+                                {% if project in user.liked_projects.all %}
                                     Убрать из понравившихся
                                 {% else %}
                                     Добавить в понравившиеся
@@ -84,7 +84,21 @@
                     </div>
                 </div>
                 <p class="date">Дата публикации: {{ project.created_date }}</p>
-                <p class="desc">{{ project.description }}</p>
+                <p class="desc">
+                    {% if project.description|length < 400 %}
+                        {{ project.description|slice:":400" }}
+                    {% else %}
+                        <span>{{ project.description|slice:":400" }}</span>
+                        <span class="troe show">...</span>
+                        <a id="showmore">Показать...</a>
+                        <span class="continue hide">{{ project.description|slice:"401:" }}</span>
+                    {% endif %}
+                </p>
+                <div class="proj_likes">
+                    <p>Понравилось: </p>
+                    <p id="count_likes">{{ project.likes.all|length }}</p>
+                    <i class="fa-solid heart_cheked fa-heart"></i>
+                </div>
             </div>
             
         </section>
@@ -196,7 +210,8 @@
                         'csrfmiddlewaretoken': '{{ csrf_token }}'
                     },
                     success: function(response) {
-                        $('#like_text').text(response.text);  // Update the page dynamically
+                        $('#like_text').text(response.text);
+                        $('#count_likes').text(response.count);  // Update the page dynamically
                         if (!$('#like').hasClass("unlike_btn")){
                             $('#like').addClass("unlike_btn");
                             $('#like_i').removeClass("heart_cheked");
@@ -263,7 +278,13 @@
                     }
                 });
             });
-        });
+
+            // Скрытие/показывание описания проекта
+            $('#showmore').click(function() {
+                $(this).parent().find('.troe').toggleClass('hide');
+                $(this).parent().find('.continue').toggleClass('active');
+            });
+        }); 
     </script>
 {% endblock %}
 

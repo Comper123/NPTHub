@@ -12,21 +12,13 @@ AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
 class Comment(models.Model):
     """Модель комментария"""
     autor = models.ForeignKey(User, on_delete=models.PROTECT, related_name="comments")
-    text = models.TextField("Комментарии")
+    text = models.TextField("Комментарии", max_length=2000)
     data = models.DateField(default=localdate)
     liked_users = models.ManyToManyField(User, blank=True)
     
     class Meta:
         verbose_name = 'комментарий'
         verbose_name_plural = 'Комментарии'
-
-
-class Like(models.Model):
-    """Модель лайка проекта"""
-    autor = models.ForeignKey(User, on_delete=models.PROTECT, related_name="likes")
-    class Meta:
-        verbose_name = 'лайк'
-        verbose_name_plural = 'Лайки'
 
 
 class UploadedFile(models.Model):
@@ -52,7 +44,7 @@ class Project(models.Model):
     description = models.TextField("Описание проекта", blank=True)
     comments = models.ManyToManyField(Comment, related_name='project', blank=True)
     collaborators = models.ManyToManyField(User, related_name='collaborators', blank=True)
-    likes = models.ManyToManyField(Like, related_name='projects', blank=True)
+    likes = models.ManyToManyField(User, blank=True, related_name="liked_projects")
     files = models.ManyToManyField(UploadedFile, blank=True)
     # Имя для пути к файлу
     # slug = models.SlugField(unique=True, default=slugify(name))
@@ -85,7 +77,7 @@ class Profile(models.Model):
     organization = models.CharField("Организация", max_length=100,
                                      default="Самозанятый")
     followers = models.ManyToManyField(User, related_name='following')
-    liked_projects = models.ManyToManyField(Project, related_name="likedprojects")
+    # liked_projects = models.ManyToManyField(Project, related_name="likedprojects")
 
     def __str__(self):
         return self.user.username

@@ -1,10 +1,11 @@
-h2, p, a{
+h2, p, a, img{
   margin: 0;
   padding: 0;
 }
 .project_nav{
   display: flex;
   margin: 20px auto;
+  border-radius: 10px 0 0 10px;
   a{
     text-decoration: none;
     color: black;
@@ -12,13 +13,29 @@ h2, p, a{
     font-weight: 600;
     padding: 6px 30px;
     border-bottom: 3px solid #B585D7;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    &:nth-child(1),
+    &:nth-child(2),
+    &:nth-child(3){
+      border: 3px solid var(--fiol);
+    }
+    &:nth-child(3){
+      border-radius: 0 10px 0 0;
+      border-left: 0px;
+    }
+    &:first-child{
+      border-radius: 10px 0 0 0;
+      border-right: none;
+    }
   }
   .current_nav{
     background-color: #B585D7;
     color: white;
     font-weight: 500;
     border-bottom: none;
-	  border-radius: 10px 10px 0 0;
+	  /* border-radius: 10px 0px 0 0px; */
   }
   .last_nav{
 	  width: 100%;
@@ -105,7 +122,18 @@ main{
       color: #B585D7;
       margin-bottom: 5px;
     }
-    
+    .desc{
+      
+      .troe{
+        margin: 0 5px;
+      }
+      .hide{
+        display: none;
+      }
+      .show{
+        display: flex;
+      }
+    }
     .name{
       font-size: 28px;
       font-weight: 600;
@@ -116,6 +144,19 @@ main{
       display: flex;
       justify-content: space-between;
       width: 100%;
+    }
+    .proj_likes{
+      display: flex;
+      justify-self: flex-end;
+      height: 26px;
+      font-size: 20px;
+      align-items: center;
+      color: var(--fiol);
+      gap: 10px;
+      font-weight: 600;
+      .heart_cheked{
+        color: red;
+      }
     }
   }
   .project_buttons{
@@ -255,6 +296,7 @@ main{
         text-decoration: none;
         color: black;
         justify-content: center;
+        cursor: pointer;
         .heart_checked{
           color: red;
         }
