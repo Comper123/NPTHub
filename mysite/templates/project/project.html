@@ -36,8 +36,8 @@
         <div class="project_nav">
             {% comment %} href="{% url 'project' project.autor.username project.name %}" {% endcomment %}
             <a class="current_nav project_link"><i class="fa-solid fa-images"></i> Проект</a>
-            <a href="" class="{% if project.autor == request.user %} files_link {% else %} files_end_link {% endif %}"><i class="fa-solid fa-file"></i> Файлы</a>
-            {% if project.autor == request.user %}
+            <a href="{% url 'project_files' project.autor.username project.name %}" class="{% if project.autor == request.user or user.is_superuser %} files_link {% else %} files_end_link {% endif %}"><i class="fa-solid fa-file"></i> Файлы</a>
+            {% if project.autor == request.user or user.is_superuser %}
                 <a href="{% url 'settings_proj' project.autor.username project.name %}" class="settings_link"><i class="fa-solid fa-gears"></i> Настройки</a>
             {% endif %}
             <a class="last_nav"></a>

@@ -42,6 +42,7 @@ h2{
     }
 }
 .project-foto{
+    margin-bottom: 30px;
     a{
         height: 600px;
         >article {

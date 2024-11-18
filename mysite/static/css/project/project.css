@@ -1,6 +1,10 @@
-h2, p, a, img{
+*{
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+img{
+  vertical-align: baseline ;
 }
 .project_nav{
   display: flex;

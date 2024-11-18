@@ -5,9 +5,7 @@
 {% block title %}PicHub{% endblock %}
 
 {% block head %}
-    <link rel="stylesheet" href="{% static 'css/project/project.css' %}">
-    <link rel="stylesheet" href="{% static 'css/project/project_settings.css' %}">
-    <link rel="stylesheet" href="{% static 'css/project/project_settings_edit.css' %}">
+    <link rel="stylesheet" href="{% static 'css/project/project_files.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -30,15 +28,13 @@
         </div>
     </div>
     <div class="project_nav">
+        {% comment %} href="{% url 'project' project.autor.username project.name %}" {% endcomment %}
         <a class="project_link" href="{% url 'project' project.autor.username project.name %}"><i class="fa-solid fa-images"></i> Проект</a>
-        <a href="{% url 'project_files' project.autor.username project.name %}" class="{% if project.autor == request.user or user.is_superuser %} files_link {% else %} files_end_link {% endif %}"><i class="fa-solid fa-file"></i> Файлы</a>
+        <a class="{% if project.autor == request.user or user.is_superuser %} files_link {% else %} files_end_link {% endif %} current_nav"><i class="fa-solid fa-file"></i> Файлы</a>
         {% if project.autor == request.user or user.is_superuser %}
-            <a class="current_nav settings_link"><i class="fa-solid fa-gears"></i> Настройки</a>
+            <a href="{% url 'settings_proj' project.autor.username project.name %}" class="settings_link"><i class="fa-solid fa-gears"></i> Настройки</a>
         {% endif %}
         <a class="last_nav"></a>
     </div>
-    {% block settings %}
-    
-    {% endblock %}
 </main>
 {% endblock %}

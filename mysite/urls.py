@@ -58,5 +58,9 @@ urlpatterns = [
     # Ссылка на страницу со всеми проектами
     path('main/', views.main_page, name="main"),
     # Ссылка на страницу редактирования проекта
-    path("<str:autor>/<str:projectname>/settings/", views.project_settings, name="settings_proj")
+    path("<str:autor>/<str:projectname>/settings/edit/", views.project_settings_edit, name="settings_proj"),
+    # Ссылка на страницу удаления проекта
+    path("<str:autor>/<str:projectname>/settings/delete/", views.project_settings_delete, name="settings_proj_delete"),
+    # Ссылка на страницу файлов проекта
+    path('<str:autor>/<str:projectname>/files/',views.project_files, name="project_files"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

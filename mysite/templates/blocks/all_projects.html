@@ -1,0 +1,36 @@
+{% if projects|length > 0 %}
+    <section class="project-foto" style="margin-top: 30px;">
+        {% for project in projects %}
+            <a href="{% url 'project' project.autor.username project.name %}">
+                <article>
+                    <img src="/media/{{ project.files.all.0.file }}">
+                    <article class="proj_info">
+                        <article>
+                            <p class="name">{{ project.name }}</p>
+                            <p class="description">{{ project.description|slice:":237" }}
+                                {% if project.description|length > 237 %}
+                                    ...
+                                {% endif %}
+                            </p>
+                        </article>
+                        <div class="project_bottom">
+                            <div>
+                                <div>
+                                    <i class="fa-solid fa-heart"></i>
+                                    <p>{{ project.likes.all|length }}</p>
+                                </div>
+                                <div>
+                                    <i class="fa-solid fa-comment"></i>
+                                    <p>{{ project.comments.all|length }}</p>
+                                </div>
+                            </div>
+                            <p class="date">{{ project.created_date }}</p>
+                        </div>
+                    </article>
+                </article>
+            </a>
+        {% endfor %}
+    </section>
+{% else %}
+    <h2> Ничего не найдено </h2>
+{% endif %}

@@ -6,8 +6,10 @@ from django.db import transaction
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.db import IntegrityError
-from django.http import JsonResponse, HttpResponseRedirect
-
+from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
+from django.db.models import Count
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from math import ceil
 
 from .forms import (
     RegistrationForm, 
@@ -16,7 +18,8 @@ from .forms import (
     CommentForm,
     SearchUserForm,
     ProjectSearchForm,
-    ProjectEditForm
+    ProjectEditForm,
+    ProjectFilterForm
 )
 from .models import (
     Profile, 
@@ -418,27 +421,115 @@ def search_users(request):
 
 
 # Контроллер главной страницы
+# @login_required
+# def main_page(request):
+#     projects = Project.objects.filter(is_private=False)
+#     project_search_form = ProjectSearchForm(request.POST)
+#     filter_form = ProjectFilterForm(request.POST)
+
+#     data = {
+#         'projects': projects,
+#         'search_form': project_search_form,
+#         'filter_form': filter_form,
+#         'main_title': "Все проекты PicHub"
+#     }
+
+#     # Осуществляем поиск
+#     if request.method == "POST" and project_search_form.is_valid():
+#         # ? name__contains для проверки содержания в поле подстроки где name - поле
+#         projects = Project.objects.filter(is_private=False,
+#                     name__contains=str(project_search_form.cleaned_data['name']).lower())
+#         data['projects'] = projects
+#         # project_search_form = ProjectSearchForm(request.POST)
+#         # Оформляем вывод только ответов на запрос
+#         data['search_form'] = ""
+#         data['filter_form'] = ""
+#         data['main_title'] = f"Результаты поиска проекта {project_search_form.cleaned_data['name']}"
+
+    
+#     # Осуществляем фильтрацию проектов по полю
+#     if request.method == "POST" and filter_form.is_valid():
+#         filt = filter_form.cleaned_data['filter']
+#         if filt == "-likes":
+#             # ? Фильтрация по количеству связей многие ко многим (кол-во лайков)
+#             data['projects'] = projects.filter(is_private=False).annotate(likes_count=Count('likes')).order_by('-likes_count')
+#         elif filt == "all":
+#             data['projects'] = Project.objects.filter(is_private=False)
+#         else:
+#             data['projects'] = projects.filter(is_private=False).order_by(filt)
+#         data['filter'] = [i for i in ProjectFilterForm.filters if i[0] == filt][0][1]
+#         filter_form = ProjectFilterForm(request.POST)
+#     return render(request, "main.html", data)
+
+
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
+
+# Контроллер главной страницы с пагинацией
 @login_required
 def main_page(request):
-    projects = Project.objects.filter(is_private=False)
+    projects = Project.objects.filter(is_private=False).order_by('-created_date')
+    lenght = len(projects)
     project_search_form = ProjectSearchForm(request.POST)
+    filter_form = ProjectFilterForm(request.POST)
+    # Количество прогрузок проектов
+    projects_per_page = 9
+    paginator = Paginator(projects, projects_per_page)
+    page = request.GET.get('page')
+    try:
+        projects = paginator.page(page)
+    except PageNotAnInteger:
+        projects = paginator.page(1)
+    except EmptyPage:
+        if is_ajax(request):
+            return HttpResponse('')
+        projects = paginator.page(paginator.num_pages)
+    if is_ajax(request):
+        return render(request, 'blocks/all_projects.html', {'projects': projects})
+    
     data = {
         'projects': projects,
-        'search_form': project_search_form
+        'search_form': project_search_form,
+        'filter_form': filter_form,
+        'main_title': "Все проекты PicHub",
+        'max_pages': ceil(lenght / projects_per_page)
     }
+
+    # Осуществляем поиск
     if request.method == "POST" and project_search_form.is_valid():
-        projects_list = []
-        name = str(project_search_form.cleaned_data['name']).lower()
-        for project in projects:
-            if name in project.name.lower():
-                projects_list.append(project)
-        data['projects'] = projects_list
-        project_search_form = ProjectSearchForm(request.POST)
+        # ? name__contains для проверки содержания в поле подстроки где name - поле
+        projects = Project.objects.filter(is_private=False,
+                    name__contains=str(project_search_form.cleaned_data['name']).lower())
+        data['projects'] = projects
+        # project_search_form = ProjectSearchForm(request.POST)
+        # Оформляем вывод только ответов на запрос
+        data['search_form'] = ""
+        data['filter_form'] = ""
+        data['main_title'] = f"Результаты поиска проекта {project_search_form.cleaned_data['name']}"
+
+    
+    # Осуществляем фильтрацию проектов по полю
+    # if request.method == "POST" and filter_form.is_valid():
+    #     filt = filter_form.cleaned_data['filter']
+    #     projects_res = []
+    #     for i in range(paginator.num_pages):
+    #         for obj in paginator.get_page(i).object_list():
+    #             projects_res.append(obj)
+    #     if filt == "-likes":
+    #         # ? Фильтрация по количеству связей многие ко многим (кол-во лайков)
+    #         data['projects'] = projects_res.filter(is_private=False).annotate(likes_count=Count('likes')).order_by('-likes_count')
+    #     elif filt == "all":
+    #         data['projects'] = projects_res
+    #     else:
+    #         data['projects'] = projects_res.filter(is_private=False).order_by(filt)
+    #     data['filter'] = [i for i in ProjectFilterForm.filters if i[0] == filt][0][1]
+    #     filter_form = ProjectFilterForm(request.POST)
     return render(request, "main.html", data)
 
 
 @login_required
-def project_settings(request, autor, projectname):
+def project_settings_edit(request, autor, projectname):
     autor_proj = User.objects.get(username=autor)
     project = Project.objects.get(autor=autor_proj.id, name=projectname)
     
@@ -458,4 +549,24 @@ def project_settings(request, autor, projectname):
         'project': project,
         'projectform': edit_proj
     }
-    return render(request, "project/project_settings.html", data)
+    return render(request, "project/project_settings_edit.html", data)
+
+
+@login_required
+def project_settings_delete(request, autor, projectname):
+    autor_proj = User.objects.get(username=autor)
+    project = Project.objects.get(autor=autor_proj.id, name=projectname)
+    data = {
+        'project': project,
+    }
+    return render(request, "project/project_settings_delete.html", data)
+
+
+@login_required
+def project_files(request, autor, projectname):
+    autor_proj = User.objects.get(username=autor)
+    project = Project.objects.get(autor=autor_proj.id, name=projectname)
+    data = {
+       'project': project,
+    }
+    return render(request, "project/project_files.html", data)

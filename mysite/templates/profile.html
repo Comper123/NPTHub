@@ -51,7 +51,11 @@
                                 <article class="proj_info">
                                     <article>
                                         <p class="name">{{ project.name }}</p>
-                                        <p class="description">{{ project.description|slice:":237" }}...</p>
+                                        <p class="description">{{ project.description|slice:":237" }}
+                                            {% if project.description|length > 237 %}
+                                                ...
+                                            {% endif %}
+                                        </p>
                                     </article>
                                     <div class="project_bottom">
                                         <div>
@@ -102,7 +106,11 @@
                         <article class="proj_info">
                             <article>
                                 <p class="name">{{ project.name }}</p>
-                                <p class="description">{{ project.description|slice:":237" }}...</p>
+                                <p class="description">{{ project.description|slice:":237" }}
+                                    {% if project.description|length > 237 %}
+                                        ...
+                                    {% endif %}
+                                </p>
                             </article>
                             <div class="project_bottom">
                                 <div>

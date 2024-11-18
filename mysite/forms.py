@@ -182,3 +182,15 @@ class ProjectEditForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = ('name', 'description', 'is_private',)
+
+
+class ProjectFilterForm(forms.Form):
+    """Форма фильтрации проектов на главной странице"""
+    filters = (
+        ('all', "Не выбрано"),
+        ('name', "По алфавиту (а-я)"),
+        ('-created_date', "Сначала новые"),
+        ('created_date', "Сначала старые"),
+        ('-likes', "По популярности")
+    )
+    filter = forms.ChoiceField(choices=filters)
