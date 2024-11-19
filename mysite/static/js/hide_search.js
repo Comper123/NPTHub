@@ -3,7 +3,7 @@ const form = document.querySelector(".search_form");
 var is_shown = false;
 
 btn.addEventListener('click', () => {
-    if (is_shown){
+    if (is_shown) {
         form.classList.remove("shown_form");
         btn.classList.remove("btn_show");
     } else {
@@ -11,4 +11,4 @@ btn.addEventListener('click', () => {
         btn.classList.add("btn_show");
     }
     is_shown = !is_shown;
-  });
+});

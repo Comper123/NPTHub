@@ -1,0 +1,110 @@
+.project_nav {
+    display: flex;
+    margin: 20px auto;
+    border-radius: 10px 0 0 10px;
+    width: 100%;
+
+    a {
+        text-decoration: none;
+        color: black;
+        font-size: 18px;
+        font-weight: 600;
+        padding: 6px 30px;
+        margin: 0;
+        border-bottom: 3px solid #B585D7;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .project_link,
+    .files_link,
+    .settings_link,
+    .files_end_link {
+        border: 3px solid var(--fiol);
+    }
+
+    .settings_link,
+    .files_end_link {
+        border-radius: 0 10px 0 0;
+        border-left: 0px;
+    }
+
+    .project_link {
+        border-radius: 10px 0 0 0;
+        border-right: none;
+        /* border-right-color: white; */
+    }
+
+    .current_nav {
+        background-color: #B585D7;
+        color: white;
+        font-weight: 500;
+        /* border-bottom: none; */
+        /* border-radius: 10px 0px 0 0px; */
+    }
+
+    .last_nav {
+        width: 100%;
+    }
+}
+
+.project_info {
+    display: flex;
+    margin: 10px auto;
+    height: 60px;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+
+    .projname {
+        display: flex;
+        align-items: center;
+        height: 100%;
+
+        >a {
+            margin: auto;
+            height: 100%;
+
+            img {
+                width: 50px;
+                height: 50px;
+                object-fit: cover;
+                border-radius: 50%;
+                margin: auto;
+                margin-right: 20px;
+            }
+        }
+
+
+        h2 {
+            font-size: 28px;
+            color: #B585D7;
+            font-weight: 600;
+            margin: 0;
+
+            line-height: 28px;
+        }
+
+        .project_autor {
+            margin: 0;
+            margin-right: 10px;
+
+
+        }
+
+        .project_name {
+            margin: 0;
+            margin-left: 10px;
+        }
+
+        .status {
+            margin: 0;
+            border: 2px solid rgb(180, 180, 180);
+            color: rgb(180, 180, 180);
+            border-radius: 15px;
+            padding: 3px 10px;
+            margin-left: 10px;
+        }
+    }
+}

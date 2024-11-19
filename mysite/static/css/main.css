@@ -1,10 +1,11 @@
-.current_nav{
+.current_nav {
     background-color: #B585D7;
     color: white;
     font-weight: 500;
     border-bottom: none;
     /* border-radius: 10px 10px 0 0; */
 }
+
 /* a{
     text-decoration: none;
     color: black;
@@ -14,31 +15,35 @@
     padding: 6px 30px;
     /* border-bottom: 3px solid #B585D7; */
 /* } */
-.last_nav{
+.last_nav {
     width: 100%;
 }
-main{
+
+main {
     width: var(--width);
 }
 
-.filter_form{
+.filter_form {
     width: 75%;
     margin: 0px auto 0px auto;
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
-    select{
+
+    select {
         /* width: 300px; */
         padding-left: 15px;
         padding-right: 15px;
         border-radius: 12px;
 
         outline: none;
-        &:focus{
+
+        &:focus {
             outline: none;
         }
     }
-    input[type="submit"]{
+
+    input[type="submit"] {
         background-color: var(--fiol);
         font-size: 16px;
         padding: 3px 20px;
@@ -49,10 +54,11 @@ main{
     }
 }
 
-.filter_div{
+.filter_div {
     width: 75%;
     margin: 0px auto 20px auto;
-    .select_filter{
+
+    .select_filter {
         border: var(--fiol) 1px solid;
         border-radius: 12px;
         padding: 2px 20px;
@@ -63,7 +69,7 @@ main{
     }
 }
 
-.reset_search{
+.reset_search {
     border: var(--fiol) 1px solid;
     border-radius: 12px;
     padding: 4px 20px;
@@ -73,31 +79,36 @@ main{
     cursor: pointer;
     transition: .7s;
     text-decoration: none;
-    &:hover{
+
+    &:hover {
         transition: .7s;
         background-color: var(--fiol);
         color: white;
     }
 }
-.search_block{
+
+.search_block {
     display: flex;
     width: 75%;
     margin: 0 auto;
     height: 60px;
     margin-bottom: 10px;
     align-items: center;
-    .zag{
+
+    .zag {
         color: var(--fiol);
         font-size: 30px;
         margin: auto 0;
         margin-right: 20px;
     }
-    .hidden_search{
+
+    .hidden_search {
         height: 100%;
         display: flex;
         gap: 10px;
         overflow: hidden;
-        .show_search{
+
+        .show_search {
             height: 45px;
             width: 45px;
             text-decoration: none;
@@ -106,47 +117,56 @@ main{
             justify-content: center;
             margin: auto;
             border-radius: 10px;
-            transition: 2s;
+            transition: 1s;
             background-color: var(--fiol);
-            i{
+
+            i {
                 color: white;
             }
-            &:focus{
+
+            &:focus {
                 outline: none;
             }
         }
-        .btn_show{
+
+        .btn_show {
             border: 3px solid var(--fiol);
             background-color: white;
-            transition: 2s;
-            i{
+            /* transition: 1s; */
+
+            i {
                 color: var(--fiol);
             }
         }
-        .search_form{
+
+        .search_form {
             width: 500px;
             transform: translateX(-560px);
-            transition: 2s;
+            transition: 1s;
             /* margin: 10px auto 20px auto; */
             margin: auto;
             display: flex;
             gap: 0;
-            input{
+
+            input {
                 margin: 0;
                 border: 3px solid var(--fiol);
                 height: 45px;
-                &:focus{
+
+                &:focus {
                     outline: none;
                 }
             }
-            input[type="text"]{
+
+            input[type="text"] {
                 border-radius: 10px 0 0 10px;
                 border-right: none;
                 width: 500px;
                 padding-left: 20px;
-        
+
             }
-            input[type="submit"]{
+
+            input[type="submit"] {
                 border-radius: 0 10px 10px 0;
                 width: 100px;
                 background-color: var(--fiol);
@@ -155,27 +175,31 @@ main{
                 color: white;
             }
         }
-        .shown_form{
+
+        .shown_form {
             transform: translateX(0);
-            transition: 2s;
+            /* transition: 1s; */
         }
     }
-    input[type="text"]{
+
+    input[type="text"] {
         margin: auto 0;
     }
 }
 
-section{
+section {
     margin-bottom: 30px;
 }
-.load_block{
+
+.load_block {
     width: 75%;
     margin: 0 auto;
     display: flex;
     justify-content: center;
     margin-top: -50px;
     margin-bottom: 100px;
-    a{
+
+    a {
         background-color: var(--fiol);
         color: white;
         cursor: pointer;

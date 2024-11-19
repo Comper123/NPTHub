@@ -24,9 +24,11 @@ body{
     top: 0;
     left: 0;
     width: 100%;
-    margin-top: 100px;
-    /* min-height: 60vh; */
-    /* height: 100%; */
+    padding-top: 100px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     z-index: 100;
     opacity: 1;
     transition: 1s;
@@ -212,7 +214,6 @@ footer{
     margin-top: 100px;
     width: var(--width);
     margin: 0 auto;
-
 }
 .message_love,
 .computer{
