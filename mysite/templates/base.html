@@ -16,6 +16,8 @@
     <script src="https://kit.fontawesome.com/920a23c733.js" crossorigin="anonymous"></script>
     {% block head %}{% endblock %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+    <!-- Подключаем ajax -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
   <body>
     <section class="navigation">
@@ -76,6 +78,15 @@
       </a>
       <hr class="nav_sep">
     </section>
+    <div class="profile_info">
+      <h4>Уведомления:</h2>
+        <div class="all_notifications">
+          {% for notif in user.profile.notifications.all reversed %}
+            {% include "blocks/notification.html" %}
+          {% endfor %}
+        </div>
+        <a id="check_notification_btn">Прочитать все</a>
+    </div>
     <section class="main" id="main">
       <header>
         <nav>
@@ -87,7 +98,12 @@
             <a href="{% url 'main' %}"><h3 class='title'>PicHub</h3></a>
           </div>
           <div class="right">
-            <a href="{% url 'profile' user.username %}" class="center-link">
+            <a class="center-link" id="prof">
+              {% if not user.profile.is_check_notification %}
+              <div class="image_notification image_check">
+
+              </div>
+              {% endif %}
               <img class="header_img" src="/media/{{ user.profile.photo }}">
             </a>
             {% comment %} <p>{{ user.username }}</p> {% endcomment %}
@@ -103,10 +119,40 @@
         <img src="{% static "img/site_img/base/computer.png" %}" class="computer">
       </footer>
     </section>
+    <script>
+      // Отправка запросов на обновление уведомлений
+      // updateNotification = function () {
+      //   // $.get('/get_notifications/{{ user.username }}/', function (data) {
+            
+      //   // });
+      //   console.log("kjj");
+      // };
+      // setInterval(5, updateNotification());
+
+      $(document).ready(function() {
+        // Обработка прочтения уведомлений на странице
+        $('#check_notification_btn').on("click", function(event){
+          event.preventDefault();
+          $.ajax({
+              url: "/check_notifications/",
+              type: "POST",
+              data: {
+                  'csrfmiddlewaretoken': '{{ csrf_token }}'
+              },
+              success: function(response) {
+                $(".profile_info .check_lamp").removeClass("lamp");
+                $("#prof .image_check").removeClass("image_notification");
+              }
+          });
+        });
+      });
+    </script>
   </body>
 
   <!-- Подключаем скрипт всплывающего меню -->
   <script src="{% static 'js/train.js' %}"></script>
+  <!-- Подключаем скрипт всплывающего меню профиля -->
+  <script src="{% static 'js/profile_menu.js' %}"></script>
   <!-- Подключаем скрипт задателя высоты для footer -->
   <!-- <script src="{% static 'js/changefooterheight.js' %}"></script> -->
 </html>

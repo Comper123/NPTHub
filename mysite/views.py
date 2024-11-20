@@ -25,7 +25,8 @@ from .models import (
     Profile, 
     Project, 
     UploadedFile,
-    Comment
+    Comment,
+    Notification
 )
 
 
@@ -127,6 +128,23 @@ def follow(request, username):
     user = User.objects.get(username=username)
     profile = Profile.objects.get(user=user)
     profile.followers.add(request.user)
+    # & Создаем уведомление если такого еще нет
+    try:
+        notification = Notification.objects.get(autor=request.user, type=2, obj_id=user.id) # type 0 соответсвует типу лайка проекта
+    except:
+        # Создаем уведомление
+        notification = Notification.objects.create()
+        notification.text = "подписался на вас"
+        notification.type = 2
+        notification.autor = request.user
+        notification.obj_id = user.id
+        notification.obj_title = ""
+        notification.save()
+        # Добавляем уведомление в профиль пользователя который нам нужен
+        user.profile.notifications.add(notification)
+        # Устанавливаем то, что пользователь не прочел уведомления
+        user.profile.is_check_notification = False
+        user.profile.save()
     return redirect('profile', name=username)
 
 
@@ -345,6 +363,24 @@ def project_ajax(request):
             autor_id = User.objects.get(username=autor_name)
             proj = Project.objects.get(autor=autor_id.id, name=project_name)
             proj.likes.add(request.user)
+
+            # & Создаем уведомление если такого еще нет
+            try:
+                notification = Notification.objects.get(autor=request.user, type=0, obj_id=proj.id) # type 0 соответсвует типу лайка проекта
+            except:
+                # Создаем уведомление
+                notification = Notification.objects.create()
+                notification.text = "оценил ваш проект"
+                notification.type = 0
+                notification.autor = request.user
+                notification.obj_id = proj.id
+                notification.obj_title = proj.name
+                notification.save()
+                # Добавляем уведомление в профиль пользователя который нам нужен
+                autor_id.profile.notifications.add(notification)
+                # Устанавливаем то, что пользователь не прочел уведомления
+                autor_id.user.profile.is_check_notification = False
+
             return JsonResponse({'text': 'Убрать из понравившихся',
                                  'count': len(proj.likes.all())})
         elif request.POST.get("action") == "unlike":
@@ -358,6 +394,25 @@ def project_ajax(request):
         elif request.POST.get("action") == "like_comment":
             comment = Comment.objects.get(id=int(request.POST.get("id")))
             comment.liked_users.add(request.user)
+
+            # & Создаем уведомление если такого еще нет
+            try:
+                notification = Notification.objects.get(autor=request.user, type=1, obj_id=comment.id) # type 0 соответсвует типу лайка проекта
+            except:
+                # Создаем уведомление
+                notification = Notification.objects.create()
+                notification.text = "оценил ваш комментарий"
+                notification.type = 1
+                notification.autor = request.user
+                notification.obj_id = comment.id
+                notification.obj_title = comment.text[:20] + "..."
+                notification.save()
+                # Добавляем уведомление в профиль пользователя который нам нужен
+                comment.autor.profile.notifications.add(notification)
+                # Устанавливаем то, что пользователь не прочел уведомления
+                comment.autor.profile.is_check_notification = False
+                comment.autor.profile.save()
+
             return JsonResponse({'text': f"{len(list(comment.liked_users.all()))}"})
         elif request.POST.get("action") == "unlike_comment":
             comment = Comment.objects.get(id=int(request.POST.get("id")))
@@ -373,6 +428,26 @@ def delete_review(request):
         proj_id = request.POST.get("proj")
         com = Comment.objects.get(id=com_id)
         proj = Project.objects.get(id=proj_id)
+        # & Создаем уведомление если такого еще нет
+        try:
+            notification = Notification.objects.get(autor=request.user, type=3, obj_id=com.id) # type 0 соответсвует типу лайка проекта
+        except:
+            # Создаем уведомление
+            notification = Notification.objects.create()
+            if request.user == com.autor:
+                notification.text = "вы удалили комментарий: " + com.text[:30] + "..."
+            else:
+                notification.text = "Ваш комментарий был удален администратором: " + com.text[:30] + "..."
+            notification.type = 3
+            notification.autor = request.user
+            notification.obj_id = com.id
+            notification.obj_title = ""
+            notification.save()
+            # Добавляем уведомление в профиль пользователя который нам нужен
+            com.autor.profile.notifications.add(notification)
+            # Устанавливаем то, что пользователь не прочел уведомления
+            com.autor.profile.is_check_notification = False
+            com.autor.profile.save()
         proj.comments.remove(com)
         com.delete()
         return JsonResponse({'text': "Комментарий удален"})
@@ -570,3 +645,14 @@ def project_files(request, autor, projectname):
        'project': project,
     }
     return render(request, "project/project_files.html", data)
+
+
+@login_required
+def check_notifications(request):
+    if request.method == "POST":
+        request.user.profile.is_check_notification = True
+        request.user.profile.save()
+        for notif in request.user.profile.notifications.all():
+            notif.is_check = True
+            notif.save()
+        return JsonResponse({'text': "Уведомления прочитаны"})

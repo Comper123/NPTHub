@@ -9,6 +9,27 @@ from django.utils.timezone import localdate
 AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
 
 
+class Notification(models.Model):
+    """Модель уведомления"""
+    TYPES = (
+        (0, "like_project"),
+        (1, "like_comment"),
+        (2, "follow"),
+        (3, "delete_comment")
+    )
+    text = models.CharField("Текст уведомления", max_length=200)
+    type = models.CharField("Тип уведомления", choices=TYPES, max_length=30, default=0)
+    date = models.DateTimeField("Время", auto_now_add=True)
+    autor = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
+    obj_id = models.IntegerField("id обьекта уведомления", null=False, default=0)
+    obj_title = models.CharField("Имя обьекта уведомления", max_length=100, default="")
+    is_check = models.BooleanField("Просмотрено", default=False)
+
+    class Meta:
+        verbose_name = 'уведомление'
+        verbose_name_plural = 'Уведомления'
+
+
 class Comment(models.Model):
     """Модель комментария"""
     autor = models.ForeignKey(User, on_delete=models.PROTECT, related_name="comments")
@@ -77,6 +98,9 @@ class Profile(models.Model):
     organization = models.CharField("Организация", max_length=100,
                                      default="Самозанятый")
     followers = models.ManyToManyField(User, related_name='following')
+    notifications = models.ManyToManyField(Notification)
+    is_check_notification = models.BooleanField("Чтение комментариев", default=True)
+    
     # liked_projects = models.ManyToManyField(Project, related_name="likedprojects")
 
     def __str__(self):

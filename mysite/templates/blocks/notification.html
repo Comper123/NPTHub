@@ -1,0 +1,19 @@
+<div class="notification">
+    <div class="not_header">
+        <div class="lamp_block">
+            {% if not notif.is_check %}
+            <div class="lamp check_lamp"></div>
+            {% endif %}
+        </div>
+        <div class="not_block">
+            <p class="time">{{ notif.date }}</p>
+        </div>
+    </div>
+    <div class="not_main">
+        <p class="not_text">Пользователь 
+            <span class="fiol_text">{{ notif.autor.username }}</span>
+            {{ notif.text }}
+            <span class="fiol_text">{{ notif.obj_title}}</span>
+        </p>
+    </div>
+</div>
