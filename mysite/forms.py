@@ -194,3 +194,16 @@ class ProjectFilterForm(forms.Form):
         ('-likes', "По популярности")
     )
     filter = forms.ChoiceField(choices=filters)
+
+
+class ConfirmProjectDelete(forms.Form):
+    """Форма подтверждения удаления проекта"""
+    projectname = forms.CharField()
+
+    def __init__(self, right_name, *args, **kwargs):
+        self.right_name = right_name
+        super(ConfirmProjectDelete, self).__init__(*args, **kwargs)
+    
+    def clean(self):
+        if self.cleaned_data['projectname'] != self.right_name:
+            raise forms.ValidationError("Введенный текст не совпадает с именем проекта!")

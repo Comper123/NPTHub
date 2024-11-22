@@ -9,6 +9,7 @@
     --width: 1800px;
     --fiol: #B585D7;
     --pink: #E35B98;
+    --lgrey: ​#afafaf;
 }
 /* Анимация мигающего огонька */
 @keyframes glowing {
@@ -251,7 +252,15 @@ footer{
     text-align: center;
     color: red;
 }
-
+.wrong_text{
+    width: 100%;
+    border-radius: 10px;
+    padding: 15px;
+    color:  rgba(153, 15, 15, 0.836);
+    background-color:rgba(255, 0, 0, 0.212) ;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
 /* Всплывающее меню профиля */
 .profile_info{
     width: 400px;

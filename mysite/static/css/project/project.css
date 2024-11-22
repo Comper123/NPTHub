@@ -53,6 +53,8 @@ main {
     }
 
     .desc {
+      /* Растягивает текст по ширине */
+      text-align: justify;
       a {
         color: blue;
         line-height: 18px;
@@ -65,7 +67,6 @@ main {
           padding-bottom: 5px;
         }
       }
-
       .troe {
         margin: 0 5px;
       }

@@ -19,7 +19,8 @@ from .forms import (
     SearchUserForm,
     ProjectSearchForm,
     ProjectEditForm,
-    ProjectFilterForm
+    ProjectFilterForm,
+    ConfirmProjectDelete
 )
 from .models import (
     Profile, 
@@ -187,9 +188,7 @@ def followers(request):
 
 # Страница создания проекта
 @login_required
-def create_project(request):
-    data = {}
-    form = ProjectForm(request.user)
+def create_project(request):    
     if request.method == "POST":
         form = ProjectForm(request.user, request.POST, request.FILES)
         if form.is_valid() and form.cleaned_data['name'].strip():
@@ -209,11 +208,16 @@ def create_project(request):
             for file in files:
                 f = UploadedFile.objects.create(file=file)
                 project.files.add(f)
+            project.save()
             return redirect(f'/{request.user.username}')
         else:
-            form = ProjectForm(request.user,  request.POST, request.FILES)
-
-    data['projectform'] = form
+            form = ProjectForm(request.user, request.POST, request.FILES)
+    else:
+        form = ProjectForm(request.user)
+        
+    data = {
+        'projectform': form
+    }
     return render(request, "project/create_project.html", data)
 
 
@@ -627,12 +631,26 @@ def project_settings_edit(request, autor, projectname):
     return render(request, "project/project_settings_edit.html", data)
 
 
+# Контроллер страница настроек (удаление проекта)
 @login_required
 def project_settings_delete(request, autor, projectname):
     autor_proj = User.objects.get(username=autor)
     project = Project.objects.get(autor=autor_proj.id, name=projectname)
+    form = ConfirmProjectDelete(project.name)
+    if request.method == "POST":
+        form = ConfirmProjectDelete(project.name, request.POST)
+        if form.is_valid():
+            # Удаляем все объекты фотографий проекта
+            for file in project.files.all():
+                file.delete()
+            # Удаляем проект
+            project.delete()
+            # Переносим пользователя на страницу его профиля
+            return redirect(f"/{request.user.username}")
+    
     data = {
         'project': project,
+        'confirm_form': form,
     }
     return render(request, "project/project_settings_delete.html", data)
 
@@ -647,6 +665,7 @@ def project_files(request, autor, projectname):
     return render(request, "project/project_files.html", data)
 
 
+# Контроллер прочтения уведомлений
 @login_required
 def check_notifications(request):
     if request.method == "POST":

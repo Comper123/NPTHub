@@ -1,0 +1,89 @@
+.settings_body{
+    display: flex;
+    flex-direction: column;
+    
+    .del_btn{
+        padding: 4px 50px;
+        margin-top: 20px;
+        color: white;
+        font-weight: 500;
+        border-radius: 12px;
+        background-color: var(--fiol);
+        cursor: pointer;
+        align-self: flex-end;
+    }
+}
+.confirm_delete_block{
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    width: 500px;
+    /* height: 300px; */
+    border-radius: 20px;
+    background-color: white;
+    box-shadow: 20px 20px 75px 2px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px;
+    text-align: justify;
+    .close_confirm{
+        position: absolute;
+        right: 10px;
+        top: 8px;
+        &:hover{
+            i{
+                transition: .6s;
+                color: black;
+            }
+        }
+        i{
+            color: rgb(175, 175, 175);
+            transition: .6s;
+            font-size: 30px;
+        }
+    }
+    h3{
+        font-weight: 500;
+        font-size: 18px;
+        span{
+            color: var(--fiol);
+            font-weight: 800;
+        }
+    }
+    .wrong_text{
+        padding: 10px;
+        margin-top: 10px;
+        margin-bottom: 0;
+    }
+    form{
+        display: flex;
+        flex-direction: column;
+        input[type="text"]{
+            margin-top: 20px;
+            height: 50px;
+            border-radius: 5px;
+            border: 1px solid rgb(175, 175, 175);
+            padding-left: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            color: rgb(175, 175, 175);
+            &:focus{
+                outline: none;
+            }
+        }
+        input[type="submit"]{
+            width: 150px;
+            background-color: var(--fiol);
+            font-weight: 500;
+            font-size: 18px;
+            margin-top: 20px;
+            align-self: flex-end;
+        }
+    }
+}
+
+.confirm_activ{
+    display: flex;
+}

@@ -2,6 +2,33 @@
 
 {% load static %}
 
+{% block modals_window %}
+    <div class="confirm_delete_block" id="confirm_block">
+        <a class="close_confirm" id="close_confirm_btn"><i class="fa-solid fa-xmark"></i></a>
+        <h3>Вы точно хотите удалить проект <span class="projname">{{ project.name }}</span>? Для удаления проекта впишите в поле <span class="projname">"{{ project.name }}"</span></h3>
+        {% if confirm_form.non_field_errors %}
+            {% for error in confirm_form.non_field_errors %}
+                <p class="wrong_text">{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ confirm_form.projectname }}
+            <input type="submit" value="Удалить">
+        </form>
+    </div>
+    <style>
+        {% if confirm_form.non_field_errors %}
+        .main{
+            opacity: 0.4;
+        }
+        .confirm_delete_block{
+            display: flex;
+        }
+        {% endif %}
+    </style>
+{% endblock %}
+
 {% block settings %}
     <div class="settings_block">
         <div class="settings_nav">
@@ -17,6 +44,9 @@
         </div>
         <div class="settings_body">
             <h3>Удаление проекта:</h3>
+            <p class="wrong_text">Удалив проект, вы не сможете его восстановить!</p>
+            <a id="delete_project_btn" class="del_btn">Удалить</a>
         </div>
     </div>
+    <script src="{% static 'js/confirm_delete_show.js' %}"></script>
 {% endblock %}
