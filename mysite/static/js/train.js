@@ -1,6 +1,6 @@
 const but = document.getElementById("but");
 const close_btn = document.getElementById("close_btn");
-const main = document.querySelector(".main");
+var main = document.getElementById("main");
 const navigation = document.querySelector(".navigation");
 
 

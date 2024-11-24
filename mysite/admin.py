@@ -3,7 +3,8 @@ from mysite.models import (
     Profile, 
     Project, 
     UploadedFile,
-    Comment
+    Comment,
+    Notification
 )
 
 
@@ -25,4 +26,8 @@ class UploadedFileAdmin(admin.ModelAdmin):
 @admin.register(Comment)
 class CommentsAdmin(admin.ModelAdmin):
     list_display = ['autor', 'text']
-    
+
+
+@admin.register(Notification)
+class NotificationsAdmin(admin.ModelAdmin):
+    list_display = ['text', 'autor', 'type', 'date', 'is_check']

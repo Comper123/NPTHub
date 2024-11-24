@@ -17,6 +17,7 @@
     50% {background-color: #49e819; box-shadow: 0 0 20px #49e819;}
     100% {background-color: #2ba805; box-shadow: 0 0 5px #2ba805;}
 }
+
 /** Body-style */
 body{
     min-height: 100vh;
@@ -269,9 +270,9 @@ footer{
     top: 70px;
     right: 0;
     padding-bottom: 20px;
-    max-height: 400px;
+    max-height: 420px;
     background-color: white;
-    transform: translateY(-470px);
+    transform: translateY(-490px);
     h4{
         color: var(--fiol);
         font-size: 18px;
@@ -285,6 +286,7 @@ footer{
         padding: 0 20px;
         display: flex;
         flex-direction: column;
+        margin-bottom: 20px;
 
         .notification{
             display: flex;
@@ -337,6 +339,7 @@ footer{
         padding: 3px 15px;
         margin-left: 30px;
         cursor: pointer;
+        margin-bottom: 20px;
     }
 }
 .profile_info_show{

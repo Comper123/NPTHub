@@ -65,4 +65,6 @@ urlpatterns = [
     path('<str:autor>/<str:projectname>/files/',views.project_files, name="project_files"),
     # Обработка прочтения всех уведомлений пользователя
     path('check_notifications/', views.check_notifications),
+    # Ссылка на достижения
+    # path ("achievements", views.achievements, name="achievements")
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

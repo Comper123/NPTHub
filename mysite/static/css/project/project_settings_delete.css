@@ -4,13 +4,13 @@
     
     .del_btn{
         padding: 4px 50px;
-        margin-top: 20px;
         color: white;
         font-weight: 500;
         border-radius: 12px;
         background-color: var(--fiol);
         cursor: pointer;
-        align-self: flex-end;
+        width: 150px;
+        text-align: center;
     }
 }
 .confirm_delete_block{

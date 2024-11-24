@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
-from django.utils.timezone import localdate
+from django.utils.timezone import localdate, now
 
 
 AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
@@ -19,7 +19,7 @@ class Notification(models.Model):
     )
     text = models.CharField("Текст уведомления", max_length=200)
     type = models.CharField("Тип уведомления", choices=TYPES, max_length=30, default=0)
-    date = models.DateTimeField("Время", auto_now_add=True)
+    date = models.DateTimeField("Время", default=now)
     autor = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
     obj_id = models.IntegerField("id обьекта уведомления", null=False, default=0)
     obj_title = models.CharField("Имя обьекта уведомления", max_length=100, default="")
@@ -45,7 +45,7 @@ class Comment(models.Model):
 class UploadedFile(models.Model):
     """Модель загружаемого файла"""
     file = models.ImageField(upload_to='usersprojects/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+    uploaded_at = models.DateTimeField(default=now)
 
     def __str__(self):
         return f"file_{self.id}"
@@ -93,7 +93,6 @@ class Profile(models.Model):
     register_date = models.DateField(default=localdate)
     photo = models.ImageField("Фото профиля", null=True, blank=True, upload_to="usersphotos/", 
                               default='usersphotos/default.png')
-                                    
     age = models.IntegerField("Возраст", default=18)
     organization = models.CharField("Организация", max_length=100,
                                      default="Самозанятый")

@@ -4,7 +4,7 @@ const close_confirm_btn = document.getElementById("close_confirm_btn");
 const main = document.querySelector(".main");
 
 del_btn.addEventListener('click', () => {
-    main.style.opacity = "0.4";
+    main.style.opacity = "0.3";
     confirm_block.style.display = "flex";
 });
 

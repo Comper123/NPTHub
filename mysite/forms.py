@@ -5,7 +5,7 @@ from .models import Profile, Project, Comment
 
 def haveBlockHaracters(string: str):
     """Метод проверяющий на запретные символы в поле"""
-    block_haracters = ['/', '|', '!', '<', '>']
+    block_haracters = ['/', '|', '!', '<', '>', ' ', '"', "'", '@']
     for c in block_haracters:
         if c in string:
             return True
@@ -98,7 +98,7 @@ class ProjectForm(forms.ModelForm):
         if current_name in names:
             raise forms.ValidationError("Вы уже использовали данное имя проекта")
         if haveBlockHaracters(current_name):
-            raise forms.ValidationError("В названии проекта нельзя использовать смиволы (/, |, <, >, !)")
+            raise forms.ValidationError("В названии проекта нельзя использовать смиволы (/, |, <, >, !, ', \", ' ', @)")
        
         
     class Meta:
@@ -177,7 +177,7 @@ class ProjectEditForm(forms.ModelForm):
         if (current_name in names) and current_name != self.lastname:
             raise forms.ValidationError("Вы уже использовали данное имя проекта")
         if haveBlockHaracters(current_name):
-            raise forms.ValidationError("В названии проекта нельзя использовать смиволы (/, |, <, >, !)")
+            raise forms.ValidationError("В названии проекта нельзя использовать смиволы (/, |, <, >, !, ', \", ' ', @)")
     
     class Meta:
         model = Project

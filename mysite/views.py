@@ -369,21 +369,17 @@ def project_ajax(request):
             proj.likes.add(request.user)
 
             # & Создаем уведомление если такого еще нет
-            try:
-                notification = Notification.objects.get(autor=request.user, type=0, obj_id=proj.id) # type 0 соответсвует типу лайка проекта
-            except:
+            notification = Notification.objects.get_or_create(autor=request.user, type=0, obj_id=proj.id)[0] # type 0 соответсвует типу лайка проекта
+            if not notification.text:
                 # Создаем уведомление
-                notification = Notification.objects.create()
                 notification.text = "оценил ваш проект"
-                notification.type = 0
-                notification.autor = request.user
-                notification.obj_id = proj.id
                 notification.obj_title = proj.name
                 notification.save()
                 # Добавляем уведомление в профиль пользователя который нам нужен
                 autor_id.profile.notifications.add(notification)
                 # Устанавливаем то, что пользователь не прочел уведомления
-                autor_id.user.profile.is_check_notification = False
+                autor_id.profile.is_check_notification = False
+                autor_id.profile.save()
 
             return JsonResponse({'text': 'Убрать из понравившихся',
                                  'count': len(proj.likes.all())})
@@ -400,22 +396,16 @@ def project_ajax(request):
             comment.liked_users.add(request.user)
 
             # & Создаем уведомление если такого еще нет
-            try:
-                notification = Notification.objects.get(autor=request.user, type=1, obj_id=comment.id) # type 0 соответсвует типу лайка проекта
-            except:
-                # Создаем уведомление
-                notification = Notification.objects.create()
-                notification.text = "оценил ваш комментарий"
-                notification.type = 1
-                notification.autor = request.user
-                notification.obj_id = comment.id
-                notification.obj_title = comment.text[:20] + "..."
-                notification.save()
-                # Добавляем уведомление в профиль пользователя который нам нужен
-                comment.autor.profile.notifications.add(notification)
-                # Устанавливаем то, что пользователь не прочел уведомления
-                comment.autor.profile.is_check_notification = False
-                comment.autor.profile.save()
+            notification = Notification.objects.get_or_create(autor=request.user, type=1, obj_id=comment.id) # type 0 соответсвует типу лайка проекта
+            # Создаем уведомление
+            notification.text = "оценил ваш комментарий"
+            notification.obj_title = comment.text[:20] + "..."
+            notification.save()
+            # Добавляем уведомление в профиль пользователя который нам нужен
+            comment.autor.profile.notifications.add(notification)
+            # Устанавливаем то, что пользователь не прочел уведомления
+            comment.autor.profile.is_check_notification = False
+            comment.autor.profile.save()
 
             return JsonResponse({'text': f"{len(list(comment.liked_users.all()))}"})
         elif request.POST.get("action") == "unlike_comment":

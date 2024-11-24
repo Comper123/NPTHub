@@ -21,7 +21,7 @@
     </section>
     {% if projectform.non_field_errors %}
         {% for error in projectform.non_field_errors %}
-            <p class="error_name">{{ error }}</p>
+            <p class="wrong_text">{{ error }}</p>
         {% endfor %}
     {% endif %}
     <form action="" method="POST" enctype="multipart/form-data">
@@ -34,9 +34,7 @@
                         <p>{{ user.username }}</p>
                     </div>
                 </div>
-
                 <h3>/</h3>
-
                 <div>
                     <p>Название проекта</p>
                     <div class="fon-input">
