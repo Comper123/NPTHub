@@ -82,6 +82,8 @@ h2{
                 flex-direction: column;
                 justify-content: space-between;
                 padding: 30px;
+                text-align: justify;
+
                 .name{
                     font-size: 28px;
                     font-weight: 600;

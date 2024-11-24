@@ -95,10 +95,13 @@ class ProjectForm(forms.ModelForm):
         data = super().clean()
         current_name = data.get('name')
         names = [proj.name for proj in Project.objects.filter(autor=self.user)]
+        if len(current_name) < 5:
+            raise forms.ValidationError("Слишком короткое имя проекта!")
         if current_name in names:
             raise forms.ValidationError("Вы уже использовали данное имя проекта")
         if haveBlockHaracters(current_name):
             raise forms.ValidationError("В названии проекта нельзя использовать смиволы (/, |, <, >, !, ', \", ' ', @)")
+        
        
         
     class Meta:
@@ -174,6 +177,8 @@ class ProjectEditForm(forms.ModelForm):
         data = super().clean()
         current_name = data.get('name')
         names = [proj.name for proj in Project.objects.filter(autor=self.user)]
+        if len(current_name) < 5:
+            raise forms.ValidationError("Слишком короткое имя проекта!")
         if (current_name in names) and current_name != self.lastname:
             raise forms.ValidationError("Вы уже использовали данное имя проекта")
         if haveBlockHaracters(current_name):

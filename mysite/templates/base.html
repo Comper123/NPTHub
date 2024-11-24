@@ -22,7 +22,11 @@
   <body>
     <section class="navigation">
       <div class="header_of_train">
-        <img src="{% static 'img/site_img/base/logo.png' %}" alt="">
+        <a href="{% url 'profile' user.username %}">
+          <img class="" src="/media/{{ user.profile.photo }}">
+
+          <!-- <img src="{% static 'img/site_img/base/logo.png' %}" alt=""> -->
+        </a>
         <a id="close_btn"><img src="{% static 'img/site_img/base/close.png' %}" alt=""></a>
       </div>
       <hr class="nav_sep">
@@ -93,11 +97,16 @@
       <header>
         <nav>
           <div class="left">
-            {% comment %} <a href="{% url 'main' %}"><img src="{% static 'img/site_img/logo_pic.png' %}" alt=""></a> {% endcomment %}
             <a id="but">
-              <img src="{% static 'img/site_img/base/menu.png' %}" alt="">
+              <div>
+                <!-- <i class="fa-solid fa-compass"></i> -->
+                <!-- <i class="fa-solid fa-ellipsis"></i> -->
+                <i class="fa-solid fa-bars"></i>
+              </div>
+              <!-- <img src="{% static 'img/site_img/base/menu.png' %}" alt=""> -->
             </a>
-            <a href="{% url 'main' %}"><h3 class='title'>PicHub</h3></a>
+            <a href="{% url 'main' %}"><img src="{% static 'img/site_img/base/logo.png' %}" alt=""></a>
+            <a href="{% url 'profile' user.username %}"><h3 class='title'>{{ user.username }}</h3></a>
           </div>
           <div class="right">
             <a class="center-link" id="prof">
@@ -106,9 +115,10 @@
 
               </div>
               {% endif %}
-              <img class="header_img" src="/media/{{ user.profile.photo }}">
+              <div class="header_img">
+                <i class="fa-solid fa-bell"></i>
+              </div>
             </a>
-            {% comment %} <p>{{ user.username }}</p> {% endcomment %}
           </div>
         </nav>
       </header>
