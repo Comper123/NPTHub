@@ -35,7 +35,7 @@
             <a href="{% url 'settings_proj' project.autor.username project.name %}">
                 <i class="fa-solid fa-pen-to-square"></i> Изменение
             </a>
-            <a href="">
+            <a href="{% url 'settings_proj_addfiles' project.autor.username project.name %}">
                 <i class="fa-solid fa-file-circle-plus"></i> Добавление файлов
             </a>
             <a href="" class="current_settings_nav">

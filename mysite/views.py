@@ -20,7 +20,8 @@ from .forms import (
     ProjectSearchForm,
     ProjectEditForm,
     ProjectFilterForm,
-    ConfirmProjectDelete
+    ConfirmProjectDeleteForm,
+    ProjectAddFilesForm
 )
 from .models import (
     Profile, 
@@ -626,9 +627,9 @@ def project_settings_edit(request, autor, projectname):
 def project_settings_delete(request, autor, projectname):
     autor_proj = User.objects.get(username=autor)
     project = Project.objects.get(autor=autor_proj.id, name=projectname)
-    form = ConfirmProjectDelete(project.name)
+    form = ConfirmProjectDeleteForm(project.name)
     if request.method == "POST":
-        form = ConfirmProjectDelete(project.name, request.POST)
+        form = ConfirmProjectDeleteForm(project.name, request.POST)
         if form.is_valid():
             # Удаляем все объекты фотографий проекта
             for file in project.files.all():
@@ -665,3 +666,28 @@ def check_notifications(request):
             notif.is_check = True
             notif.save()
         return JsonResponse({'text': "Уведомления прочитаны"})
+
+
+# Контроллер добавления фотографий в проект
+@login_required
+def project_settings_addfiles(request, autor, projectname):
+    autor_proj = User.objects.get(username=autor)
+    project = Project.objects.get(autor=autor_proj.id, name=projectname)
+    if request.method == "POST":
+        add_files_form = ProjectAddFilesForm(request.POST)
+        if add_files_form.is_valid():
+            files = request.FILES.getlist('files')
+            for file in files:
+                f = UploadedFile.objects.create(file=file)
+                project.files.add(f)
+            project.save()
+        return redirect(f'/{project.autor.username}/{projectname}')
+
+    else:
+        add_files_form = ProjectAddFilesForm()
+
+    data = {
+        'project': project,
+        'add_files_form': add_files_form
+    }
+    return render(request, "project/project_settings_addfiles.html", data)

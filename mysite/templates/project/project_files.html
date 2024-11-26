@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="{% static 'css/project/project_files.css' %}">
     <link rel="stylesheet" href="{% static 'css/project/header_project.css' %}">
     <link rel="stylesheet" href="{% static 'css/project/project.css' %}">
-
-
+    <!-- Подключаем fancy-box -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
 {% endblock %}
 
 {% block content %}
@@ -18,7 +18,7 @@
         <div class="projname">
             <a href="{% url 'profile' project.autor.username %}">
                 <img src="/media/{{ project.autor.profile.photo }}" alt="">
-            </a>
+            </a>    
             <h2 class="project_autor">{{ project.autor.username }}</h2>
             <h2>/</h2>
             <h2 class="project_name">{{ project.name }}</h2>
@@ -40,5 +40,22 @@
         {% endif %}
         <a class="last_nav"></a>
     </div>
+    <div class="project_files_block">
+        <div class="files_header">
+            <p class="photo">Вид</p>
+            <p>Имя файла</p>
+            <p class="date">Дата добавления</p>
+        </div>
+        {% for file in project.files.all %}
+        <div class="img_block">
+            <a href="/media/{{ file.file }}" data-fancybox="gallery">
+                <img src="/media/{{ file.file }}"> 
+            </a>
+            <a href="/media/{{ file.file }}" class="filename">{{ file.file }}</a>
+            <p>{{ file.uploaded_at }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 </main>
 {% endblock %}
