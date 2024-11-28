@@ -9,6 +9,16 @@ from django.utils.timezone import localdate, now
 AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
 
 
+class Achievement(models.Model):
+    """Модель достижения"""
+    image = models.ImageField(upload_to='userachievements/')
+    uploaded_at = models.DateTimeField(default=now)
+    
+    class Meta:
+        verbose_name = "достижение"
+        verbose_name_plural = "Достижения"
+        
+
 class Notification(models.Model):
     """Модель уведомления"""
     TYPES = (
@@ -99,6 +109,7 @@ class Profile(models.Model):
     followers = models.ManyToManyField(User, related_name='following')
     notifications = models.ManyToManyField(Notification)
     is_check_notification = models.BooleanField("Чтение комментариев", default=True)
+    achievements = models.ManyToManyField(Achievement)
     
     # liked_projects = models.ManyToManyField(Project, related_name="likedprojects")
 
@@ -125,4 +136,3 @@ class Profile(models.Model):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance, name=instance.username)
-

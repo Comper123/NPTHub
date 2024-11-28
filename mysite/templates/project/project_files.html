@@ -18,15 +18,17 @@
         <div class="projname">
             <a href="{% url 'profile' project.autor.username %}">
                 <img src="/media/{{ project.autor.profile.photo }}" alt="">
-            </a>    
+            </a>
+
             <h2 class="project_autor">{{ project.autor.username }}</h2>
             <h2>/</h2>
             <h2 class="project_name">{{ project.name }}</h2>
+
             <p class="status">
                 {% if project.is_private %}
-                <i class="fa-solid fa-lock"></i> приватный 
+                    <i class="fa-solid fa-lock"></i> приватный
                 {% else %}
-                <i class="fa-solid fa-unlock"></i> публичный 
+                    <i class="fa-solid fa-unlock"></i> публичный
                 {% endif %}
             </p>
         </div>
@@ -51,7 +53,9 @@
             <a href="/media/{{ file.file }}" data-fancybox="gallery">
                 <img src="/media/{{ file.file }}"> 
             </a>
-            <a href="/media/{{ file.file }}" class="filename">{{ file.file }}</a>
+            <!-- <a href="/media/{{ file.file }}" class="filename">{{ file.file }}</a> -->
+            <a href="/media/{{ file.file }}" class="filename">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aspernatur ipsam nemo error doloribus repudiandae porro numquam, temporibus, ipsa consectetur placeat, nesciunt dolor unde deleniti eaque odit quas harum ullam iure!</a>
+            
             <p>{{ file.uploaded_at }}</p>
         </div>
         {% endfor %}

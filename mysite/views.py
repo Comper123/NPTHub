@@ -21,14 +21,16 @@ from .forms import (
     ProjectEditForm,
     ProjectFilterForm,
     ConfirmProjectDeleteForm,
-    ProjectAddFilesForm
+    ProjectAddFilesForm,
+    AddAchievementsForm
 )
 from .models import (
     Profile, 
     Project, 
     UploadedFile,
     Comment,
-    Notification
+    Notification,
+    Achievement
 )
 
 
@@ -691,3 +693,31 @@ def project_settings_addfiles(request, autor, projectname):
         'add_files_form': add_files_form
     }
     return render(request, "project/project_settings_addfiles.html", data)
+
+
+# Контроллер добавления достижений
+@login_required
+def addachievements(request):
+    profile = Profile.objects.get(user=request.user)
+    if request.method == "POST":
+        form = AddAchievementsForm(request.POST)
+        if form.is_valid():
+            # Получаем фото достижений 
+            # ! achievements так как в форме называется
+            achievs = request.FILES.getlist('achievements')
+            print(achievs)
+            # Получаем профиль
+            # Добавляем в цикле загруженные достижения
+            for a in achievs:
+                new_achiev = Achievement.objects.create(image=a)
+                profile.achievements.add(new_achiev)
+            # Сохраняем профиль пользователя с добавленными достижениями
+            profile.save()
+            return redirect(f'/{request.user.username}')
+    else:
+        form = AddAchievementsForm()
+            
+    data = {
+        'add_achievements_form': form
+    }
+    return render(request, "add_achievements.html", data)

@@ -1,6 +1,6 @@
 .settings_body{
-    display: flex;
-    flex-direction: column;
+    /* display: flex;
+    flex-direction: column; */
     
     .del_btn{
         padding: 4px 50px;
@@ -11,6 +11,10 @@
         cursor: pointer;
         width: 150px;
         text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;  
     }
 }
 .confirm_delete_block{

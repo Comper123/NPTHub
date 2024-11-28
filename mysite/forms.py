@@ -102,8 +102,6 @@ class ProjectForm(forms.ModelForm):
         if haveBlockHaracters(current_name):
             raise forms.ValidationError("В названии проекта нельзя использовать смиволы (/, |, <, >, !, ', \", ' ', @)")
         
-       
-        
     class Meta:
         model = Project
         fields = ('name', 'is_private', 'description', 'files')
@@ -212,7 +210,7 @@ class ConfirmProjectDeleteForm(forms.Form):
     def clean(self):
         if self.cleaned_data['projectname'] != self.right_name:
             raise forms.ValidationError("Введенный текст не совпадает с именем проекта!")
-        
+
 
 class ProjectAddFilesForm(forms.ModelForm):
     files = MultipleFileField()
@@ -220,3 +218,15 @@ class ProjectAddFilesForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = ('files',)
+
+
+class AddAchievementsForm(forms.ModelForm):
+    achievements = MultipleFileField()
+    
+    class Meta:
+        model = Profile
+        fields = ('achievements',)
+        widgets = {
+            'achievements': forms.FileInput()
+        }
+

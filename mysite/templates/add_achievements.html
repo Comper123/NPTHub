@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}PicHub{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/addachievements.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="add_achievements_block">
+        <h1>Добавьте достижения</h1>
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ add_achievements_form.achievements }}
+            <input type="submit" value="Добавить">
+        </form>
+        <div class="uploaded_images">
+            
+        </div>
+    </div>  
+{% endblock %}

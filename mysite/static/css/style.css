@@ -9,7 +9,7 @@
     --width: 1800px;
     --fiol: #B585D7;
     --pink: #E35B98;
-    --lgrey: ​#afafaf;
+    --lgrey: #afafaf;
 }
 /* Анимация мигающего огонька */
 @keyframes glowing {

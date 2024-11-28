@@ -50,7 +50,7 @@ main{
     overflow: hidden;
     margin-top: 20px;
     background-color:#CBA9EF;
-    color: #fff;
+    color: #fff;    
     font-weight: 700;
     font-size: 18px;
     border-radius: 10px;
@@ -87,21 +87,22 @@ body{
         }
         input{
             width: 100%;
-            border-radius: 15px;
+            border-radius: 8px;
             padding-left: 20px;
             padding-block: 15px;
-            border: none;
-            background: linear-gradient(180deg, rgba(236, 162, 195, 0.5) 0%, rgba(198, 166, 221, 0.5) 100%);
+            /* border: none; */
+            border: 1px var(--lgrey) solid;
+            /* background: linear-gradient(180deg, rgba(236, 162, 195, 0.5) 0%, rgba(198, 166, 221, 0.5) 100%); */
             color: #64636380;
             font-weight: 500;
-            box-shadow: 0px 4px 4px #00000040;
+            /* box-shadow: 0px 4px 4px #00000040; */
             &:focus{
                 outline: none;
             }
-        }
+        }       
     }
     .midle-block{
-        margin-block: 5%;
+        margin-block: 5%;   
     }
 
     button{

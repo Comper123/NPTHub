@@ -133,7 +133,7 @@ main {
 
       p {
         margin: 0;
-        line-height: ;
+        /* line-height: ; */
       }
 
       .bm_checked {
