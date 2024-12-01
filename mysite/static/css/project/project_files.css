@@ -8,3 +8,57 @@ main {
     width: 1200px;
     margin: 0 auto;
 }
+
+.project_files_block{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 100px;
+    div{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        min-height: 60px;
+        padding: 10px 0;
+        border-left: 1px #afafaf solid;
+        border-right: 1px #afafaf solid;
+        border-top: 1px #afafaf solid;
+        
+        &:first-child{
+            border-radius: 10px 10px 0 0;
+        }
+        &:last-child{
+            border-radius: 0px 0px 10px 10px;
+            border-bottom: 1px #afafaf solid;
+        }
+        .photo{
+            margin: 0 40px 0 20px;
+            width: 70px;    
+            text-align: center  ;
+        }
+        .date{
+            margin: 0 20px 0 auto;
+            width: 180px;
+            text-align: center;
+        }
+    }
+    .img_block{
+        img{
+            height: 45px;
+            width: 70px;
+            object-fit: cover;
+            margin-right: 40px;
+            margin-left: 20px;
+        }
+        .filename{
+            overflow: hidden;
+            max-width: 55%;
+        }
+        p{
+            margin: 0 20px 0 auto;
+            width: 180px;
+            text-align: center;
+        }
+    }
+}

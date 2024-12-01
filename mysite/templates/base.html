@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-    <link rel="website icon" href="{% static "img/site_img/logo_pic.png" %}">
+    <link rel="website icon" href="{% static "img/site_img/base/logo.png" %}">
     <script src="https://kit.fontawesome.com/920a23c733.js" crossorigin="anonymous"></script>
     {% block head %}{% endblock %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
@@ -47,7 +47,7 @@
       </a>
       <div class="navlink">
         <i class="fa-solid fa-right-from-bracket"></i>
-        <form action="{% url 'logout' %}" method="post">
+        <form action="{% url 'logout' %}" method="post" class="leave_form">
           {% csrf_token %}
           <button type="submit" href="{% url 'logout' %}" class="logout_btn">
             Выйти
@@ -79,6 +79,10 @@
       <a class="navlink" href="{% url 'editprofile' %}">
         <i class="fa-solid fa-user-pen"></i>
         Изменить профиль
+      </a>
+      <a class="navlink" href="{% url 'addachievements' %}">
+        <i class="fa-solid fa-star"></i>
+        Добавить достижения
       </a>
       <hr class="nav_sep">
     </section>

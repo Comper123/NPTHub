@@ -35,7 +35,7 @@
             <a href="{% url 'settings_proj' project.autor.username project.name %}">
                 <i class="fa-solid fa-pen-to-square"></i> Изменение
             </a>
-            <a href="">
+            <a href="{% url 'settings_proj_addfiles' project.autor.username project.name %}">
                 <i class="fa-solid fa-file-circle-plus"></i> Добавление файлов
             </a>
             <a href="" class="current_settings_nav">
@@ -45,7 +45,7 @@
         <div class="settings_body">
             <h3>Удаление проекта:</h3>
             <p class="wrong_text">Удалив проект, вы не сможете его восстановить!</p>
-            <a id="delete_project_btn" class="del_btn">Удалить</a>
+            <a id="delete_project_btn" class="del_btn"><i class="fa-solid fa-trash"></i> Удалить</a>
         </div>
     </div>
     <script src="{% static 'js/confirm_delete_show.js' %}"></script>

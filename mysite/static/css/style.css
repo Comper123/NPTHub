@@ -5,12 +5,14 @@
     font-family: "Jost", sans-serif;
 }
 
+/* Переменные */
 :root{
     --width: 1800px;
     --fiol: #B585D7;
     --pink: #E35B98;
-    --lgrey: ​#afafaf;
+    --lgrey: #afafaf;
 }
+
 /* Анимация мигающего огонька */
 @keyframes glowing {
     0% {background-color: #2ba805; box-shadow: 0 0 5px #2ba805;}
@@ -103,6 +105,13 @@ body{
         color: white;
         margin-right: 10px;
     }
+    .leave_form{
+        margin: 0;
+        width: 70%;
+        button{
+            text-align: left;
+        }
+    }
 }
 .nav_sep{
     width: 80%;
@@ -119,9 +128,10 @@ body{
     transform: translateX(0);
 }
 
+.none{display: none;}
+
+.block{display: block;}
 /*& Header-style */
-
-
 header{
     background: linear-gradient(90deg, rgba(255, 209, 229, 0.9) 0%, rgba(194, 163, 217, 0.9) 100%);
     width: 100%;
@@ -294,7 +304,15 @@ footer{
     margin-top: 20px;
     margin-bottom: 20px;
 }
-
+.sucsess_text{
+    width: 100%;
+    border-radius: 10px;
+    padding: 15px;
+    color:  rgb(49, 232, 80);
+    background-color:rgba(67, 255, 15, 0.39) ;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
 /* Всплывающее меню профиля */
 .profile_info{
     width: 400px;

@@ -3,13 +3,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.contrib.auth.views import LoginView
-from django.urls import reverse_lazy
-from django.db import IntegrityError
-from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
-from django.db.models import Count
+from django.http import JsonResponse, HttpResponse
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from math import ceil
+from django.core.files.storage import FileSystemStorage
 
 from .forms import (
     RegistrationForm, 
@@ -20,15 +17,19 @@ from .forms import (
     ProjectSearchForm,
     ProjectEditForm,
     ProjectFilterForm,
-    ConfirmProjectDelete
+    ConfirmProjectDeleteForm,
+    ProjectAddFilesForm,
+    AddAchievementsForm
 )
 from .models import (
     Profile, 
     Project, 
     UploadedFile,
     Comment,
-    Notification
+    Notification,
+    Achievement
 )
+from .settings import PROJECT_PAGINATOR_COUNT
 
 
 # Главная страница
@@ -43,13 +44,6 @@ def index(request):
 @login_required
 def account_redirect(request):
     return redirect('profile', name=request.user.username)
-
-
-# Преобразуем представление базового шаблона авторизации и задаем ему новый redirect
-# class MyLoginView():
-#     def get_success_url(self):
-#         url = self.get_redirect_url()
-#         return url or reverse_lazy('/profile/', kwargs={'name': self.request.user.username})
 
 
 # Страница регистрации
@@ -188,7 +182,9 @@ def followers(request):
 
 # Страница создания проекта
 @login_required
-def create_project(request):    
+def create_project(request):
+    
+    
     if request.method == "POST":
         form = ProjectForm(request.user, request.POST, request.FILES)
         if form.is_valid() and form.cleaned_data['name'].strip():
@@ -201,9 +197,11 @@ def create_project(request):
             project = Project.objects.get(id=project.id)
             # Сохраняем все изображения которые добавлены в форму
             files = request.FILES.getlist('files')
-            # print(files)
-            # print(request.FILES.getlist('files'))
             # print(request.FILES)
+            # fs = FileSystemStorage()
+            # filename = fs.save(files.name, files)
+            # file_url = fs.url(filename)
+            # return JsonResponse({'file_url': file_url})
 
             for file in files:
                 f = UploadedFile.objects.create(file=file)
@@ -214,9 +212,19 @@ def create_project(request):
             form = ProjectForm(request.user, request.POST, request.FILES)
     else:
         form = ProjectForm(request.user)
-        
+
+    # if is_ajax(request):
+    #     list = []
+    #     print(request.FILES.getlist('files'))
+    #     for file in request.FILES.getlist('files'):
+    #         f = UploadedFile.objects.create(image=file)
+    #         f.save()
+    #         list.append(f)
+
+    #  return render(request, 'blocks/photo_upload_block.html', {'files': list})
+    
     data = {
-        'projectform': form
+        'projectform': form,
     }
     return render(request, "project/create_project.html", data)
 
@@ -397,15 +405,16 @@ def project_ajax(request):
 
             # & Создаем уведомление если такого еще нет
             notification = Notification.objects.get_or_create(autor=request.user, type=1, obj_id=comment.id) # type 0 соответсвует типу лайка проекта
-            # Создаем уведомление
-            notification.text = "оценил ваш комментарий"
-            notification.obj_title = comment.text[:20] + "..."
-            notification.save()
-            # Добавляем уведомление в профиль пользователя который нам нужен
-            comment.autor.profile.notifications.add(notification)
-            # Устанавливаем то, что пользователь не прочел уведомления
-            comment.autor.profile.is_check_notification = False
-            comment.autor.profile.save()
+            if not notification:
+                # Создаем уведомление
+                notification.text = "оценил ваш комментарий"
+                notification.obj_title = comment.text[:20] + "..."
+                notification.save()
+                # Добавляем уведомление в профиль пользователя который нам нужен
+                comment.autor.profile.notifications.add(notification)
+                # Устанавливаем то, что пользователь не прочел уведомления
+                comment.autor.profile.is_check_notification = False
+                comment.autor.profile.save()
 
             return JsonResponse({'text': f"{len(list(comment.liked_users.all()))}"})
         elif request.POST.get("action") == "unlike_comment":
@@ -543,7 +552,7 @@ def main_page(request):
     project_search_form = ProjectSearchForm(request.POST)
     filter_form = ProjectFilterForm(request.POST)
     # Количество прогрузок проектов
-    projects_per_page = 9
+    projects_per_page = PROJECT_PAGINATOR_COUNT
     paginator = Paginator(projects, projects_per_page)
     page = request.GET.get('page')
     try:
@@ -626,9 +635,9 @@ def project_settings_edit(request, autor, projectname):
 def project_settings_delete(request, autor, projectname):
     autor_proj = User.objects.get(username=autor)
     project = Project.objects.get(autor=autor_proj.id, name=projectname)
-    form = ConfirmProjectDelete(project.name)
+    form = ConfirmProjectDeleteForm(project.name)
     if request.method == "POST":
-        form = ConfirmProjectDelete(project.name, request.POST)
+        form = ConfirmProjectDeleteForm(project.name, request.POST)
         if form.is_valid():
             # Удаляем все объекты фотографий проекта
             for file in project.files.all():
@@ -665,3 +674,58 @@ def check_notifications(request):
             notif.is_check = True
             notif.save()
         return JsonResponse({'text': "Уведомления прочитаны"})
+
+
+# Контроллер добавления фотографий в проект
+@login_required
+def project_settings_addfiles(request, autor, projectname):
+    autor_proj = User.objects.get(username=autor)
+    project = Project.objects.get(autor=autor_proj.id, name=projectname)
+    if request.method == "POST":
+        add_files_form = ProjectAddFilesForm(request.POST)
+        if add_files_form.is_valid():
+            files = request.FILES.getlist('files')
+            for file in files:
+                f = UploadedFile.objects.create(file=file)
+                project.files.add(f)
+            project.save()
+        return redirect(f'/{project.autor.username}/{projectname}')
+
+    else:
+        add_files_form = ProjectAddFilesForm()
+
+    data = {
+        'project': project,
+        'add_files_form': add_files_form
+    }
+    return render(request, "project/project_settings_addfiles.html", data)
+
+
+# Контроллер добавления достижений
+@login_required
+def addachievements(request):
+    profile = Profile.objects.get(user=request.user)
+    if request.method == "POST":
+        form = AddAchievementsForm(request.POST)
+        if form.is_valid():
+            # Получаем фото достижений 
+            # ! achievements так как в форме называется
+            achievs = request.FILES.getlist('achievements')
+            print(achievs)
+            # Получаем профиль
+            # Добавляем в цикле загруженные достижения
+            for a in achievs:
+                new_achiev = Achievement.objects.create(image=a)
+                profile.achievements.add(new_achiev)
+            # Сохраняем профиль пользователя с добавленными достижениями
+            profile.save()
+            return redirect(f'/{request.user.username}')
+    else:
+        form = AddAchievementsForm()
+            
+    data = {
+        'add_achievements_form': form
+    }
+    return render(request, "add_achievements.html", data)
+
+

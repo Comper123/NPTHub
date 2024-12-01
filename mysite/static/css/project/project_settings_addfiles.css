@@ -1,0 +1,30 @@
+form{
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    input[type="file"]::file-selector-button{
+        overflow: hidden;
+        height: 300px;
+        width: 100%;
+        background-color: white;
+        border-radius: 20px;
+        border: 2px black dashed;
+    }
+    input[type="submit"]{
+        background-color: var(--fiol);
+        border-radius: 8px;
+        height: 30px;
+        width: 200px;
+        border: none;
+        color: white;
+        font-size: 14px;
+        margin-left: auto;
+        margin-top: 20px;
+        font-weight: 600;
+        &:focus{
+            outline: none;
+        }
+    }
+}

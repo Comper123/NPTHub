@@ -65,6 +65,8 @@ urlpatterns = [
     path('<str:autor>/<str:projectname>/files/',views.project_files, name="project_files"),
     # Обработка прочтения всех уведомлений пользователя
     path('check_notifications/', views.check_notifications),
-    # Ссылка на достижения
-    # path ("achievements", views.achievements, name="achievements")
+    # Ссылка на страницу добавления файлов
+    path("<str:autor>/<str:projectname>/settings/addfiles/", views.project_settings_addfiles, name="settings_proj_addfiles"),
+    # Ссылка на добавление достижений
+    path('addachievements/', views.addachievements, name="addachievements"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
