@@ -18,23 +18,10 @@
 <main>
     <section class="information_with_links">
         <section class="main-information-profile">
-            <article class="about-me">
-                <img src="/media/{{ user_profile.profile.photo }}">
-                <p class="username">{{ user_profile.username }}</p>
-                <p class="followers">Подписчики: {{ followers|length }}</p>
-                {% if user.username == user_profile.username %}
-                    <a href="{% url 'editprofile' %}">Редактировать профиль</a> 
-                {% else %}
-                    {% if user in followers %}
-                        <a href="{% url 'unfollow' user_profile.username %}">Отписаться</a>
-                    {% else %}
-                        <a href="{% url 'follow' user_profile.username %}">Подписаться</a>
-                    {% endif %}
-                {% endif %}
-            </article>
+            
 
             <article class="assigned-projects">
-                {% if pin_projects|length > 0 %}
+                {% comment %} {% if pin_projects|length > 0 %}
                 <p>
                     {% if user_profile.username == user.username %}
                         Мои закрепленные проекты
@@ -43,8 +30,22 @@
                     {% endif %}
                      
                     <img src="{% static 'img/site_img/profile/paper_and_pen.png' %}" alt="">
-                </p>
+                </p> {% endcomment %}
                 <section class="project-foto">
+                    <article class="about-me">
+                        <img src="/media/{{ user_profile.profile.photo }}">
+                        <p class="username">{{ user_profile.username }}</p>
+                        <p class="followers">Подписчики: {{ followers|length }}</p>
+                        {% if user.username == user_profile.username %}
+                            <a href="{% url 'editprofile' %}">Редактировать профиль</a> 
+                        {% else %}
+                            {% if user in followers %}
+                                <a href="{% url 'unfollow' user_profile.username %}">Отписаться</a>
+                            {% else %}
+                                <a href="{% url 'follow' user_profile.username %}">Подписаться</a>
+                            {% endif %}
+                        {% endif %}
+                    </article>
                     {% for project in pin_projects %}
                         <a href="{% url 'project' project.autor.username project.name %}">
                             <article>
@@ -76,7 +77,7 @@
                         </a>
                     {% endfor %}
                 </section>
-                {% endif %}
+                {% comment %} {% endif %} {% endcomment %}
             </article>
         </section>
         

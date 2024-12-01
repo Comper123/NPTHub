@@ -53,13 +53,13 @@
             <a href="/media/{{ file.file }}" data-fancybox="gallery">
                 <img src="/media/{{ file.file }}"> 
             </a>
-            <!-- <a href="/media/{{ file.file }}" class="filename">{{ file.file }}</a> -->
-            <a href="/media/{{ file.file }}" class="filename">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aspernatur ipsam nemo error doloribus repudiandae porro numquam, temporibus, ipsa consectetur placeat, nesciunt dolor unde deleniti eaque odit quas harum ullam iure!</a>
-            
+            <a href="/media/{{ file.file }}" class="filename">{{ file.file }}</a>            
             <p>{{ file.uploaded_at }}</p>
         </div>
         {% endfor %}
     </div>
+    {% comment %} <a href="{% url 'settings_proj_addfiles' project.autor.username project.name %}">Добавить файлы</a> {% endcomment %}
+
     <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 </main>
 {% endblock %}

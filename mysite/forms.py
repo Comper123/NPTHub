@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from .models import Profile, Project, Comment
+from .settings import PROJECT_NAME_MIN_LENGTH
 
 
 def haveBlockHaracters(string: str):
@@ -95,7 +96,7 @@ class ProjectForm(forms.ModelForm):
         data = super().clean()
         current_name = data.get('name')
         names = [proj.name for proj in Project.objects.filter(autor=self.user)]
-        if len(current_name) < 5:
+        if len(current_name) < PROJECT_NAME_MIN_LENGTH:
             raise forms.ValidationError("Слишком короткое имя проекта!")
         if current_name in names:
             raise forms.ValidationError("Вы уже использовали данное имя проекта")
@@ -105,6 +106,7 @@ class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = ('name', 'is_private', 'description', 'files')
+
 
 
 class CommentForm(forms.ModelForm):
@@ -175,7 +177,7 @@ class ProjectEditForm(forms.ModelForm):
         data = super().clean()
         current_name = data.get('name')
         names = [proj.name for proj in Project.objects.filter(autor=self.user)]
-        if len(current_name) < 5:
+        if len(current_name) < PROJECT_NAME_MIN_LENGTH:
             raise forms.ValidationError("Слишком короткое имя проекта!")
         if (current_name in names) and current_name != self.lastname:
             raise forms.ValidationError("Вы уже использовали данное имя проекта")
@@ -218,6 +220,7 @@ class ProjectAddFilesForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = ('files',)
+        
 
 
 class AddAchievementsForm(forms.ModelForm):
@@ -227,6 +230,6 @@ class AddAchievementsForm(forms.ModelForm):
         model = Profile
         fields = ('achievements',)
         widgets = {
-            'achievements': forms.FileInput()
+            'achievements': forms.FileInput(attrs={"id": ""})
         }
 

@@ -4,7 +4,8 @@ from mysite.models import (
     Project, 
     UploadedFile,
     Comment,
-    Notification
+    Notification,
+    Achievement
 )
 
 
@@ -31,3 +32,8 @@ class CommentsAdmin(admin.ModelAdmin):
 @admin.register(Notification)
 class NotificationsAdmin(admin.ModelAdmin):
     list_display = ['text', 'autor', 'type', 'date', 'is_check']
+
+
+@admin.register(Achievement)
+class AchievementsAdmin(admin.ModelAdmin):
+    list_display = ['image', 'uploaded_at']

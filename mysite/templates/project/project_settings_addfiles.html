@@ -17,6 +17,7 @@
         </div>
         <div class="settings_body">
             <h3>Добавление файлов в проект:</h3>
+            <p class="sucsess_text none">Файлы успешно добавлены!</p>
             <form action="" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ add_files_form.files }}
@@ -24,5 +25,10 @@
             </form>
         </div>
     </div>
-    <script src="{% static 'js/confirm_delete_show.js' %}"></script>
+    <script>
+        // Появление текста об успешном добавлении файлов 
+        $("#id_files").change(() => {
+            $(".sucsess_text").removeClass("none");
+        });
+    </script>
 {% endblock %}

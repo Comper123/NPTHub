@@ -6,18 +6,27 @@
 
 {% block head %}
     <link rel="stylesheet" href="{% static 'css/addachievements.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+    crossorigin="anonymous"></script>
 {% endblock %}
 
 {% block content %}
     <div class="add_achievements_block">
         <h1>Добавьте достижения</h1>
         <form action="" method="POST" enctype="multipart/form-data">
+            <p class="sucsess_text none">Файлы успешно добавлены!</p>
             {% csrf_token %}
             {{ add_achievements_form.achievements }}
             <input type="submit" value="Добавить">
         </form>
-        <div class="uploaded_images">
-            
-        </div>
-    </div>  
+    </div>
+    <script>
+        // Появление текста об успешном добавлении файлов 
+        $("#id_achievements").change(() => {
+            $(".sucsess_text").removeClass("none");
+        });
+    </script>
 {% endblock %}

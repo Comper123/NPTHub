@@ -8,10 +8,12 @@
     <link rel="stylesheet" href="{% static 'css/create_project.css' %}">
 
     <!-- Подключаем dropzone -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.min.js"></script>
     <!-- <script src="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone-min.js"></script>
     <link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css" />
     <script src="{% static 'js/changedropzone.js' %}"></script> -->
-    {% endblock %}
+{% endblock %}
 
 {% block content %}
 <main>
@@ -24,8 +26,8 @@
             <p class="wrong_text">{{ error }}</p>
         {% endfor %}
     {% endif %}
-    <form action="" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}    
         <section class="main-information">
             <article class="user-and-name">
                 <div>
@@ -74,14 +76,40 @@
             </div>
         </section>
         <hr>
+        <p class="sucsess_text none">Файлы успешно добавлены!</p>
         <div class="add_files">
             <p class="add_files_p">Добавьте файлы</p>
             {{ projectform.files }}
         </div>
+        <div class="uploaded_files" id="uploaded_files">
+            {% include "blocks/photo_upload_block.html" %}
+        </div>
+        
         <section class="but">
             <input type="submit" value="Отправить"></input>
         </section>
     </form>
+    <script>
+        // Появление текста об успешном добавлении файлов 
+        $("#id_files").change(() => {
+            $(".sucsess_text").removeClass("none");
+        });
+    </script>
+    <script>
+        // Dropzone.options.myDropzone = {
+        //     maxFilesize: 5, // MB
+        //     acceptedFiles: 'image/*',
+            // success: function (file, response) {
+            //     var imgContainer = document.createElement('div');
+            //     imgContainer.className = 'img-container'    ;
+            //     imgContainer.innerHTML = '<img src="' + response.file_url + '" alt="Uploaded Image">';
+            //     document.getElementById('imagePreview').appendChild(imgContainer);
+            // },
+            // error: function (file, response) {
+            //     alert('Error uploading file: ' + response);
+            // }
+        // };
+    </script>
 </main>
 
 <!-- <script src="{% static 'js/dropzone.js' %}"></script> -->

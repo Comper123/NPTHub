@@ -47,7 +47,7 @@
       </a>
       <div class="navlink">
         <i class="fa-solid fa-right-from-bracket"></i>
-        <form action="{% url 'logout' %}" method="post">
+        <form action="{% url 'logout' %}" method="post" class="leave_form">
           {% csrf_token %}
           <button type="submit" href="{% url 'logout' %}" class="logout_btn">
             Выйти
