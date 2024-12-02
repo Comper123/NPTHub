@@ -12,14 +12,16 @@ main {
 .project_files_block{
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 85%;
     margin: 0 auto;
     margin-bottom: 100px;
+
     div{
         width: 100%;
-        display: flex;
-        align-items: center;
-        min-height: 60px;
+        display: grid;
+        grid-template-columns: 130px 55% 180px 75px 75px;
+        place-items: center start;
+        min-height: 50px;
         padding: 10px 0;
         border-left: 1px #afafaf solid;
         border-right: 1px #afafaf solid;
@@ -42,6 +44,14 @@ main {
             width: 180px;
             text-align: center;
         }
+        .center_header{
+            width: 100%;
+            text-align: center;
+        }
+        i{
+            text-align: center;
+            width: 100%;
+        }
     }
     .img_block{
         img{
@@ -52,13 +62,42 @@ main {
             margin-left: 20px;
         }
         .filename{
-            overflow: hidden;
+            /* overflow: hidden; */
             max-width: 55%;
+            text-align: start;
         }
         p{
             margin: 0 20px 0 auto;
             width: 180px;
             text-align: center;
+        }
+        a{
+            text-align: center;
+            width: 100%;
+            &:visited {
+                color: blue;
+            }
+        }
+        .img_down{
+            color: black;
+            &:visited {
+                color: black;
+            }
+            &:hover{
+                i{
+                    transition: .5s;
+                    background-color: #b585d79b;
+
+                }
+            }
+            i{
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+                transition: .5s;
+            }
         }
     }
 }

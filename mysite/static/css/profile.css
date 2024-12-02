@@ -91,8 +91,8 @@ main{
             }
             a{
                 border-radius: 30px;
-                /* width: 20vw; */
-                padding: 10px 50px;
+                padding: 10px 10px;
+                width: 350px;
                 background: #CBA9EF;
                 color: white;
                 text-align: center;

@@ -44,6 +44,10 @@ body{
     opacity: 1;
     transition: 1s;
 }
+
+/* .main *{
+    pointer-events: none;
+} */
 .active_main {
     opacity: 0.4; /* Появляется при необходимости */
 }

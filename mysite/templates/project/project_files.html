@@ -45,16 +45,20 @@
     <div class="project_files_block">
         <div class="files_header">
             <p class="photo">Вид</p>
-            <p>Имя файла</p>
+            <p class="center_header">Имя файла</p>
             <p class="date">Дата добавления</p>
+            <i class="fa-solid fa-trash"></i>
+            <i class="fa-solid fa-download"></i>
         </div>
         {% for file in project.files.all %}
         <div class="img_block">
             <a href="/media/{{ file.file }}" data-fancybox="gallery">
                 <img src="/media/{{ file.file }}"> 
             </a>
-            <a href="/media/{{ file.file }}" class="filename">{{ file.file }}</a>            
+            <a href="/media/{{ file.file }}" class="filename" target="_blank">{{ file.file }}</a>            
             <p>{{ file.uploaded_at }}</p>
+            <a><i class="fa-solid fa-trash"></i></a>
+            <a href="/media/{{ file.file }}" download="" class="img_down"><i class="fa-solid fa-download"></i></a>
         </div>
         {% endfor %}
     </div>
