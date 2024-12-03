@@ -111,7 +111,7 @@ def profile(request, name):
         'user_profile': prof,
         'profile': Profile.objects.get(user=prof),
         'followers': prof.profile.followers.all(),
-        'projects': projects,
+        'projects': projects[::-1],
         'pin_projects': pin_pined,
     }
     return render(request, "profile.html", data)

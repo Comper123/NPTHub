@@ -2,175 +2,181 @@
 
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}{% endblock %}</title>
 
-    <!-- Подключаем шрифт -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}{% endblock %}</title>
 
-    <link rel="website icon" href="{% static "img/site_img/base/logo.png" %}">
-    <script src="https://kit.fontawesome.com/920a23c733.js" crossorigin="anonymous"></script>
-    {% block head %}{% endblock %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
-    <!-- Подключаем ajax -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  </head>
-  <body>
-    <section class="navigation">
-      <div class="header_of_train">
-        <a href="{% url 'profile' user.username %}">
-          <img class="" src="/media/{{ user.profile.photo }}">
+  <!-- Подключаем шрифт -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
 
-          <!-- <img src="{% static 'img/site_img/base/logo.png' %}" alt=""> -->
-        </a>
-        <a id="close_btn"><img src="{% static 'img/site_img/base/close.png' %}" alt=""></a>
-      </div>
-      <hr class="nav_sep">
-      {% if user.is_superuser %}
-      <a class="navlink" href="/admin">
-        <!-- <i class="fa-solid fa-user-tie"></i> -->
-        <i class="fa-solid fa-address-card"></i>
-        Администрирование
-      </a>
-      {% endif %}
-      <a class="navlink" href="{% url 'main' %}">
-        <i class="fa-solid fa-house"></i>
-        Главная
-      </a>
-      <a class="navlink" href="{% url 'profile' user.username %}">
-        <i class="fa-solid fa-user"></i>
-        Профиль
-      </a>
-      <div class="navlink">
-        <i class="fa-solid fa-right-from-bracket"></i>
-        <form action="{% url 'logout' %}" method="post" class="leave_form">
-          {% csrf_token %}
-          <button type="submit" href="{% url 'logout' %}" class="logout_btn">
-            Выйти
-          </button>
-        </form>
-      </div>
-      <hr class="nav_sep">
-      <a class="navlink" href="{% url 'followers' %}">
-        <i class="fa-solid fa-user-group"></i>
-        Друзья
-      </a>
-      {% comment %} <a class="navlink" href="{% url 'follows' %}">
-        <i class="fa-solid fa-user-plus"></i>
-        Подписки
-      </a> {% endcomment %}
-      <a class="navlink" href="{% url 'liked_projects' %}">
-        <i class="fa-solid fa-heart"></i>
-        Понравившиеся
-      </a>
-      <a class="navlink" href="{% url 'pined' %}">
-        <i class="fa-solid fa-bookmark"></i>
-        Избранное
-      </a>
-      <hr class="nav_sep">
-      <a class="navlink" href="{% url 'create_project' %}">
-        <i class="fa-regular fa-square-plus"></i>
-        Создать проект
-      </a>
-      
-      <a class="navlink" href="{% url 'editprofile' %}">
-        <i class="fa-solid fa-user-pen"></i>
-        Изменить профиль
-      </a>
+  <link rel="website icon" href="{% static "img/site_img/base/logo.png" %}">
+  <script src="https://kit.fontawesome.com/920a23c733.js" crossorigin="anonymous"></script>
+  {% block head %}{% endblock %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <!-- Подключаем ajax -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
 
-      <a class="navlink" href="{% url 'addachievements' %}">
-        <i class="fa-solid fa-star"></i>
-        Добавить достижения
+<body>
+  <section class="navigation">
+    <div class="header_of_train">
+      <a href="{% url 'profile' user.username %}">
+        <img class="" src="/media/{{ user.profile.photo }}">
+
+        <!-- <img src="{% static 'img/site_img/base/logo.png' %}" alt=""> -->
       </a>
-      <hr class="nav_sep">
-    </section>
-    <div class="profile_info">
-      <h4>Уведомления:</h2>
-        <div class="all_notifications">
-          {% for notif in user.profile.notifications.all reversed %}
-            {% include "blocks/notification.html" %}
-          {% endfor %}
-        </div>
-        <a id="check_notification_btn">Прочитать все</a>
+      <a id="close_btn"><img src="{% static 'img/site_img/base/close.png' %}" alt=""></a>
     </div>
-    {% block modals_window %}
-    {% endblock %}
-    <section class="main" id="main">
-      <header>
-        <nav>
-          <div class="left">
-            <a id="but">
-              <div>
-                <!-- <i class="fa-solid fa-compass"></i> -->
-                <!-- <i class="fa-solid fa-ellipsis"></i> -->
-                <i class="fa-solid fa-bars"></i>
-              </div>
-              <!-- <img src="{% static 'img/site_img/base/menu.png' %}" alt=""> -->
-            </a>
-            <a href="{% url 'main' %}"><img src="{% static 'img/site_img/base/logo.png' %}" alt=""></a>
-            <a href="{% url 'profile' user.username %}"><h3 class='title'>{{ user.username }}</h3></a>
-          </div>
-          <div class="right">
-            <a class="center-link" id="prof">
-              {% if not user.profile.is_check_notification %}
-              <div class="image_notification image_check">
+    <hr class="nav_sep">
+    {% if user.is_superuser %}
+    <a class="navlink" href="/admin">
+      <!-- <i class="fa-solid fa-user-tie"></i> -->
+      <i class="fa-solid fa-address-card"></i>
+      Администрирование
+    </a>
+    {% endif %}
+    <a class="navlink" href="{% url 'main' %}">
+      <i class="fa-solid fa-house"></i>
+      Главная
+    </a>
+    <a class="navlink" href="{% url 'profile' user.username %}">
+      <i class="fa-solid fa-user"></i>
+      Профиль
+    </a>
+    <div class="navlink">
+      <i class="fa-solid fa-right-from-bracket"></i>
+      <form action="{% url 'logout' %}" method="post" class="leave_form">
+        {% csrf_token %}
+        <button type="submit" href="{% url 'logout' %}" class="logout_btn">
+          Выйти
+        </button>
+      </form>
+    </div>
+    <hr class="nav_sep">
+    <a class="navlink" href="{% url 'followers' %}">
+      <i class="fa-solid fa-user-group"></i>
+      Друзья
+    </a>
+    {% comment %} <a class="navlink" href="{% url 'follows' %}">
+      <i class="fa-solid fa-user-plus"></i>
+      Подписки
+    </a> {% endcomment %}
+    <a class="navlink" href="{% url 'liked_projects' %}">
+      <i class="fa-solid fa-heart"></i>
+      Понравившиеся
+    </a>
+    <a class="navlink" href="{% url 'pined' %}">
+      <i class="fa-solid fa-bookmark"></i>
+      Избранное
+    </a>
+    <hr class="nav_sep">
+    <a class="navlink" href="{% url 'create_project' %}">
+      <i class="fa-regular fa-square-plus"></i>
+      Создать проект
+    </a>
 
-              </div>
-              {% endif %}
-              <div class="header_img">
-                <i class="fa-solid fa-bell"></i>
-              </div>
-            </a>
-          </div>
-        </nav>
-      </header>
+    <a class="navlink" href="{% url 'editprofile' %}">
+      <i class="fa-solid fa-user-pen"></i>
+      Изменить профиль
+    </a>
 
-      {% block content %}{% endblock %}
+    <a class="navlink" href="{% url 'addachievements' %}">
+      <i class="fa-solid fa-star"></i>
+      Добавить достижения
+    </a>
+    <hr class="nav_sep">
+  </section>
+  <div class="profile_info">
+    <h4>Уведомления:</h2>
+      <div class="all_notifications">
+        {% for notif in user.profile.notifications.all reversed %}
+        {% include "blocks/notification.html" %}
+        {% endfor %}
+      </div>
+      <a id="check_notification_btn">Прочитать все</a>
+  </div>
+  {% block modals_window %}
+  {% endblock %}
+  <section class="main" id="main">
+    <header>
+      <nav>
+        <div class="left">
+          <a id="but">
+            <div>
+              <!-- <i class="fa-solid fa-compass"></i> -->
+              <!-- <i class="fa-solid fa-ellipsis"></i> -->
+              <i class="fa-solid fa-bars"></i>
+            </div>
+            <!-- <img src="{% static 'img/site_img/base/menu.png' %}" alt=""> -->
+          </a>
+          <a href="{% url 'main' %}"><img src="{% static 'img/site_img/base/logo.png' %}" alt=""></a>
+          <a href="{% url 'profile' user.username %}">
+            <h3 class='title'>{{ user.username }}</h3>
+          </a>
+        </div>
+        <div class="right">
+          <a class="center-link" id="prof">
+            {% if not user.profile.is_check_notification %}
+            <div class="image_notification image_check">
 
-      <footer>
-        <img src="{% static "img/site_img/base/message_love.png" %}" alt=""class="message_love">
-        <img src="{% static "img/site_img/base/planet.png" %}" alt="" class="planet"> 
-        <img src="{% static "img/site_img/base/computer.png" %}" class="computer">
-      </footer>
-    </section>
-    <script>
-      // Отправка запросов на обновление уведомлений
-      // updateNotification = function () {
-      //   // $.get('/get_notifications/{{ user.username }}/', function (data) {
-            
-      //   // });
-      //   console.log("kjj");
-      // };
-      // setInterval(5, updateNotification());
+            </div>
+            {% endif %}
+            <div class="header_img">
+              <i class="fa-solid fa-bell"></i>
+            </div>
+          </a>
+        </div>
+      </nav>
+    </header>
 
-      $(document).ready(function() {
-        // Обработка прочтения уведомлений на странице
-        $('#check_notification_btn').on("click", function(event){
-          event.preventDefault();
-          $.ajax({
-              url: "/check_notifications/",
-              type: "POST",
-              data: {
-                  'csrfmiddlewaretoken': '{{ csrf_token }}'
-              },
-              success: function(response) {
-                $(".profile_info .check_lamp").removeClass("lamp");
-                $("#prof .image_check").removeClass("image_notification");
-              }
-          });
+    {% block content %}{% endblock %}
+
+    <footer>
+      <img src="{% static "img/site_img/base/message_love.png" %}" alt="" class="message_love">
+      <img src="{% static "img/site_img/base/planet.png" %}" alt="" class="planet">
+      <img src="{% static "img/site_img/base/computer.png" %}" class="computer">
+    </footer>
+  </section>
+  <script>
+    // Отправка запросов на обновление уведомлений
+    // updateNotification = function () {
+    //   // $.get('/get_notifications/{{ user.username }}/', function (data) {
+
+    //   // });
+    //   console.log("kjj");
+    // };
+    // setInterval(5, updateNotification());
+
+    $(document).ready(function () {
+      // Обработка прочтения уведомлений на странице
+      $('#check_notification_btn').on("click", function (event) {
+        event.preventDefault();
+        $.ajax({
+          url: "/check_notifications/",
+          type: "POST",
+          data: {
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+          },
+          success: function (response) {
+            $(".profile_info .check_lamp").removeClass("lamp");
+            $("#prof .image_check").removeClass("image_notification");
+          }
         });
       });
-    </script>
-  </body>
+    });
+  </script>
+</body>
 
-  <!-- Подключаем скрипт всплывающего меню -->
-  <script src="{% static 'js/train.js' %}"></script>
-  <!-- Подключаем скрипт всплывающего меню профиля -->
-  <script src="{% static 'js/profile_menu.js' %}"></script>
-  <!-- Подключаем скрипт задателя высоты для footer -->
-  <!-- <script src="{% static 'js/changefooterheight.js' %}"></script> -->
+<!-- Подключаем скрипт всплывающего меню -->
+<script src="{% static 'js/train.js' %}"></script>
+<!-- Подключаем скрипт всплывающего меню профиля -->
+<script src="{% static 'js/profile_menu.js' %}"></script>
+<!-- Подключаем скрипт задателя высоты для footer -->
+<!-- <script src="{% static 'js/changefooterheight.js' %}"></script> -->
+
 </html>

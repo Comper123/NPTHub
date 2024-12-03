@@ -1,0 +1,117 @@
+Date : 2024-12-03 11:23:57
+Directory : d:\PicHub\mysite\migrations\
+Total : 70 files,  -5926 codes, -415 comments, -715 blanks, all -7056 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| XML        |          1 |         -1 |          0 |          0 |         -1 |
+| JavaScript |          9 |        -92 |         -5 |        -18 |       -115 |
+| Markdown   |          2 |       -259 |          0 |        -29 |       -288 |
+| Python     |         16 |       -979 |       -247 |       -260 |     -1,486 |
+| HTML       |         25 |     -1,724 |        -20 |       -155 |     -1,899 |
+| CSS        |         17 |     -2,871 |       -143 |       -253 |     -3,267 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                              | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                 |         70 |     -5,926 |       -415 |       -715 |     -7,056 |
+| ..                                                                |         70 |     -5,926 |       -415 |       -715 |     -7,056 |
+| .. (Files)                                                        |         10 |       -838 |       -224 |       -197 |     -1,259 |
+| ..\..                                                             |          8 |       -400 |        -23 |        -92 |       -515 |
+| ..\.. (Files)                                                     |          3 |       -276 |         -1 |        -34 |       -311 |
+| ..\..\PicHub                                                      |          5 |       -124 |        -22 |        -58 |       -204 |
+| ..\static                                                         |         27 |     -2,964 |       -148 |       -271 |     -3,383 |
+| ..\static\css                                                     |         17 |     -2,871 |       -143 |       -253 |     -3,267 |
+| ..\static\css (Files)                                             |         10 |     -1,995 |       -119 |       -155 |     -2,269 |
+| ..\static\css\project                                             |          7 |       -876 |        -24 |        -98 |       -998 |
+| ..\static\img                                                     |          1 |         -1 |          0 |          0 |         -1 |
+| ..\static\img\site_img                                            |          1 |         -1 |          0 |          0 |         -1 |
+| ..\static\img\site_img\base                                       |          1 |         -1 |          0 |          0 |         -1 |
+| ..\static\js                                                      |          9 |        -92 |         -5 |        -18 |       -115 |
+| ..\templates                                                      |         25 |     -1,724 |        -20 |       -155 |     -1,899 |
+| ..\templates (Files)                                              |         10 |       -830 |        -11 |        -94 |       -935 |
+| ..\templates\blocks                                               |          5 |        -66 |          0 |          0 |        -66 |
+| ..\templates\project                                              |          7 |       -744 |         -9 |        -60 |       -813 |
+| ..\templates\registration                                         |          3 |        -84 |          0 |         -1 |        -85 |
++-------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                          | language   | code       | comment    | blank      | total      |
++-------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| d:\PicHub\PicHub\__init__.py                                      | Python     |          0 |          0 |         -1 |         -1 |
+| d:\PicHub\PicHub\asgi.py                                          | Python     |        -10 |          0 |         -7 |        -17 |
+| d:\PicHub\PicHub\settings.py                                      | Python     |        -80 |        -21 |        -40 |       -141 |
+| d:\PicHub\PicHub\urls.py                                          | Python     |        -24 |         -1 |         -3 |        -28 |
+| d:\PicHub\PicHub\wsgi.py                                          | Python     |        -10 |          0 |         -7 |        -17 |
+| d:\PicHub\README.md                                               | Markdown   |         -2 |          0 |         -1 |         -3 |
+| d:\PicHub\commits.md                                              | Markdown   |       -257 |          0 |        -28 |       -285 |
+| d:\PicHub\manage.py                                               | Python     |        -17 |         -1 |         -5 |        -23 |
+| d:\PicHub\mysite\__init__.py                                      | Python     |          0 |          0 |         -1 |         -1 |
+| d:\PicHub\mysite\admin.py                                         | Python     |        -27 |          0 |        -13 |        -40 |
+| d:\PicHub\mysite\apps.py                                          | Python     |         -4 |          0 |         -3 |         -7 |
+| d:\PicHub\mysite\forms.py                                         | Python     |       -181 |         -4 |        -51 |       -236 |
+| d:\PicHub\mysite\models.py                                        | Python     |        -98 |        -12 |        -28 |       -138 |
+| d:\PicHub\mysite\notifications.py                                 | Python     |         -6 |          0 |         -2 |         -8 |
+| d:\PicHub\mysite\settings.py                                      | Python     |         -2 |         -3 |         -2 |         -7 |
+| d:\PicHub\mysite\static\css\addachievements.css                   | CSS        |        -41 |         -1 |          0 |        -42 |
+| d:\PicHub\mysite\static\css\create_project.css                    | CSS        |       -190 |        -22 |        -19 |       -231 |
+| d:\PicHub\mysite\static\css\edit_profile.css                      | CSS        |       -111 |        -47 |         -5 |       -163 |
+| d:\PicHub\mysite\static\css\followers.css                         | CSS        |       -123 |         -7 |         -5 |       -135 |
+| d:\PicHub\mysite\static\css\index.css                             | CSS        |       -439 |         -4 |        -46 |       -489 |
+| d:\PicHub\mysite\static\css\like_project.css                      | CSS        |       -135 |         -3 |         -7 |       -145 |
+| d:\PicHub\mysite\static\css\main.css                              | CSS        |       -167 |        -14 |        -30 |       -211 |
+| d:\PicHub\mysite\static\css\profile.css                           | CSS        |       -289 |          0 |        -18 |       -307 |
+| d:\PicHub\mysite\static\css\project\header_project.css            | CSS        |        -89 |         -3 |        -18 |       -110 |
+| d:\PicHub\mysite\static\css\project\project.css                   | CSS        |       -261 |        -14 |        -49 |       -324 |
+| d:\PicHub\mysite\static\css\project\project_files.css             | CSS        |       -199 |         -3 |         -9 |       -211 |
+| d:\PicHub\mysite\static\css\project\project_settings.css          | CSS        |        -57 |         -1 |         -9 |        -67 |
+| d:\PicHub\mysite\static\css\project\project_settings_addfiles.css | CSS        |        -30 |          0 |          0 |        -30 |
+| d:\PicHub\mysite\static\css\project\project_settings_delete.css   | CSS        |        -96 |         -3 |         -2 |       -101 |
+| d:\PicHub\mysite\static\css\project\project_settings_edit.css     | CSS        |       -144 |          0 |        -11 |       -155 |
+| d:\PicHub\mysite\static\css\register.css                          | CSS        |       -131 |         -2 |         -8 |       -141 |
+| d:\PicHub\mysite\static\css\style.css                             | CSS        |       -369 |        -19 |        -17 |       -405 |
+| d:\PicHub\mysite\static\img\site_img\base\search.svg              | XML        |         -1 |          0 |          0 |         -1 |
+| d:\PicHub\mysite\static\js\changedropzone.js                      | JavaScript |          0 |          0 |         -1 |         -1 |
+| d:\PicHub\mysite\static\js\changefooterheight.js                  | JavaScript |         -5 |         -3 |         -1 |         -9 |
+| d:\PicHub\mysite\static\js\confirm_delete_show.js                 | JavaScript |        -16 |          0 |         -4 |        -20 |
+| d:\PicHub\mysite\static\js\dropzone.js                            | JavaScript |         -7 |          0 |          0 |         -7 |
+| d:\PicHub\mysite\static\js\hide_search.js                         | JavaScript |        -13 |          0 |         -1 |        -14 |
+| d:\PicHub\mysite\static\js\profile_menu.js                        | JavaScript |        -16 |          0 |         -3 |        -19 |
+| d:\PicHub\mysite\static\js\setcheck.js                            | JavaScript |         -2 |         -1 |          0 |         -3 |
+| d:\PicHub\mysite\static\js\slider.js                              | JavaScript |        -11 |          0 |         -3 |        -14 |
+| d:\PicHub\mysite\static\js\train.js                               | JavaScript |        -22 |         -1 |         -5 |        -28 |
+| d:\PicHub\mysite\templates\add_achievements.html                  | HTML       |        -28 |          0 |         -4 |        -32 |
+| d:\PicHub\mysite\templates\base.html                              | HTML       |       -153 |        -11 |        -13 |       -177 |
+| d:\PicHub\mysite\templates\blocks\achievement.html                | HTML       |         -3 |          0 |          0 |         -3 |
+| d:\PicHub\mysite\templates\blocks\all_projects.html               | HTML       |        -36 |          0 |          0 |        -36 |
+| d:\PicHub\mysite\templates\blocks\notification.html               | HTML       |        -19 |          0 |          0 |        -19 |
+| d:\PicHub\mysite\templates\blocks\photo_upload_block.html         | HTML       |         -3 |          0 |          0 |         -3 |
+| d:\PicHub\mysite\templates\blocks\project_menu.html               | HTML       |         -5 |          0 |          0 |         -5 |
+| d:\PicHub\mysite\templates\edit_profile.html                      | HTML       |        -46 |          0 |        -10 |        -56 |
+| d:\PicHub\mysite\templates\error.html                             | HTML       |        -11 |          0 |         -5 |        -16 |
+| d:\PicHub\mysite\templates\followers.html                         | HTML       |        -58 |          0 |         -6 |        -64 |
+| d:\PicHub\mysite\templates\index.html                             | HTML       |       -122 |          0 |        -20 |       -142 |
+| d:\PicHub\mysite\templates\like_project.html                      | HTML       |       -145 |          0 |        -11 |       -156 |
+| d:\PicHub\mysite\templates\main.html                              | HTML       |        -70 |          0 |         -5 |        -75 |
+| d:\PicHub\mysite\templates\profile.html                           | HTML       |       -171 |          0 |        -18 |       -189 |
+| d:\PicHub\mysite\templates\project\create_project.html            | HTML       |       -102 |         -5 |        -12 |       -119 |
+| d:\PicHub\mysite\templates\project\project.html                   | HTML       |       -273 |         -2 |        -19 |       -294 |
+| d:\PicHub\mysite\templates\project\project_files.html             | HTML       |       -167 |         -2 |        -14 |       -183 |
+| d:\PicHub\mysite\templates\project\project_settings.html          | HTML       |        -42 |          0 |         -5 |        -47 |
+| d:\PicHub\mysite\templates\project\project_settings_addfiles.html | HTML       |        -32 |          0 |         -2 |        -34 |
+| d:\PicHub\mysite\templates\project\project_settings_delete.html   | HTML       |        -49 |          0 |         -3 |        -52 |
+| d:\PicHub\mysite\templates\project\project_settings_edit.html     | HTML       |        -79 |          0 |         -5 |        -84 |
+| d:\PicHub\mysite\templates\project_settings_addfiles.html         | HTML       |        -26 |          0 |         -2 |        -28 |
+| d:\PicHub\mysite\templates\registration\logged_out.html           | HTML       |          0 |          0 |         -1 |         -1 |
+| d:\PicHub\mysite\templates\registration\login.html                | HTML       |        -42 |          0 |          0 |        -42 |
+| d:\PicHub\mysite\templates\registration\register.html             | HTML       |        -42 |          0 |          0 |        -42 |
+| d:\PicHub\mysite\tests.py                                         | Python     |         -1 |         -1 |         -2 |         -4 |
+| d:\PicHub\mysite\urls.py                                          | Python     |        -33 |        -37 |         -4 |        -74 |
+| d:\PicHub\mysite\views.py                                         | Python     |       -486 |       -167 |        -91 |       -744 |
+| Total                                                             |            |     -5,926 |       -415 |       -715 |     -7,056 |
++-------------------------------------------------------------------+------------+------------+------------+------------+------------+

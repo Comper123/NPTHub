@@ -77,6 +77,8 @@ class Project(models.Model):
     collaborators = models.ManyToManyField(User, related_name='collaborators', blank=True)
     likes = models.ManyToManyField(User, blank=True, related_name="liked_projects")
     files = models.ManyToManyField(UploadedFile, blank=True)
+    # current_id = models.IntegerField("Основной файл", default=0)
+
     # Имя для пути к файлу
     # slug = models.SlugField(unique=True, default=slugify(name))
     

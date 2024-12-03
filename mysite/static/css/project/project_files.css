@@ -9,18 +9,18 @@ main {
     margin: 0 auto;
 }
 
+.fls{
+    max-width: 70%;
+}
 .project_files_block{
     display: flex;
     flex-direction: column;
-    width: 80%;
     margin: 0 auto;
     margin-bottom: 100px;
 
-    div{
-        width: 90%;
-        display: grid;
-        grid-template-columns: 130px 55% 180px 75px;
-        place-items: center start;
+    >div{
+        display: flex;
+        align-items: center;
         min-height: 50px;
         padding: 10px 0;
         border-left: 1px #afafaf solid;
@@ -35,45 +35,49 @@ main {
             border-bottom: 1px #afafaf solid;
         }
         .photo{
-            margin: 0 40px 0 20px;
-            width: 70px;    
+            /* margin: 0 40px 0 20px; */
+            width: 100px;    
             text-align: center;
         }
         .date{
-            margin: 0 20px 0 auto;
+            /* margin: 0 20px 0 auto; */
             width: 180px;
             text-align: center;
         }
         .center_header{
-            width: 100%;
+            width: 500px;
             text-align: center;
         }
         i{
             text-align: center;
-            width: 100%;
+            width: 75px;
         }
     }
     .img_block{
-        img{
-            height: 45px;
-            width: 70px;
-            object-fit: cover;
-            margin-right: 40px;
-            margin-left: 20px;
+        .img_view{
+            width: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            img{
+                height: 45px;
+                width: 70px;
+                object-fit: cover;
+            }
         }
+        
         .filename{
             /* overflow: hidden; */
-            max-width: 55%;
+            width: 500px;
             text-align: start;
         }
         p{
-            margin: 0 20px 0 auto;
             width: 180px;
             text-align: center;
         }
-        a{
+        .delete_file_btn, .img_down{
             text-align: center;
-            width: 100%;
+            width: 75px;
             &:visited {
                 color: blue;
             }
@@ -103,10 +107,10 @@ main {
     }
 }
 .super_files{
-    width: 85%;
+    width: 80%;
     >div{
-        width: 100%;
-        grid-template-columns: 130px 55% 180px 75px 75px;
+        /* width: 110%; */
+        /* grid-template-columns: 130px 55% 180px 75px 75px 75px; */
         .delete_file_btn{  
             i{transition: .5s;}
             &:hover{
@@ -116,7 +120,27 @@ main {
                 }
             }
         }
-        
+        .radio_block{
+            width: 75px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .radio{
+                width: 20px;
+                height: 20px;
+                background-color: white;
+                border: 2px solid blue;
+                border-radius: 50%;
+                .select_radio{
+                    width: 15px;
+                    height: 15px;
+                    background-color: blue;
+                    border-radius: 50%;
+                    margin: auto;
+                }
+            }
+        }
     }
 }
 

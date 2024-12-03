@@ -56,7 +56,7 @@
         {% endif %}
         <a class="last_nav"></a>
     </div>
-    <div class="project_files_block {% if user == project.autor or user.is_superuser %} super_files {% endif %}">
+    <div class="project_files_block {% if user == project.autor or user.is_superuser %} super_files {% else %} fls {% endif %}">
         <p id="all_error"></p>
         <div class="files_header">
             <p class="photo">Вид</p>
@@ -64,24 +64,26 @@
             <p class="date">Дата добавления</p>
             {% if user == project.autor or user.is_superuser %}
             <i class="fa-solid fa-trash"></i>
+            <i class="fa-solid fa-star"></i>
             {% endif %}
             <i class="fa-solid fa-download"></i>
-            
         </div>
         {% for file in project.files.all %}
         <div class="img_block">
-            <a href="/media/{{ file.file }}" data-fancybox="gallery">
+            <a href="/media/{{ file.file }}" data-fancybox="gallery" class="img_view">
                 <img src="/media/{{ file.file }}"> 
             </a>
             <a href="/media/{{ file.file }}" class="filename" target="_blank">{{ file.file }}</a>            
             <p>{{ file.uploaded_at }}</p>
-            {% comment %} Кнопка удаления файла {% endcomment %}
             {% if user == project.autor or user.is_superuser %}
+            <!-- Кнопка удаления файла -->
             <a class="delete_file_btn" 
                data-id="{{ file.id }}"
                id="file_del_{{ file.id }}"
                data-csrf="{{ csrf_token }}"
                data-img="/media/{{ file.file }}"><i class="fa-solid fa-trash"></i></a>
+            <!-- Кнопка выбора основного файла -->
+            <div class="radio_block"><span class="radio"><span class=""></span></span></div>
             {% endif %}
 
             <a href="/media/{{ file.file }}" download="" class="img_down"><i class="fa-solid fa-download"></i></a>
@@ -103,6 +105,11 @@
                 main.addEventListener('click', () => {
                     main.style.opacity = "1.0";
                     confirm_block.style.display = "none";
+                    $("#confirm_text").val('');
+                    // Удаляем ошибку на всякий случай
+                    error_p = document.getElementById("error_text");
+                    error_p.setAttribute("class", "");
+                    error_p.innerText = "";
                 }, true);
                 
                 close_confirm_btn.addEventListener("click", () => {
@@ -157,14 +164,18 @@
                                     setTimeout(function(){
                                         all_error.classList = "";
                                         all_error.innerText = "";
-                                    }, 3000);
+                                    }, 5000);
                                 }
                             },
                         });
+                        // Удаляем ошибку на всякий случай
+                        error_p = document.getElementById("error_text");
+                        error_p.setAttribute("class", "");
+                        error_p.innerText = "";
                     } else {
                         error_p = document.getElementById("error_text");
                         error_p.setAttribute("class", "wrong_text")
-                        error_p.innerText = "Некорректный ввод"
+                        error_p.innerText = "Некорректный ввод";
                     }
                 });
             });
