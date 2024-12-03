@@ -12,6 +12,20 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
 {% endblock %}
 
+{% block modals_window %}
+    <div class="confirm_delete_block" id="confirm_block">
+        <a class="close_confirm" id="close_confirm_btn"><i class="fa-solid fa-xmark"></i></a>
+        <h3>Вы точно хотите удалить файл?</h3>
+        <img src="" alt="" id="delete_img">
+        <h3>Для удаления файла впишите в поле <span class="projname">delete</span></h3>
+        <p id="error_text"></p>
+        <form>
+            <input type="text" name="" id="confirm_text">
+            <a id="confirm_delete_file_btn">Удалить</a>
+        </form>
+    </div>
+{% endblock %}
+
 {% block content %}
 <main>
     <div class="project_info">
@@ -42,13 +56,17 @@
         {% endif %}
         <a class="last_nav"></a>
     </div>
-    <div class="project_files_block">
+    <div class="project_files_block {% if user == project.autor or user.is_superuser %} super_files {% endif %}">
+        <p id="all_error"></p>
         <div class="files_header">
             <p class="photo">Вид</p>
             <p class="center_header">Имя файла</p>
             <p class="date">Дата добавления</p>
+            {% if user == project.autor or user.is_superuser %}
             <i class="fa-solid fa-trash"></i>
+            {% endif %}
             <i class="fa-solid fa-download"></i>
+            
         </div>
         {% for file in project.files.all %}
         <div class="img_block">
@@ -57,13 +75,100 @@
             </a>
             <a href="/media/{{ file.file }}" class="filename" target="_blank">{{ file.file }}</a>            
             <p>{{ file.uploaded_at }}</p>
-            <a><i class="fa-solid fa-trash"></i></a>
+            {% comment %} Кнопка удаления файла {% endcomment %}
+            {% if user == project.autor or user.is_superuser %}
+            <a class="delete_file_btn" 
+               data-id="{{ file.id }}"
+               id="file_del_{{ file.id }}"
+               data-csrf="{{ csrf_token }}"
+               data-img="/media/{{ file.file }}"><i class="fa-solid fa-trash"></i></a>
+            {% endif %}
+
             <a href="/media/{{ file.file }}" download="" class="img_down"><i class="fa-solid fa-download"></i></a>
         </div>
         {% endfor %}
     </div>
-    {% comment %} <a href="{% url 'settings_proj_addfiles' project.autor.username project.name %}">Добавить файлы</a> {% endcomment %}
-
     <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+    <!-- Скрипты для ajax запросов -->
+    {% if user == project.autor or user.is_superuser %}
+        <script>
+            $(document).ready(function() {
+                var main = document.getElementById("main");
+                const close_confirm_btn = document.getElementById("close_confirm_btn");
+                const confirm_block = document.getElementById("confirm_block");
+                const delete_img = document.getElementById("delete_img");
+                var id = 0;
+
+                // Подключаение интерфейсных функций
+                main.addEventListener('click', () => {
+                    main.style.opacity = "1.0";
+                    confirm_block.style.display = "none";
+                }, true);
+                
+                close_confirm_btn.addEventListener("click", () => {
+                    main.style.opacity = "1.0";
+                    confirm_block.style.display = "none";
+                });
+
+                // Обработка открытия поля подтверждения файла
+                $('.delete_file_btn').on("click", function(event){
+                    event.preventDefault();
+                    // Отображаем окно подтверждения
+                    main.style.opacity = "0.3";
+                    confirm_block.style.display = "flex";
+                    confirm_delete_file_btn.setAttribute("data-id", $(this).data("id"));
+                    id = $(this).data("id");
+                    confirm_delete_file_btn.setAttribute("data-csrf", $(this).data("csrf"));
+                    delete_img.setAttribute("src", $(this).data("img"))
+                });
+
+                // Обработка удаления файлов
+                $('#confirm_delete_file_btn').on("click", function(){
+                    event.preventDefault();
+                    // получаем текст подтверждения
+                    text = $("#confirm_text").val()
+                    // Если введено корректное подтвержение иначе Отображаем ошибку
+                    if (text == "delete") {
+                        $.ajax({
+                            url: "/delete_file/",
+                            type: "POST",
+                            data: {
+                                'id': id,
+                                'proj': {{ project.id }},
+                                'csrfmiddlewaretoken': $("#confirm_delete_file_btn").data("csrf"),
+                            },
+                            success: function(response) {
+                                // Обнуляем значение вводимого поля
+                                $("#confirm_text").val('')
+                                if (response.result == true){
+                                    // Удаляем со страницы запись файла если успешное Удаление
+                                    main.style.opacity = "1.0";
+                                    confirm_block.style.display = "none";
+                                    $("#file_del_" + id).parent().remove()
+                                } else {
+                                    // Оповещаем об ошибке если остался один файл
+                                    const all_error = document.getElementById("all_error");
+                                    main.style.opacity = "1.0";
+                                    confirm_block.style.display = "none";
+                                    all_error.classList = "wrong_text"
+                                    all_error.innerText = "В проекте не может быть меньше одного файла!"
+                                    
+                                    // По истечении 3 секунд убераем уведомление
+                                    setTimeout(function(){
+                                        all_error.classList = "";
+                                        all_error.innerText = "";
+                                    }, 3000);
+                                }
+                            },
+                        });
+                    } else {
+                        error_p = document.getElementById("error_text");
+                        error_p.setAttribute("class", "wrong_text")
+                        error_p.innerText = "Некорректный ввод"
+                    }
+                });
+            });
+        </script>
+    {% endif %}
 </main>
 {% endblock %}

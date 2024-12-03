@@ -22,15 +22,14 @@ urlpatterns = [
     path('edit_profile/', views.edit_profile, name="editprofile"),
     # Ссылка для подписок
     path('follow/<str:username>/', views.follow, name='follow'),
-    #Ссылка для отписок
+    # Ссылка для отписок
     path('unfollow/<str:username>/', views.unfollow, name='unfollow'),
-    #Ссылка на сраницу подписчиков и друзей
+    # Ссылка на сраницу подписчиков и друзей
     path('followers/', views.followers, name='followers'),
     # Ссылка на страницу создания проека
     path('create_project/', views.create_project, name='create_project'),
     # Ссылка загрузки фотографий при создании проекта
     # path('create_project/upload_images/', views.upload_image)
-    
     # Ссылка на страницу понравившихся проектов
     path('liked_projects/' , views.liked_projects, name='liked_projects'),
     # Ссылка на страницу подписок пользователя
@@ -51,22 +50,24 @@ urlpatterns = [
     path('project_ajax/', views.project_ajax),
     # Удаление комментария на странице проекта
     path('delete_review/', views.delete_review, name="delete_review"),
-    # Ссылка на страницу проекта
-    path('<str:autor>/<str:projectname>/', views.project, name='project'),
     # Ссылка на поиск пользователей
     path('search_users/', views.search_users, name="search_users"),
+    # Обработка прочтения всех уведомлений пользователя
+    path('check_notifications/', views.check_notifications),
     # Ссылка на страницу со всеми проектами
     path('main/', views.main_page, name="main"),
+    # Ссылка на добавление достижений
+    path('addachievements/', views.addachievements, name="addachievements"),
+    # Ссылка на ajax удаление файла с проекта
+    path('delete_file/', views.delete_file),
+    # Ссылка на страницу проекта
+    path('<str:autor>/<str:projectname>/', views.project, name='project'),
+    # Ссылка на страницу файлов проекта
+    path('<str:autor>/<str:projectname>/files/',views.project_files, name="project_files"),
     # Ссылка на страницу редактирования проекта
     path("<str:autor>/<str:projectname>/settings/edit/", views.project_settings_edit, name="settings_proj"),
     # Ссылка на страницу удаления проекта
     path("<str:autor>/<str:projectname>/settings/delete/", views.project_settings_delete, name="settings_proj_delete"),
-    # Ссылка на страницу файлов проекта
-    path('<str:autor>/<str:projectname>/files/',views.project_files, name="project_files"),
-    # Обработка прочтения всех уведомлений пользователя
-    path('check_notifications/', views.check_notifications),
     # Ссылка на страницу добавления файлов
     path("<str:autor>/<str:projectname>/settings/addfiles/", views.project_settings_addfiles, name="settings_proj_addfiles"),
-    # Ссылка на добавление достижений
-    path('addachievements/', views.addachievements, name="addachievements"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

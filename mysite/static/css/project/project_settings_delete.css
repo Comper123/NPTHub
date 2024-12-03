@@ -31,7 +31,6 @@
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 40px;
-    text-align: justify;
     .close_confirm{
         position: absolute;
         right: 10px;
@@ -51,10 +50,18 @@
     h3{
         font-weight: 500;
         font-size: 18px;
+        margin: 0 auto;
+        text-align: center;
         span{
             color: var(--fiol);
             font-weight: 800;
         }
+    }
+    img{
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        margin: 20px 0;
     }
     .wrong_text{
         padding: 10px;
@@ -84,6 +91,7 @@
             font-size: 18px;
             margin-top: 20px;
             align-self: flex-end;
+            cursor: pointer;
         }
     }
 }

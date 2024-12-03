@@ -729,3 +729,15 @@ def addachievements(request):
     return render(request, "add_achievements.html", data)
 
 
+@login_required
+def delete_file(request):
+    if request.method == "POST":
+        project = Project.objects.get(id=int(request.POST.get("proj")))
+        # Проверяем на то сколько осталось файлов и юольше ли 1
+        if len(project.files.all()) > 1:
+            file = UploadedFile.objects.get(id=int(request.POST.get("id")))
+            project.files.remove(file)
+            file.delete()
+            return JsonResponse({'result': True})
+        else:
+            return JsonResponse({'result': False})
